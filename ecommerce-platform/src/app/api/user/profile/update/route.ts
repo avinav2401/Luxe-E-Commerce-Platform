@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
         }
 
         const body = await req.json();
-        const { name, phone } = body;
+        const { name, phone, email, password } = body;
 
         const updateData: any = {};
 
@@ -26,6 +26,28 @@ export async function PATCH(req: Request) {
 
         if (phone !== undefined) {
             updateData.phone = phone.trim();
+        }
+
+        if (email !== undefined) {
+            if (!email || email.trim().length === 0) {
+                return NextResponse.json({ message: 'Email cannot be empty' }, { status: 400 });
+            }
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return NextResponse.json({ message: 'Invalid email format' }, { status: 400 });
+            }
+            updateData.email = email.trim().toLowerCase();
+        }
+
+        if (password !== undefined) {
+            if (!password || password.length < 6) {
+                return NextResponse.json({ message: 'Password must be at least 6 characters' }, { status: 400 });
+            }
+            // Hash password with bcrypt
+            const bcrypt = require('bcryptjs');
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updateData.password = hashedPassword;
         }
 
         if (Object.keys(updateData).length === 0) {
@@ -48,7 +70,8 @@ export async function PATCH(req: Request) {
             message: 'Profile updated successfully',
             user: {
                 name: updatedUser.name,
-                phone: updatedUser.phone
+                phone: updatedUser.phone,
+                email: updatedUser.email
             }
         }, { status: 200 });
 

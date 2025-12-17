@@ -62,17 +62,12 @@ export default function OrdersPage() {
                     <span className="text-[#C7511F]">Your Orders</span>
                 </div>
 
-                <div className="flex justify-between items-center mb-4">
+                <div className="mb-4">
                     <h1 className="text-3xl font-normal">Your Orders</h1>
-                    <div className="flex w-64">
-                        <input type="search" placeholder="Search all orders" className="w-full border border-gray-400 rounded-sm px-2 py-1 text-sm shadow-inner focus:ring-1 focus:ring-[#e77600] outline-none" />
-                    </div>
                 </div>
 
                 <div className="border-b mb-6 flex gap-6 text-sm">
                     <button className="font-bold border-b-2 border-[#D5D9D9] pb-2 text-black cursor-default">Orders</button>
-                    <button className="text-[#007185] hover:text-[#C7511F] hover:underline pb-2">Buy Again</button>
-                    {/* <button className="text-[#007185] hover:text-[#C7511F] hover:underline pb-2">Not Yet Shipped</button> */}
                 </div>
 
                 <div className="text-sm mb-4">

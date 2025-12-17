@@ -13,6 +13,10 @@ export default function ProfilePage() {
     const [newName, setNewName] = useState('');
     const [isEditingPhone, setIsEditingPhone] = useState(false);
     const [newPhone, setNewPhone] = useState('');
+    const [isEditingEmail, setIsEditingEmail] = useState(false);
+    const [newEmail, setNewEmail] = useState('');
+    const [isEditingPassword, setIsEditingPassword] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
     const [userData, setUserData] = useState<any>(null);
 
     useEffect(() => {
@@ -107,6 +111,86 @@ export default function ProfilePage() {
         setNewPhone('');
     };
 
+    const handleEditEmail = () => {
+        setNewEmail(session?.user?.email || '');
+        setIsEditingEmail(true);
+    };
+
+    const handleSaveEmail = async () => {
+        if (!newEmail.trim()) {
+            alert('Please enter a valid email');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/user/profile/update', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: newEmail.trim() }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to update email');
+            }
+
+            alert('Email updated successfully! Please sign in again with your new email.');
+            setIsEditingEmail(false);
+            router.push('/auth/signin');
+        } catch (error: any) {
+            console.error('Update error:', error);
+            alert(`Failed to update email: ${error.message}`);
+        }
+    };
+
+    const handleCancelEmailEdit = () => {
+        setIsEditingEmail(false);
+        setNewEmail('');
+    };
+
+    const handleEditPassword = () => {
+        setNewPassword('');
+        setIsEditingPassword(true);
+    };
+
+    const handleSavePassword = async () => {
+        if (!newPassword || newPassword.length < 6) {
+            alert('Password must be at least 6 characters');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/user/profile/update', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password: newPassword }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to update password');
+            }
+
+            alert('Password updated successfully! Please sign in again.');
+            setIsEditingPassword(false);
+            router.push('/auth/signin');
+        } catch (error: any) {
+            console.error('Update error:', error);
+            alert(`Failed to update password: ${error.message}`);
+        }
+    };
+
+    const handleCancelPasswordEdit = () => {
+        setIsEditingPassword(false);
+        setNewPassword('');
+    };
+
     return (
         <div className="bg-white min-h-screen text-[#0F1111] font-sans">
             <div className="max-w-3xl mx-auto p-4 py-8">
@@ -168,18 +252,53 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* Email */}
-                    <div className="p-4 border-b border-[#D5D9D9] flex justify-between items-center bg-white hover:bg-gray-50 transition-colors">
-                        <div>
-                            <div className="font-bold text-sm">Email</div>
-                            <div className="text-sm">{session?.user?.email || 'Not set'}</div>
+                    {/* Email - Editable */}
+                    <div className="p-4 border-b border-[#D5D9D9] bg-white hover:bg-gray-50 transition-colors">
+                        <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                                <div className="font-bold text-sm mb-2">Email</div>
+                                {isEditingEmail ? (
+                                    <div className="flex gap-2 items-center">
+                                        <input
+                                            type="email"
+                                            value={newEmail}
+                                            onChange={(e) => setNewEmail(e.target.value)}
+                                            className="border border-gray-400 rounded px-3 py-1.5 text-sm w-full max-w-sm focus:ring-2 focus:ring-[#e77600] outline-none"
+                                            placeholder="your@email.com"
+                                            autoFocus
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="text-sm">{session?.user?.email || 'Not set'}</div>
+                                )}
+                            </div>
+
+                            <div className="flex gap-2 ml-4">
+                                {isEditingEmail ? (
+                                    <>
+                                        <button
+                                            onClick={handleSaveEmail}
+                                            className="bg-[#FFD814] border border-[#FCD200] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-[#F7CA00]"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            onClick={handleCancelEmailEdit}
+                                            className="border border-[#D5D9D9] bg-white px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button
+                                        onClick={handleEditEmail}
+                                        className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
+                                    >
+                                        Edit
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                        <button
-                            onClick={() => alert('⚠️ Email changes require verification.\n\nFor security, changing your email requires:\n1. Verification of new email\n2. Confirmation from old email\n\nThis feature requires backend email service integration.')}
-                            className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
-                        >
-                            Edit
-                        </button>
                     </div>
 
                     {/* Mobile Phone Number - Editable */}
@@ -231,18 +350,53 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* Password */}
-                    <div className="p-4 flex justify-between items-center bg-white hover:bg-gray-50 transition-colors rounded-b-lg">
-                        <div>
-                            <div className="font-bold text-sm">Password</div>
-                            <div className="text-sm">••••••••</div>
+                    {/* Password - Editable */}
+                    <div className="p-4 bg-white hover:bg-gray-50 transition-colors rounded-b-lg">
+                        <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                                <div className="font-bold text-sm mb-2">Password</div>
+                                {isEditingPassword ? (
+                                    <div className="flex gap-2 items-center">
+                                        <input
+                                            type="password"
+                                            value={newPassword}
+                                            onChange={(e) => setNewPassword(e.target.value)}
+                                            className="border border-gray-400 rounded px-3 py-1.5 text-sm w-full max-w-sm focus:ring-2 focus:ring-[#e77600] outline-none"
+                                            placeholder="Enter new password (min 6 characters)"
+                                            autoFocus
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="text-sm">••••••••</div>
+                                )}
+                            </div>
+
+                            <div className="flex gap-2 ml-4">
+                                {isEditingPassword ? (
+                                    <>
+                                        <button
+                                            onClick={handleSavePassword}
+                                            className="bg-[#FFD814] border border-[#FCD200] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-[#F7CA00]"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            onClick={handleCancelPasswordEdit}
+                                            className="border border-[#D5D9D9] bg-white px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button
+                                        onClick={handleEditPassword}
+                                        className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
+                                    >
+                                        Edit
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                        <button
-                            onClick={() => alert('🔒 Password Change Security\n\nChanging your password requires:\n1. Current password verification\n2. New password confirmation\n3. Email verification link\n\nThis feature requires:\n- Backend password hashing (bcrypt)\n- Email service integration\n- Secure token generation\n\nFor now, use the "Forgot Password" flow on the login page.')}
-                            className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
-                        >
-                            Edit
-                        </button>
                     </div>
                 </div>
 
