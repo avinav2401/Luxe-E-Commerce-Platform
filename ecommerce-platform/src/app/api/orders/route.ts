@@ -48,3 +48,23 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
     }
 }
+
+export async function GET(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session || !session.user) {
+            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+        }
+
+        await connectToDatabase();
+
+        const orders = await Order.find({ user: session.user.id }).sort({ createdAt: -1 });
+
+        return NextResponse.json({ orders }, { status: 200 });
+
+    } catch (error: any) {
+        console.error('Fetch orders error:', error);
+        return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
+    }
+}

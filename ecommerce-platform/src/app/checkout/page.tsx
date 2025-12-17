@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,25 @@ export default function CheckoutPage() {
         cvc: ''
     });
 
+    // Load Default Address
+    useEffect(() => {
+        const saved = localStorage.getItem('userAddresses');
+        if (saved) {
+            const addresses = JSON.parse(saved);
+            const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
+            if (defaultAddr) {
+                setFormData(prev => ({
+                    ...prev,
+                    name: defaultAddr.name || prev.name,
+                    address: defaultAddr.address || '',
+                    city: defaultAddr.city || '',
+                    zip: defaultAddr.zip || '',
+                    // You might want to add country to formData structure if you want it dynamic
+                }));
+            }
+        }
+    }, []);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -52,7 +71,7 @@ export default function CheckoutPage() {
                         addressLine1: formData.address,
                         city: formData.city,
                         postalCode: formData.zip,
-                        country: 'IN', // Hardcoded for now
+                        country: 'IN', // Keep hardcoded or add to form if needed
                     },
                     paymentMethod: 'Credit Card',
                 }),

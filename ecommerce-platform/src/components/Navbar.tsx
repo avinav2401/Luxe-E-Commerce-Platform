@@ -20,8 +20,19 @@ export function Navbar() {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState("All");
 
+    const [deliveryLocation, setDeliveryLocation] = useState<{ city: string, zip: string } | null>(null);
+
     useEffect(() => {
         setMounted(true);
+        // Fetch default address for "Delivering to..."
+        const saved = localStorage.getItem('userAddresses');
+        if (saved) {
+            const addresses = JSON.parse(saved);
+            const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
+            if (defaultAddr) {
+                setDeliveryLocation({ city: defaultAddr.city, zip: defaultAddr.zip });
+            }
+        }
     }, []);
 
     const handleSearch = () => {
@@ -46,7 +57,7 @@ export function Navbar() {
 
                     {/* Location */}
                     <Link href="/account/addresses" className="hidden md:flex flex-col leading-none text-xs border border-transparent hover:border-white rounded-sm p-2">
-                        <span className="text-gray-300 ml-5">Delivering to City 123456</span>
+                        <span className="text-gray-300 ml-5">Delivering to {deliveryLocation ? `${deliveryLocation.city} ${deliveryLocation.zip}` : 'Select your address'}</span>
                         <span className="font-bold flex items-center gap-1">
                             <MapPin className="w-4 h-4" />
                             Update location
