@@ -43,10 +43,10 @@ export function Navbar() {
         router.push(`/products?${params.toString()}`);
     };
 
-    if (!mounted) return null;
 
     return (
         <>
+            {!mounted ? null : (
             <header className="flex flex-col relative z-40">
                 {/* Primary Navbar (Dark Blue) */}
                 <div className="bg-[#131921] text-white py-2 px-4 flex items-center gap-2 h-[60px]">
@@ -172,6 +172,7 @@ export function Navbar() {
                 </div>
             </header>
             <NavigationSidebar isOpen={isNavOpen} onClose={() => setIsNavOpen(false)} />
+            )}
         </>
     );
 }
