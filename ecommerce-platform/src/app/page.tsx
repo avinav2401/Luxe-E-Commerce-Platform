@@ -41,7 +41,7 @@ export default async function Home() {
                 </div>
                 <div className="space-y-1">
                   <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1583847668183-c68ecb8f6151?auto=format&fit=crop&w=300" alt="Vases" fill className="object-cover" />
+                    <Image src="https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=300" alt="Vases" fill className="object-cover" />
                   </div>
                   <p className="text-xs text-black">Figurines, vases & more</p>
                 </div>
@@ -73,7 +73,7 @@ export default async function Home() {
                 </div>
                 <div className="space-y-1">
                   <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1571175443880-49e1d58563e9?auto=format&fit=crop&w=300" alt="Fridge" fill className="object-cover" />
+                    <Image src="https://images.unsplash.com/photo-1584622050111-993a426fbf0a?auto=format&fit=crop&w=300" alt="Fridge" fill className="object-cover" />
                   </div>
                   <p className="text-xs text-black">Refrigerators</p>
                 </div>
@@ -97,7 +97,7 @@ export default async function Home() {
             <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-[420px]">
               <h2 className="text-xl font-bold text-black">Up to 60% off | Styles for Men</h2>
               <div className="flex-1 relative bg-gray-100 overflow-hidden">
-                <Image src="https://images.unsplash.com/photo-1617137968427-85924c809a10?auto=format&fit=crop&w=600" alt="Men Fashion" fill className="object-cover" />
+                <Image src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=600" alt="Men Fashion" fill className="object-cover" />
               </div>
               <Link href="/products?cat=Fashion" className="text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
             </div>
