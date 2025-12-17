@@ -73,7 +73,7 @@ export default async function Home() {
                 </div>
                 <div className="space-y-1">
                   <div className="relative aspect-square bg-gray-100 overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1584622050111-993a426fbf0a?auto=format&fit=crop&w=300" alt="Fridge" fill className="object-cover" />
+                    <Image src="https://images.unsplash.com/photo-1536353284924-9220c464e262?auto=format&fit=crop&w=300" alt="Fridge" fill className="object-cover" />
                   </div>
                   <p className="text-xs text-black">Refrigerators</p>
                 </div>
