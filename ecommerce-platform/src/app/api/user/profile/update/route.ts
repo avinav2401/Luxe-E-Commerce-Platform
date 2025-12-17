@@ -13,17 +13,30 @@ export async function PATCH(req: Request) {
         }
 
         const body = await req.json();
-        const { name } = body;
+        const { name, phone } = body;
 
-        if (!name || name.trim().length === 0) {
-            return NextResponse.json({ message: 'Name is required' }, { status: 400 });
+        const updateData: any = {};
+
+        if (name !== undefined) {
+            if (!name || name.trim().length === 0) {
+                return NextResponse.json({ message: 'Name cannot be empty' }, { status: 400 });
+            }
+            updateData.name = name.trim();
+        }
+
+        if (phone !== undefined) {
+            updateData.phone = phone.trim();
+        }
+
+        if (Object.keys(updateData).length === 0) {
+            return NextResponse.json({ message: 'No fields to update' }, { status: 400 });
         }
 
         await connectToDatabase();
 
         const updatedUser = await User.findByIdAndUpdate(
             session.user.id,
-            { name: name.trim() },
+            updateData,
             { new: true }
         );
 
@@ -32,8 +45,11 @@ export async function PATCH(req: Request) {
         }
 
         return NextResponse.json({
-            message: 'Name updated successfully',
-            name: updatedUser.name
+            message: 'Profile updated successfully',
+            user: {
+                name: updatedUser.name,
+                phone: updatedUser.phone
+            }
         }, { status: 200 });
 
     } catch (error: any) {
