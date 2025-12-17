@@ -4,14 +4,16 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Image from 'next/image'; // Check if next/image is used
-import { products } from '@/data/products'; // Import static products to look up details
+import Image from 'next/image';
+import { products } from '@/data/products';
+import { useCartStore } from '@/store/useCartStore';
 
 export default function OrdersPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const addToCart = useCartStore((state) => state.addToCart);
 
     useEffect(() => {
         if (status === 'unauthenticated') {
@@ -32,6 +34,16 @@ export default function OrdersPage() {
             console.error('Failed to fetch orders:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleBuyAgain = (productId: string) => {
+        const productDetails = products.find(p => p.id === productId);
+        if (productDetails) {
+            addToCart(productDetails);
+            alert(`${productDetails.name} added to cart!`);
+        } else {
+            alert('Product not found');
         }
     };
 
@@ -127,7 +139,12 @@ export default function OrdersPage() {
                                                     <span className="text-xs text-[#B12704] font-bold mt-1">₹ {(item.price * 80).toLocaleString()}</span>
 
                                                     <div className="flex gap-2 mt-2">
-                                                        <button className="bg-[#FFD814] border border-[#FCD200] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-[#F3A847]">Buy it again</button>
+                                                        <button
+                                                            onClick={() => handleBuyAgain(item.product)}
+                                                            className="bg-[#FFD814] border border-[#FCD200] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-[#F3A847]"
+                                                        >
+                                                            Buy it again
+                                                        </button>
                                                         <button className="border border-[#D5D9D9] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-gray-50">View your item</button>
                                                     </div>
                                                 </div>
