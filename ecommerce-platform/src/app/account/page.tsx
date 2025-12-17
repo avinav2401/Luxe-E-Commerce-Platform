@@ -28,8 +28,8 @@ export default function AccountPage() {
         { icon: Package, title: 'Your Orders', desc: 'Track, return, or buy things again', href: '/orders' },
         { icon: Lock, title: 'Login & security', desc: 'Edit login, name, and mobile number', href: '/account/profile' },
         { icon: MapPin, title: 'Your Addresses', desc: 'Edit addresses for orders and gifts', href: '/account/addresses' },
-        { icon: CreditCard, title: 'Payment options', desc: 'Edit or add payment methods', href: '#' },
-        { icon: Smartphone, title: 'Contact Us', desc: 'Contact our customer service via phone or chat', href: '#' },
+        { icon: CreditCard, title: 'Payment options', desc: 'Edit or add payment methods', href: '/account/payment' },
+        { icon: Smartphone, title: 'Contact Us', desc: 'Contact our customer service via phone or chat', href: '/account/contact' },
     ];
 
     return (
