@@ -24,13 +24,15 @@ export function Navbar() {
 
     useEffect(() => {
         setMounted(true);
-        // Fetch default address for "Delivering to..."
-        const saved = localStorage.getItem('userAddresses');
-        if (saved) {
-            const addresses = JSON.parse(saved);
-            const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
-            if (defaultAddr) {
-                setDeliveryLocation({ city: defaultAddr.city, zip: defaultAddr.zip });
+        // Fetch default address for "Delivering to..." (safe for SSR)
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('userAddresses');
+            if (saved) {
+                const addresses = JSON.parse(saved);
+                const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
+                if (defaultAddr) {
+                    setDeliveryLocation({ city: defaultAddr.city, zip: defaultAddr.zip });
+                }
             }
         }
     }, []);
