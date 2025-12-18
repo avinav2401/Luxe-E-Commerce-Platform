@@ -139,15 +139,15 @@ export function Navbar() {
                                 onClick={() => setIsNavOpen(true)}
                                 className="flex items-center gap-1 font-bold border border-transparent hover:border-white px-2 rounded-sm"
                             >
-                                <Menu className="w-5 h-5" /> All
+                                <Menu className="w-5 h-5" />
                             </button>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Fresh</Link>
-                            <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">MX Player</Link>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Sell</Link>
+                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">All</Link>
+                            <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Appliances</Link>
+                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Products</Link>
                             <Link href="/products?sort=best-sellers" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Best Sellers</Link>
                             <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Mobiles</Link>
                             <Link href="/products?sort=deals" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Today&apos;s Deals</Link>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Customer Service</Link>
+                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Items</Link>
                             <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Electronics</Link>
                             <Link href="/products?cat=Home & Kitchen" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Home & Kitchen</Link>
                             <Link href="/products?prime=true" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Prime</Link>
