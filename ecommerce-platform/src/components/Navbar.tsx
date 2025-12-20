@@ -154,16 +154,22 @@ export function Navbar() {
                             <Link href="/products?prime=true" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Prime</Link>
                             <Link href="/products?sort=newest" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">New Releases</Link>
 
-                            {/* Track Order Button - At the end */}
+                            {/* Dynamic Dashboard/Track Order Button */}
                             <Link
                                 href={
                                     // @ts-ignore
-                                    session?.user?.role === 'admin' ? '/admin' : '/orders'
+                                    session?.user?.role === 'admin' ? '/admin' :
+                                        // @ts-ignore
+                                        session?.user?.role === 'seller' ? '/seller' :
+                                            '/orders'
                                 }
                                 className="bg-[#febd69] text-[#131921] hover:bg-[#f3a847] px-3 py-1 border border-transparent rounded-sm font-bold flex items-center gap-1 ml-auto"
                             >
                                 {/* @ts-ignore */}
-                                {session?.user?.role === 'admin' ? '📊 Admin Dashboard' : '📦 Track Order'}
+                                {session?.user?.role === 'admin' ? '📊 Admin Dashboard' :
+                                    // @ts-ignore
+                                    session?.user?.role === 'seller' ? '🏪 Seller Dashboard' :
+                                        '📦 Track Order'}
                             </Link>
                         </div>
 
