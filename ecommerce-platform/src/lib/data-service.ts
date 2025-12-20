@@ -11,21 +11,24 @@ export async function getProducts() {
 
     try {
         await connectToDatabase();
-        const products = await Product.find({}).lean();
-
-        // If DB is empty, return static data so the site looks good initially
-        if (products.length === 0) {
-            console.log("⚠️ Database connected but empty. Serving static mock data.");
-            // Optional: you could seed the DB here if you wanted
-            return JSON.parse(JSON.stringify(staticProducts));
-        }
+        const dbProducts = await Product.find({}).lean();
 
         // Convert _id to string id for frontend compatibility
-        return products.map((p: any) => ({
+        const formattedDbProducts = dbProducts.map((p: any) => ({
             ...p,
             id: p._id.toString(),
             _id: undefined,
         }));
+
+        // Always combine database products with static products
+        // This ensures default products always show even after sellers add their own
+        const allProducts = [
+            ...formattedDbProducts,
+            ...JSON.parse(JSON.stringify(staticProducts))
+        ];
+
+        console.log(`✅ Serving ${formattedDbProducts.length} DB products + ${staticProducts.length} static products`);
+        return allProducts;
 
     } catch (error) {
         console.error("❌ Database connection failed:", error);
