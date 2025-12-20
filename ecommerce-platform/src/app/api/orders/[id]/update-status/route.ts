@@ -6,7 +6,7 @@ import Order from '@/models/Order';
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const session = await getServerSession(authOptions);
@@ -34,7 +34,9 @@ export async function PATCH(
 
         await connectToDatabase();
 
-        const order = await Order.findById(params.id);
+        // Await params in Next.js 15+
+        const { id } = await params;
+        const order = await Order.findById(id);
 
         if (!order) {
             return NextResponse.json({ message: 'Order not found' }, { status: 404 });
