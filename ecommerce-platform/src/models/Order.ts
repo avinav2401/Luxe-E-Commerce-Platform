@@ -1,5 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export interface ITrackingUpdate {
+    status: 'placed' | 'packed' | 'shipped' | 'delivered' | 'cancelled';
+    timestamp: Date;
+    message?: string;
+}
+
 export interface IOrder extends Document {
     user: mongoose.Schema.Types.ObjectId;
     items: {
@@ -8,7 +14,9 @@ export interface IOrder extends Document {
         price: number;
     }[];
     total: number;
-    status: string;
+    status: 'placed' | 'packed' | 'shipped' | 'delivered' | 'cancelled';
+    trackingHistory: ITrackingUpdate[];
+    estimatedDelivery: Date;
     shippingAddress: {
         fullName: string;
         addressLine1: string;
@@ -18,6 +26,7 @@ export interface IOrder extends Document {
     };
     paymentMethod: string;
     createdAt: Date;
+    updatedAt: Date;
 }
 
 const OrderSchema = new Schema({
@@ -30,7 +39,23 @@ const OrderSchema = new Schema({
         }
     ],
     total: { type: Number, required: true },
-    status: { type: String, enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
+    status: {
+        type: String,
+        enum: ['placed', 'packed', 'shipped', 'delivered', 'cancelled'],
+        default: 'placed'
+    },
+    trackingHistory: [
+        {
+            status: {
+                type: String,
+                enum: ['placed', 'packed', 'shipped', 'delivered', 'cancelled'],
+                required: true
+            },
+            timestamp: { type: Date, default: Date.now },
+            message: { type: String }
+        }
+    ],
+    estimatedDelivery: { type: Date },
     shippingAddress: {
         fullName: { type: String, required: true },
         addressLine1: { type: String, required: true },
@@ -40,5 +65,23 @@ const OrderSchema = new Schema({
     },
     paymentMethod: { type: String, required: true },
 }, { timestamps: true });
+
+// Pre-save hook to initialize tracking history and estimated delivery
+OrderSchema.pre('save', function (next) {
+    if (this.isNew) {
+        // Add initial tracking entry
+        this.trackingHistory = [{
+            status: 'placed',
+            timestamp: new Date(),
+            message: 'Order placed successfully'
+        }];
+
+        // Calculate estimated delivery (5 business days from now)
+        const estimatedDate = new Date();
+        estimatedDate.setDate(estimatedDate.getDate() + 5);
+        this.estimatedDelivery = estimatedDate;
+    }
+    next();
+});
 
 export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);

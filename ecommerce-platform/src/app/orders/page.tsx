@@ -7,6 +7,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { products } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
+import { OrderTrackingTimeline } from '@/components/OrderTrackingTimeline';
+import { getStatusColor, getStatusLabel, formatOrderDate } from '@/lib/orderUtils';
+import { Package } from 'lucide-react';
 
 export default function OrdersPage() {
     const { data: session, status } = useSession();
@@ -91,7 +94,7 @@ export default function OrdersPage() {
                                     <div className="flex gap-8">
                                         <div className="flex flex-col">
                                             <span className="uppercase text-[10px] font-bold">Order Placed</span>
-                                            <span className="text-[#0F1111]">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                            <span className="text-[#0F1111]">{formatOrderDate(order.createdAt)}</span>
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="uppercase text-[10px] font-bold">Total</span>
@@ -106,6 +109,12 @@ export default function OrdersPage() {
                                                 </div>
                                             </span>
                                         </div>
+                                        <div className="flex flex-col">
+                                            <span className="uppercase text-[10px] font-bold">Status</span>
+                                            <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${getStatusColor(order.status)}`}>
+                                                {getStatusLabel(order.status)}
+                                            </span>
+                                        </div>
                                     </div>
                                     <div className="flex flex-col items-end">
                                         <span className="uppercase text-[10px]">Order # {order._id.substring(0, 8)}...</span>
@@ -115,6 +124,16 @@ export default function OrdersPage() {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* Order Tracking Timeline */}
+                                <div className="px-6 pt-2 bg-white border-b">
+                                    <OrderTrackingTimeline
+                                        currentStatus={order.status}
+                                        trackingHistory={order.trackingHistory || []}
+                                        estimatedDelivery={order.estimatedDelivery}
+                                    />
+                                </div>
+
                                 <div className="p-4">
                                     {order.items.map((item: any, idx: number) => {
                                         const productDetails = products.find(p => p.id === item.product); // Lookup static details
