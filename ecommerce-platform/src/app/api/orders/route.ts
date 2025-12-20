@@ -32,7 +32,7 @@ export async function POST(req: Request) {
             total,
             shippingAddress,
             paymentMethod,
-            status: 'pending'
+            status: 'placed'
         });
 
         const savedOrder = await newOrder.save();
