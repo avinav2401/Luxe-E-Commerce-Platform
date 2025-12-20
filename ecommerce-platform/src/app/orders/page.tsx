@@ -159,7 +159,12 @@ export default function OrdersPage() {
                                                         >
                                                             Buy it again
                                                         </button>
-                                                        <button className="border border-[#D5D9D9] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-gray-50">View your item</button>
+                                                        <Link
+                                                            href={`/?product=${item.product}`}
+                                                            className="border border-[#D5D9D9] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-gray-50 flex items-center"
+                                                        >
+                                                            View your item
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </div>

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 
 export default function RegisterPage() {
-    const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'user' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -84,6 +84,24 @@ export default function RegisterPage() {
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium leading-none" htmlFor="role">Account Type</label>
+                        <select
+                            id="role"
+                            value={formData.role}
+                            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        >
+                            <option value="user">Customer</option>
+                            <option value="seller">Seller</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <p className="text-xs text-muted-foreground">
+                            {formData.role === 'seller' && 'Sellers can list and manage products'}
+                            {formData.role === 'admin' && 'Admins have full platform access'}
+                            {formData.role === 'user' && 'Shop and place orders'}
+                        </p>
                     </div>
                     <Button type="submit" className="w-full" disabled={loading}>
                         {loading ? 'Creating Account...' : 'Sign Up'}
