@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { CldUploadWidget } from 'next-cloudinary';
-import { Loader2, Upload } from 'lucide-react';
+import { CldUploadButton } from 'next-cloudinary';
+import { Loader2, Upload, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -159,37 +159,33 @@ export default function AddProductPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Product Image *
                     </label>
-                    <CldUploadWidget
-                        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'products'}
-                        onUpload={(result: any) => {
-                            if (result.event === 'success') {
+                    <div className="space-y-3">
+                        <CldUploadButton
+                            uploadPreset="products"
+                            onSuccess={(result: any) => {
                                 setFormData({ ...formData, image: result.info.secure_url });
                                 toast.success('Image uploaded successfully!');
-                            }
-                        }}
-                    >
-                        {({ open }) => (
-                            <div>
-                                <button
-                                    type="button"
-                                    onClick={() => open()}
-                                    className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 transition-colors"
-                                >
-                                    <Upload className="w-5 h-5" />
-                                    <span>Upload Image</span>
-                                </button>
-                                {formData.image && (
-                                    <div className="mt-4">
-                                        <img
-                                            src={formData.image}
-                                            alt="Product preview"
-                                            className="w-48 h-48 object-cover rounded-lg border"
-                                        />
-                                    </div>
-                                )}
+                            }}
+                            className="flex items-center gap-2 px-6 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer bg-white"
+                        >
+                            <Upload className="w-5 h-5 text-gray-600" />
+                            <span className="font-medium text-gray-700">Click to Upload Image</span>
+                        </CldUploadButton>
+
+                        {formData.image && (
+                            <div className="relative">
+                                <img
+                                    src={formData.image}
+                                    alt="Product preview"
+                                    className="w-full max-w-md h-64 object-cover rounded-lg border-2 border-green-200"
+                                />
+                                <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                                    <ImageIcon className="w-4 h-4" />
+                                    Image Ready
+                                </div>
                             </div>
                         )}
-                    </CldUploadWidget>
+                    </div>
                 </div>
 
                 {/* Submit Button */}
