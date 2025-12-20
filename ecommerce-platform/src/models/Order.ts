@@ -77,21 +77,24 @@ const OrderSchema = new Schema({
 }, { timestamps: true });
 
 // Pre-save hook to initialize tracking history and estimated delivery
-OrderSchema.pre('save', function (next) {
+OrderSchema.pre('save', function (this: any) {
     if (this.isNew) {
         // Add initial tracking entry
-        this.trackingHistory = [{
-            status: 'placed',
-            timestamp: new Date(),
-            message: 'Order placed successfully'
-        }];
+        if (!this.trackingHistory || this.trackingHistory.length === 0) {
+            this.trackingHistory = [{
+                status: 'placed',
+                timestamp: new Date(),
+                message: 'Order placed successfully'
+            }];
+        }
 
         // Calculate estimated delivery (5 business days from now)
-        const estimatedDate = new Date();
-        estimatedDate.setDate(estimatedDate.getDate() + 5);
-        this.estimatedDelivery = estimatedDate;
+        if (!this.estimatedDelivery) {
+            const estimatedDate = new Date();
+            estimatedDate.setDate(estimatedDate.getDate() + 5);
+            this.estimatedDelivery = estimatedDate;
+        }
     }
-    next();
 });
 
 export default mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema);
