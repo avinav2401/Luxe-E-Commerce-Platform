@@ -34,10 +34,12 @@ export default function AdminOrdersPage() {
 
     const fetchOrders = async () => {
         try {
-            const res = await fetch('/api/orders');
+            const res = await fetch('/api/admin/orders');
             if (res.ok) {
                 const data = await res.json();
                 setOrders(data.orders || []);
+            } else {
+                toast.error('Failed to load orders');
             }
         } catch (error) {
             console.error('Failed to fetch orders:', error);
