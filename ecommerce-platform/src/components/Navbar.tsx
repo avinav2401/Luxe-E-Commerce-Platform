@@ -143,14 +143,6 @@ export function Navbar() {
                             </button>
                             <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">All</Link>
 
-                            {/* Track Order Button - Prominent */}
-                            <Link
-                                href="/orders"
-                                className="bg-[#febd69] text-[#131921] hover:bg-[#f3a847] px-3 py-1 border border-transparent rounded-sm font-bold flex items-center gap-1"
-                            >
-                                📦 Track Order
-                            </Link>
-
                             <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Appliances</Link>
                             <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Products</Link>
                             <Link href="/products?sort=best-sellers" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Best Sellers</Link>
@@ -161,6 +153,14 @@ export function Navbar() {
                             <Link href="/products?cat=Home & Kitchen" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Home & Kitchen</Link>
                             <Link href="/products?prime=true" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Prime</Link>
                             <Link href="/products?sort=newest" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">New Releases</Link>
+
+                            {/* Track Order Button - At the end */}
+                            <Link
+                                href="/orders"
+                                className="bg-[#febd69] text-[#131921] hover:bg-[#f3a847] px-3 py-1 border border-transparent rounded-sm font-bold flex items-center gap-1 ml-auto"
+                            >
+                                📦 Track Order
+                            </Link>
                         </div>
 
                         {/* Mobile Search - Visible only on small screens */}
