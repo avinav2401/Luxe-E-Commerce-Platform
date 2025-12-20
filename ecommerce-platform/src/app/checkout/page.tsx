@@ -4,18 +4,21 @@ import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ChevronLeft, CreditCard } from 'lucide-react';
+import { Trash2, ChevronLeft, CreditCard, ExternalLink, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
+import { getEnabledPaymentMethods, type PaymentMethod } from '@/config/PaymentConfig';
 
 export default function CheckoutPage() {
     const { cart, totalPrice, updateQuantity, removeFromCart, clearCart } = useCartStore();
     const router = useRouter();
     const { data: session, status } = useSession();
     const [isProcessing, setIsProcessing] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>('razorpay');
+    const paymentMethods = getEnabledPaymentMethods();
 
     // Form State
     const [formData, setFormData] = useState({
@@ -23,10 +26,7 @@ export default function CheckoutPage() {
         email: session?.user?.email || '',
         address: '',
         city: '',
-        zip: '',
-        cardNumber: '',
-        expiry: '',
-        cvc: ''
+        zip: ''
     });
 
     // Load Default Address
@@ -57,37 +57,76 @@ export default function CheckoutPage() {
         e.preventDefault();
         setIsProcessing(true);
 
-        try {
-            const response = await fetch('/api/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    items: cart,
-                    total: totalPrice(),
-                    shippingAddress: {
-                        fullName: formData.name,
-                        addressLine1: formData.address,
-                        city: formData.city,
-                        postalCode: formData.zip,
-                        country: 'IN', // Keep hardcoded or add to form if needed
-                    },
-                    paymentMethod: 'Credit Card',
-                }),
-            });
+        const selectedMethod = paymentMethods.find(m => m.id === selectedPaymentMethod);
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Something went wrong');
+        // Prepare order data
+        const orderData = {
+            items: cart,
+            total: totalPrice(),
+            shippingAddress: {
+                fullName: formData.name,
+                addressLine1: formData.address,
+                city: formData.city,
+                postalCode: formData.zip,
+                country: 'IN',
+            },
+            paymentMethod: selectedMethod?.name || 'Unknown',
+        };
+
+        try {
+            // Mock payment: process immediately
+            if (selectedPaymentMethod === 'mock') {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Something went wrong');
+                }
+
+                clearCart();
+                alert('Order placed successfully! Thank you for shopping.');
+                router.push('/checkout/success');
+                return;
             }
 
-            clearCart();
-            alert('Order placed successfully! Thank you for shopping with Luxe.');
-            router.push('/');
+            // Test payment link: save order and redirect
+            if (selectedMethod?.testLink) {
+                // Save order data to localStorage
+                localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+
+                // Open payment link in new tab
+                const paymentWindow = window.open(selectedMethod.testLink, '_blank');
+
+                if (!paymentWindow) {
+                    alert('Please allow popups to complete payment');
+                    setIsProcessing(false);
+                    return;
+                }
+
+                // Show instructions
+                alert(
+                    `Payment window opened!\n\n` +
+                    `After completing test payment:\n` +
+                    `1. Use test card: ${selectedMethod.testCards?.[0]?.number || '4111 1111 1111 1111'}\n` +
+                    `2. Complete the payment\n` +
+                    `3. You'll be redirected to the success page`
+                );
+
+                // Redirect to success page (user will complete payment there)
+                router.push('/checkout/success');
+                return;
+            }
+
+            throw new Error('Invalid payment method selected');
         } catch (error: any) {
             console.error('Checkout error:', error);
-            alert(`Failed to place order: ${error.message}`);
+            alert(`Failed to process order: ${error.message}`);
         } finally {
             setIsProcessing(false);
         }
@@ -164,25 +203,52 @@ export default function CheckoutPage() {
                             </div>
 
                             <div className="pt-6">
-                                <h3 className="text-xl font-bold mb-4">Payment Information</h3>
-                                <div className="space-y-4">
-                                    <div className="space-y-2">
-                                        <label htmlFor="cardNumber" className="text-sm font-medium">Card Number</label>
-                                        <div className="relative">
-                                            <CreditCard className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                                            <Input id="cardNumber" name="cardNumber" required placeholder="0000 0000 0000 0000" className="pl-10" value={formData.cardNumber} onChange={handleInputChange} />
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <label htmlFor="expiry" className="text-sm font-medium">Expiry</label>
-                                            <Input id="expiry" name="expiry" required placeholder="MM/YY" value={formData.expiry} onChange={handleInputChange} />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label htmlFor="cvc" className="text-sm font-medium">CVC</label>
-                                            <Input id="cvc" name="cvc" required placeholder="123" value={formData.cvc} onChange={handleInputChange} />
-                                        </div>
-                                    </div>
+                                <h3 className="text-xl font-bold mb-4">Payment Method</h3>
+                                <div className="space-y-3">
+                                    {paymentMethods.map((method) => (
+                                        <button
+                                            key={method.id}
+                                            type="button"
+                                            onClick={() => setSelectedPaymentMethod(method.id)}
+                                            className={`w-full p-4 border-2 rounded-lg text-left transition-all hover:border-primary ${selectedPaymentMethod === method.id
+                                                ? 'border-primary bg-primary/5'
+                                                : 'border-border'
+                                                }`}
+                                        >
+                                            <div className="flex items-start gap-3">
+                                                <div className="text-2xl mt-0.5">{method.icon}</div>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <h4 className="font-semibold">{method.name}</h4>
+                                                        {method.testLink && (
+                                                            <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                                                        )}
+                                                    </div>
+                                                    <p className="text-sm text-muted-foreground mt-1">
+                                                        {method.description}
+                                                    </p>
+                                                    {method.testCards && selectedPaymentMethod === method.id && (
+                                                        <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-950/20 rounded text-xs">
+                                                            <p className="font-medium text-blue-900 dark:text-blue-300 mb-1">Test Card:</p>
+                                                            <p className="text-blue-700 dark:text-blue-400">{method.testCards[0].number}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <div
+                                                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPaymentMethod === method.id
+                                                            ? 'border-primary'
+                                                            : 'border-border'
+                                                            }`}
+                                                    >
+                                                        {selectedPaymentMethod === method.id && (
+                                                            <div className="w-3 h-3 rounded-full bg-primary" />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         </form>
@@ -204,7 +270,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-medium text-sm line-clamp-1">{item.name}</h4>
-                                    <p className="text-xs text-muted-foreground">₹{(item.price * 80).toLocaleString()}</p>
+                                    <p className="text-xs text-muted-foreground">₹{(item.price * 80).toLocaleString('en-IN')}</p>
                                     <div className="flex items-center justify-between mt-2">
                                         <div className="flex items-center gap-2">
                                             <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="text-muted-foreground hover:text-foreground disabled:opacity-50" disabled={item.quantity <= 1}>-</button>
@@ -217,7 +283,7 @@ export default function CheckoutPage() {
                                     </div>
                                 </div>
                                 <div className="font-medium text-sm">
-                                    ₹{(item.price * item.quantity * 80).toLocaleString()}
+                                    ₹{(item.price * item.quantity * 80).toLocaleString('en-IN')}
                                 </div>
                             </div>
                         ))}
@@ -226,7 +292,7 @@ export default function CheckoutPage() {
                     <div className="mt-6 pt-6 border-t space-y-2">
                         <div className="flex justify-between text-sm">
                             <span className="text-muted-foreground">Subtotal</span>
-                            <span>₹{(totalPrice() * 80).toLocaleString()}</span>
+                            <span>₹{(totalPrice() * 80).toLocaleString('en-IN')}</span>
                         </div>
                         <div className="flex justify-between text-sm">
                             <span className="text-muted-foreground">Shipping</span>
@@ -234,7 +300,7 @@ export default function CheckoutPage() {
                         </div>
                         <div className="flex justify-between text-lg font-bold pt-2 border-t">
                             <span>Total</span>
-                            <span>₹{(totalPrice() * 80).toLocaleString()}</span>
+                            <span>₹{(totalPrice() * 80).toLocaleString('en-IN')}</span>
                         </div>
                     </div>
 
@@ -245,7 +311,19 @@ export default function CheckoutPage() {
                         size="lg"
                         disabled={isProcessing}
                     >
-                        {isProcessing ? 'Processing Order...' : 'Place Order'}
+                        {isProcessing ? (
+                            'Processing...'
+                        ) : selectedPaymentMethod === 'mock' ? (
+                            <span className="flex items-center gap-2">
+                                <Sparkles className="w-5 h-5" />
+                                Place Order (Instant)
+                            </span>
+                        ) : (
+                            <span className="flex items-center gap-2">
+                                <CreditCard className="w-5 h-5" />
+                                Proceed to Payment
+                            </span>
+                        )}
                     </Button>
                 </motion.div>
             </div>

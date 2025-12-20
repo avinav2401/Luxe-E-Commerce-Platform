@@ -28,10 +28,11 @@ export default function RegisterPage() {
                 router.push('/auth/signin');
             } else {
                 const data = await res.json();
-                setError(data.message || 'Registration failed');
+                setError(data.error || data.message || 'Registration failed');
             }
-        } catch (err) {
-            setError('Something went wrong');
+        } catch (err: any) {
+            console.error('Registration error:', err);
+            setError(err.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }

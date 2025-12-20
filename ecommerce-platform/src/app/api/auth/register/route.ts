@@ -28,6 +28,10 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ message: "User created successfully", userId: user._id }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+        console.error('Registration error:', error);
+        return NextResponse.json({
+            message: "Internal server error",
+            error: error instanceof Error ? error.message : 'Unknown error'
+        }, { status: 500 });
     }
 }

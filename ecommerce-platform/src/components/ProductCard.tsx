@@ -40,10 +40,10 @@ export function ProductCard({ product }: ProductCardProps) {
 
                 <div className="flex items-baseline gap-1 my-1">
                     <span className="text-[10px] relative top-[-0.3em]">₹</span>
-                    <span className="text-[21px] font-medium text-[#0F1111] leading-none">{Math.floor(product.price * 80).toLocaleString()}</span>
+                    <span className="text-[21px] font-medium text-[#0F1111] leading-none">{Math.floor(product.price * 80).toLocaleString('en-IN')}</span>
                     <span className="text-[10px] relative top-[-0.3em]">00</span>
                     <span className="text-[12px] text-[#565959] ml-1">
-                        M.R.P: <span className="line-through">₹{Math.floor(product.price * 100).toLocaleString()}</span> ({Math.floor(20)}% off)
+                        M.R.P: <span className="line-through">₹{Math.floor(product.price * 100).toLocaleString('en-IN')}</span> ({Math.floor(20)}% off)
                     </span>
                 </div>
 

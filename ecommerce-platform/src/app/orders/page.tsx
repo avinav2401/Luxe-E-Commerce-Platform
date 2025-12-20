@@ -95,7 +95,7 @@ export default function OrdersPage() {
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="uppercase text-[10px] font-bold">Total</span>
-                                            <span className="text-[#0F1111]">₹ {(order.total * 80).toLocaleString()}</span>
+                                            <span className="text-[#0F1111]">₹ {(order.total * 80).toLocaleString('en-IN')}</span>
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="uppercase text-[10px] font-bold">Ship To</span>
@@ -131,7 +131,7 @@ export default function OrdersPage() {
                                                         {productDetails?.name || 'Product Item'}
                                                     </Link>
                                                     <span className="text-xs text-[#565959] mt-1">Sold by: Luxe Retail</span>
-                                                    <span className="text-xs text-[#B12704] font-bold mt-1">₹ {(item.price * 80).toLocaleString()}</span>
+                                                    <span className="text-xs text-[#B12704] font-bold mt-1">₹ {(item.price * 80).toLocaleString('en-IN')}</span>
 
                                                     <div className="flex gap-2 mt-2">
                                                         <button

@@ -56,7 +56,7 @@ export default function CartPage() {
                                         <Link href={`/products?search=${encodeURIComponent(item.name)}`} className="text-lg font-medium text-[#007185] hover:underline hover:text-[#C7511F] line-clamp-2 leading-tight">
                                             {item.name}
                                         </Link>
-                                        <span className="font-bold text-lg sm:hidden">₹{(item.price * 80).toLocaleString()}</span>
+                                        <span className="font-bold text-lg sm:hidden">₹{(item.price * 80).toLocaleString('en-IN')}</span>
                                     </div>
                                     <div className="text-xs text-[#007600] my-1">In stock</div>
                                     <div className="text-xs text-[#565959] mb-1">Eligible for FREE Shipping</div>
@@ -91,14 +91,14 @@ export default function CartPage() {
 
                                 {/* Price (Desktop) */}
                                 <div className="hidden sm:block text-right w-32">
-                                    <span className="font-bold text-lg">₹{(item.price * 80).toLocaleString()}</span>
+                                    <span className="font-bold text-lg">₹{(item.price * 80).toLocaleString('en-IN')}</span>
                                 </div>
                             </div>
                         ))}
                     </div>
 
                     <div className="text-right pt-4 text-xl">
-                        Subtotal ({cart.reduce((a, c) => a + c.quantity, 0)} items): <span className="font-bold">₹{(subtotal * 80).toLocaleString()}</span>
+                        Subtotal ({cart.reduce((a, c) => a + c.quantity, 0)} items): <span className="font-bold">₹{(subtotal * 80).toLocaleString('en-IN')}</span>
                     </div>
                 </div>
 
@@ -106,7 +106,7 @@ export default function CartPage() {
                 <div className="lg:col-span-1 h-fit">
                     <div className="bg-white p-6 rounded-sm shadow-sm sticky top-24">
                         <div className="text-lg mb-4">
-                            Subtotal ({cart.reduce((a, c) => a + c.quantity, 0)} items): <span className="font-bold">₹{(subtotal * 80).toLocaleString()}</span>
+                            Subtotal ({cart.reduce((a, c) => a + c.quantity, 0)} items): <span className="font-bold">₹{(subtotal * 80).toLocaleString('en-IN')}</span>
                         </div>
                         <div className="flex items-center gap-2 mb-4">
                             <input type="checkbox" id="gift" className="w-4 h-4 accent-[#e47911]" />
