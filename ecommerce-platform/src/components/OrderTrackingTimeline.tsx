@@ -30,6 +30,28 @@ export function OrderTrackingTimeline({
     trackingHistory,
     estimatedDelivery
 }: OrderTrackingTimelineProps) {
+    // Handle legacy orders without tracking history
+    const hasTrackingHistory = trackingHistory && trackingHistory.length > 0;
+
+    // If no tracking history, show simple status
+    if (!hasTrackingHistory) {
+        return (
+            <div className="py-4 px-6 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-center gap-3">
+                    <Package className="w-5 h-5 text-yellow-600" />
+                    <div>
+                        <p className="text-sm font-semibold text-yellow-900">
+                            Status: {getStatusLabel(currentStatus)}
+                        </p>
+                        <p className="text-xs text-yellow-700 mt-1">
+                            Detailed tracking not available for this order. This order was placed before the tracking system was implemented.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     // If cancelled, show cancelled status
     if (currentStatus === 'cancelled') {
         const cancelledUpdate = trackingHistory.find(h => h.status === 'cancelled');
@@ -77,8 +99,8 @@ export function OrderTrackingTimeline({
                                     {/* Icon Circle */}
                                     <div
                                         className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${completed
-                                                ? 'bg-green-500 border-green-500 text-white'
-                                                : 'bg-white border-gray-300 text-gray-400'
+                                            ? 'bg-green-500 border-green-500 text-white'
+                                            : 'bg-white border-gray-300 text-gray-400'
                                             } ${isCurrent ? 'ring-4 ring-green-200' : ''}`}
                                     >
                                         {completed ? (
@@ -130,8 +152,8 @@ export function OrderTrackingTimeline({
                             <div className="flex flex-col items-center">
                                 <div
                                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${completed
-                                            ? 'bg-green-500 border-green-500 text-white'
-                                            : 'bg-white border-gray-300 text-gray-400'
+                                        ? 'bg-green-500 border-green-500 text-white'
+                                        : 'bg-white border-gray-300 text-gray-400'
                                         } ${isCurrent ? 'ring-4 ring-green-200' : ''}`}
                                 >
                                     {completed ? (
