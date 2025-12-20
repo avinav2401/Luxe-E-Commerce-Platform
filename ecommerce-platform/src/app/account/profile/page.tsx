@@ -24,8 +24,23 @@ export default function ProfilePage() {
     useEffect(() => {
         if (status === 'unauthenticated') {
             router.push('/auth/signin?callbackUrl=/account/profile');
+        } else if (status === 'authenticated' && session?.user) {
+            // Fetch full user data from database
+            fetchUserData();
         }
-    }, [status, router]);
+    }, [status, router, session]);
+
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch('/api/user/profile');
+            if (response.ok) {
+                const data = await response.json();
+                setUserData(data.user);
+            }
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
+        }
+    };
 
     if (status === 'loading') {
         return <div className="p-10 text-center">Loading...</div>;
