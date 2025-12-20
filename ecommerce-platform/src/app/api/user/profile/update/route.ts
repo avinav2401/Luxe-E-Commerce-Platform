@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
         }
 
         const body = await req.json();
-        const { name, phone, email, password } = body;
+        const { name, phone, email, password, role } = body;
 
         const updateData: any = {};
 
@@ -48,6 +48,15 @@ export async function PATCH(req: Request) {
             const bcrypt = require('bcryptjs');
             const hashedPassword = await bcrypt.hash(password, 10);
             updateData.password = hashedPassword;
+        }
+
+        if (role !== undefined) {
+            // Validate role
+            const validRoles = ['user', 'seller', 'admin'];
+            if (!validRoles.includes(role)) {
+                return NextResponse.json({ message: 'Invalid role. Must be user, seller, or admin' }, { status: 400 });
+            }
+            updateData.role = role;
         }
 
         if (Object.keys(updateData).length === 0) {

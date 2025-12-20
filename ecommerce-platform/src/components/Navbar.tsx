@@ -159,7 +159,8 @@ export function Navbar() {
                                 href="/orders"
                                 className="bg-[#febd69] text-[#131921] hover:bg-[#f3a847] px-3 py-1 border border-transparent rounded-sm font-bold flex items-center gap-1 ml-auto"
                             >
-                                📦 Track Order
+                                {/* @ts-ignore */}
+                                {session?.user?.role === 'admin' ? '📊 Admin Dashboard' : '📦 Track Order'}
                             </Link>
                         </div>
 
