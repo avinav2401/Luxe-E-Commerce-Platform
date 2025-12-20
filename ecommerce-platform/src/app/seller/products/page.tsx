@@ -112,7 +112,7 @@ export default function MyProductsPage() {
                                 <p className="text-gray-600 text-sm mb-2 line-clamp-2">{product.description}</p>
                                 <div className="flex justify-between items-center mb-3">
                                     <span className="text-lg font-bold text-blue-600">
-                                        ${product.price}
+                                        ₹{(product.price * 80).toLocaleString('en-IN')}
                                     </span>
                                     <span className={`text-sm ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                                         Stock: {product.stock}

@@ -48,7 +48,7 @@ export default function AddProductPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
-                    price: parseFloat(formData.price),
+                    price: parseFloat(formData.price) / 80, // Convert INR to USD
                     stock: parseInt(formData.stock)
                 })
             });
@@ -108,7 +108,7 @@ export default function AddProductPage() {
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Price (USD) *
+                            Price (₹ INR) *
                         </label>
                         <Input
                             type="number"
