@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Product, useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
     product: Product;
@@ -13,6 +14,9 @@ export function ProductCard({ product }: ProductCardProps) {
 
     const handleAddToCart = () => {
         addToCart(product);
+        toast.success('Added to cart!', {
+            description: product.name,
+        });
     };
 
     return (
