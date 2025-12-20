@@ -161,9 +161,11 @@ export default function AddProductPage() {
                     </label>
                     <CldUploadWidget
                         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'products'}
-                        onSuccess={(result: any) => {
-                            setFormData({ ...formData, image: result.info.secure_url });
-                            toast.success('Image uploaded successfully!');
+                        onUpload={(result: any) => {
+                            if (result.event === 'success') {
+                                setFormData({ ...formData, image: result.info.secure_url });
+                                toast.success('Image uploaded successfully!');
+                            }
                         }}
                     >
                         {({ open }) => (
