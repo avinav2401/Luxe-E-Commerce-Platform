@@ -4,13 +4,21 @@ import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ChevronLeft, CreditCard, ExternalLink, Sparkles } from 'lucide-react';
+import { Trash2, ChevronLeft, CreditCard, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { getEnabledPaymentMethods, type PaymentMethod } from '@/config/PaymentConfig';
+import { toast } from 'sonner';
+
+// Declare Razorpay type for TypeScript
+declare global {
+    interface Window {
+        Razorpay: any;
+    }
+}
 
 export default function CheckoutPage() {
     const { cart, totalPrice, updateQuantity, removeFromCart, clearCart } = useCartStore();
@@ -19,6 +27,7 @@ export default function CheckoutPage() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>('razorpay');
     const paymentMethods = getEnabledPaymentMethods();
+    const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState({
@@ -28,6 +37,19 @@ export default function CheckoutPage() {
         city: '',
         zip: ''
     });
+
+    // Load Razorpay SDK
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.async = true;
+        script.onload = () => setRazorpayLoaded(true);
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
 
     // Load Default Address
     useEffect(() => {
@@ -42,7 +64,6 @@ export default function CheckoutPage() {
                     address: defaultAddr.address || '',
                     city: defaultAddr.city || '',
                     zip: defaultAddr.zip || '',
-                    // You might want to add country to formData structure if you want it dynamic
                 }));
             }
         }
@@ -51,6 +72,83 @@ export default function CheckoutPage() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleRazorpayPayment = async (orderData: any) => {
+        try {
+            // Create Razorpay order on server
+            const response = await fetch('/api/razorpay/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: totalPrice() * 80, // Convert to INR
+                    currency: 'INR'
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create Razorpay order');
+            }
+
+            const { orderId, amount, currency, keyId } = await response.json();
+
+            // Initialize Razorpay checkout
+            const options = {
+                key: keyId,
+                amount,
+                currency,
+                order_id: orderId,
+                name: 'Luxe E-Commerce',
+                description: 'Order Payment',
+                handler: async function (response: any) {
+                    try {
+                        // Verify payment on server
+                        const verifyResponse = await fetch('/api/razorpay/verify-payment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                orderData
+                            }),
+                        });
+
+                        if (!verifyResponse.ok) {
+                            throw new Error('Payment verification failed');
+                        }
+
+                        clearCart();
+                        toast.success('Payment successful! Order placed.');
+                        router.push('/checkout/success');
+                    } catch (error: any) {
+                        console.error('Verification error:', error);
+                        toast.error('Payment verification failed');
+                        setIsProcessing(false);
+                    }
+                },
+                prefill: {
+                    name: formData.name,
+                    email: formData.email,
+                },
+                theme: {
+                    color: '#000000'
+                },
+                modal: {
+                    ondismiss: function () {
+                        setIsProcessing(false);
+                        toast.error('Payment cancelled');
+                    }
+                }
+            };
+
+            const razorpay = new window.Razorpay(options);
+            razorpay.open();
+        } catch (error: any) {
+            console.error('Razorpay error:', error);
+            toast.error('Failed to initialize payment');
+            setIsProcessing(false);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -74,6 +172,17 @@ export default function CheckoutPage() {
         };
 
         try {
+            // Razorpay payment
+            if (selectedPaymentMethod === 'razorpay') {
+                if (!razorpayLoaded) {
+                    toast.error('Payment system is loading, please try again');
+                    setIsProcessing(false);
+                    return;
+                }
+                await handleRazorpayPayment(orderData);
+                return;
+            }
+
             // Mock payment: process immediately
             if (selectedPaymentMethod === 'mock') {
                 const response = await fetch('/api/orders', {
@@ -90,35 +199,7 @@ export default function CheckoutPage() {
                 }
 
                 clearCart();
-                alert('Order placed successfully! Thank you for shopping.');
-                router.push('/checkout/success');
-                return;
-            }
-
-            // Test payment link: save order and redirect
-            if (selectedMethod?.testLink) {
-                // Save order data to localStorage
-                localStorage.setItem('pendingOrder', JSON.stringify(orderData));
-
-                // Open payment link in new tab
-                const paymentWindow = window.open(selectedMethod.testLink, '_blank');
-
-                if (!paymentWindow) {
-                    alert('Please allow popups to complete payment');
-                    setIsProcessing(false);
-                    return;
-                }
-
-                // Show instructions
-                alert(
-                    `Payment window opened!\n\n` +
-                    `After completing test payment:\n` +
-                    `1. Use test card: ${selectedMethod.testCards?.[0]?.number || '4111 1111 1111 1111'}\n` +
-                    `2. Complete the payment\n` +
-                    `3. You'll be redirected to the success page`
-                );
-
-                // Redirect to success page (user will complete payment there)
+                toast.success('Order placed successfully!');
                 router.push('/checkout/success');
                 return;
             }
@@ -126,7 +207,7 @@ export default function CheckoutPage() {
             throw new Error('Invalid payment method selected');
         } catch (error: any) {
             console.error('Checkout error:', error);
-            alert(`Failed to process order: ${error.message}`);
+            toast.error(`Failed to process order: ${error.message}`);
         } finally {
             setIsProcessing(false);
         }
@@ -194,11 +275,11 @@ export default function CheckoutPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label htmlFor="city" className="text-sm font-medium">City</label>
-                                    <Input id="city" name="city" required placeholder="New York" value={formData.city} onChange={handleInputChange} />
+                                    <Input id="city" name="city" required placeholder="Mumbai" value={formData.city} onChange={handleInputChange} />
                                 </div>
                                 <div className="space-y-2">
                                     <label htmlFor="zip" className="text-sm font-medium">Zip Code</label>
-                                    <Input id="zip" name="zip" required placeholder="10001" value={formData.zip} onChange={handleInputChange} />
+                                    <Input id="zip" name="zip" required placeholder="400001" value={formData.zip} onChange={handleInputChange} />
                                 </div>
                             </div>
 
@@ -220,9 +301,6 @@ export default function CheckoutPage() {
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-2">
                                                         <h4 className="font-semibold">{method.name}</h4>
-                                                        {method.testLink && (
-                                                            <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                                                        )}
                                                     </div>
                                                     <p className="text-sm text-muted-foreground mt-1">
                                                         {method.description}

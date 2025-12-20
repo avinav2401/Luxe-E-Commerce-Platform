@@ -25,6 +25,9 @@ export interface IOrder extends Document {
         country: string;
     };
     paymentMethod: string;
+    paymentId?: string;
+    razorpayOrderId?: string;
+    paymentStatus?: 'pending' | 'completed' | 'failed';
     createdAt: Date;
     updatedAt: Date;
 }
@@ -64,6 +67,13 @@ const OrderSchema = new Schema({
         country: { type: String, required: true },
     },
     paymentMethod: { type: String, required: true },
+    paymentId: { type: String },
+    razorpayOrderId: { type: String },
+    paymentStatus: {
+        type: String,
+        enum: ['pending', 'completed', 'failed'],
+        default: 'pending'
+    },
 }, { timestamps: true });
 
 // Pre-save hook to initialize tracking history and estimated delivery

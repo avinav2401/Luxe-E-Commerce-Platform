@@ -28,9 +28,8 @@ export interface PaymentConfig {
 export const PAYMENT_METHODS: PaymentConfig[] = [
     {
         id: 'razorpay',
-        name: 'Razorpay Test Mode',
-        description: 'Pay with Card/UPI (Test Mode)',
-        testLink: 'https://rzp.io/i/TESTLINK', // Replace with your actual Razorpay test payment link
+        name: 'Razorpay',
+        description: 'Pay with Card/UPI/Net Banking',
         enabled: true,
         icon: '💳',
         testCards: [
