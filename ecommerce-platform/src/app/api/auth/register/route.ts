@@ -24,6 +24,9 @@ export async function POST(req: Request) {
         const validRoles = ['user', 'seller', 'admin'];
         const userRole = role && validRoles.includes(role) ? role : 'user';
 
+        console.log('Registration request - Role received:', role);
+        console.log('Registration request - Role being saved:', userRole);
+
         const user = await User.create({
             name,
             email,
