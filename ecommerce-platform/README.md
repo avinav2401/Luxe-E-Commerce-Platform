@@ -17,18 +17,21 @@ A modern, full-featured e-commerce platform built with Next.js 15, featuring rea
 - **Shopping Cart**: Add, remove, and update quantities with toast notifications
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Amazon-Inspired UI**: Familiar, user-friendly interface
+- **INR Pricing**: All prices displayed in Indian Rupees (₹)
 
 ### 🔐 Authentication & User Management
 - **NextAuth.js Integration**: Secure authentication system
 - **User Profiles**: Manage account details and preferences
+- **Role-Based Access**: User, Seller, and Admin roles
 - **Multiple Addresses**: Save and manage shipping addresses
 - **Order History**: View all past orders with detailed information
 
 ### 💳 Payment System
-- **Test Payment Integration**: Razorpay and Stripe test modes
+- **Razorpay Integration**: Real payment gateway for India
 - **Mock Payment**: Instant testing without external setup
 - **Secure Checkout**: Multi-step checkout process
 - **Payment Success Page**: Order confirmation with confetti animation
+- **INR Transactions**: All payments processed in Indian Rupees
 
 ### 📦 Order Tracking
 - **Real-Time Status Updates**: Visual timeline (Placed → Packed → Shipped → Delivered)
@@ -37,12 +40,22 @@ A modern, full-featured e-commerce platform built with Next.js 15, featuring rea
 - **Responsive Timeline**: Horizontal on desktop, vertical on mobile
 - **Status Badges**: Color-coded for quick status recognition
 
+### 🏪 Seller Dashboard (NEW)
+- **Product Management**: Sellers can list and manage their own products
+- **Cloudinary Integration**: Professional image uploads via Cloudinary
+- **Modern Gradient UI**: Beautiful dashboard with statistics
+- **Low Stock Alerts**: Automatic warnings when inventory runs low
+- **Recent Orders**: Track orders containing seller's products
+- **Revenue Analytics**: View sales and earnings in INR
+- **Quick Actions**: Easy access to add/edit products
+
 ### 👨‍💼 Admin Panel
 - **Order Management Dashboard**: View and manage all orders
 - **One-Click Status Updates**: Easy order progression
 - **Order Statistics**: Overview of orders by status
 - **Advanced Filtering**: Filter by status, date, customer
 - **Customer Details**: Full order and shipping information
+- **Seller Product Oversight**: View all seller listings
 
 ### 🎨 UI/UX
 - **Toast Notifications**: Real-time feedback for user actions
@@ -69,6 +82,8 @@ A modern, full-featured e-commerce platform built with Next.js 15, featuring rea
 - **Database**: MongoDB with Mongoose ODM
 - **Authentication**: NextAuth.js v4
 - **Password Hashing**: bcryptjs
+- **Image Upload**: Cloudinary
+- **Payment Gateway**: Razorpay
 
 ### Developer Experience
 - **Language**: TypeScript 5
@@ -111,6 +126,16 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce?retryW
 # NextAuth Configuration  
 NEXTAUTH_SECRET=your_random_32_character_secret_here
 NEXTAUTH_URL=http://localhost:3000
+
+# Razorpay Credentials (Get from https://dashboard.razorpay.com/app/keys)
+RAZORPAY_KEY_ID=rzp_test_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+
+# Cloudinary Configuration (Get from https://cloudinary.com/console)
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=products
 ```
 
 **Getting MongoDB URI:**
@@ -149,8 +174,22 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 4. **Checkout**: Review cart → Proceed to checkout
 5. **Sign In**: Create account or login
 6. **Enter Details**: Fill shipping information
-7. **Select Payment**: Choose payment method (Mock Payment for testing)
+7. **Select Payment**: Choose payment method (Mock/Razorpay)
 8. **Track Order**: Go to "Your Orders" to see tracking timeline
+
+### For Sellers (NEW)
+
+1. **Create Account**: Register on the platform
+2. **Change Role**: Go to Account → Profile → Change role to "Seller"
+3. **Access Dashboard**: Click "🏪 Seller Dashboard" in navbar
+4. **Add Products**:
+   - Click "Add New Product"
+   - Fill product details (name, description, price in ₹, category, stock)
+   - Upload product image via Cloudinary widget
+   - Submit to list product
+5. **Manage Products**: View, edit, or delete products in "My Products"
+6. **Track Sales**: Monitor statistics and recent orders on dashboard
+7. **Stock Management**: Receive low stock alerts when inventory runs low
 
 ### For Shop Owners (Admin)
 
@@ -329,6 +368,18 @@ To create sample admin user, update User model:
 - `GET /api/orders` - Get user's orders
 - `POST /api/orders` - Create new order
 - `PATCH /api/orders/[id]/update-status` - Update order status (admin only)
+
+### Seller (NEW)
+- `GET /api/seller/stats` - Get seller statistics
+- `GET /api/seller/recent-orders` - Get orders with seller's products
+- `GET /api/seller/products` - Get seller's products
+- `POST /api/seller/products` - Create new product
+- `PATCH /api/seller/products/[id]` - Update product
+- `DELETE /api/seller/products/[id]` - Delete product
+
+### Admin
+- `GET /api/admin/orders` - Get all orders (admin only)
+- `GET /api/admin/dashboard` - Get admin dashboard stats
 
 ---
 
