@@ -1,6 +1,6 @@
 # 🛍️ Luxe E-Commerce Platform
 
-A modern, full-featured e-commerce platform built with Next.js 15, featuring real-time order tracking, test payment integration, and a comprehensive admin panel. Inspired by Amazon's user experience with enhanced features.
+A modern, full-featured e-commerce platform built with Next.js 16, featuring real-time order tracking, test payment integration, and a comprehensive admin panel. Inspired by Amazon's user experience with enhanced features.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
@@ -277,6 +277,7 @@ ecommerce-platform/
 │   │   ├── User.ts            # User model
 │   │   └── Order.ts           # Order model with tracking
 │   ├── store/                 # State management
+│   │   ├── __tests__/         # Automated test files
 │   │   └── useCartStore.ts    # Zustand cart store
 │   ├── config/                # Configuration files
 │   │   └── PaymentConfig.ts   # Payment method settings
@@ -340,6 +341,7 @@ npm run dev      # Start development server
 npm run build    # Build for production
 npm start        # Start production server
 npm run lint     # Run ESLint
+npm test         # Run Jest automated tests
 ```
 
 ### Database Seeding
@@ -495,4 +497,4 @@ For issues or questions:
 
 ---
 
-**Made with ❤️ using Next.js 15**
+**Made with ❤️ using Next.js 16**
