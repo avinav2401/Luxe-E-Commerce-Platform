@@ -53,21 +53,26 @@ export default function CheckoutPage() {
 
     // Load Default Address
     useEffect(() => {
-        const saved = localStorage.getItem('userAddresses');
-        if (saved) {
-            const addresses = JSON.parse(saved);
-            const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
-            if (defaultAddr) {
-                setFormData(prev => ({
-                    ...prev,
-                    name: defaultAddr.name || prev.name,
-                    address: defaultAddr.address || '',
-                    city: defaultAddr.city || '',
-                    zip: defaultAddr.zip || '',
-                }));
-            }
+        if (session?.user?.email) {
+            fetch('/api/user/addresses')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.addresses && data.addresses.length > 0) {
+                        const defaultAddr = data.addresses.find((a: any) => a.isDefault) || data.addresses[0];
+                        if (defaultAddr) {
+                            setFormData(prev => ({
+                                ...prev,
+                                name: defaultAddr.name || prev.name,
+                                address: defaultAddr.address || '',
+                                city: defaultAddr.city || '',
+                                zip: defaultAddr.zip || '',
+                            }));
+                        }
+                    }
+                })
+                .catch(console.error);
         }
-    }, []);
+    }, [session]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
