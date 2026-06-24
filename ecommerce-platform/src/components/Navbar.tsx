@@ -24,18 +24,32 @@ export function Navbar() {
 
     useEffect(() => {
         setMounted(true);
-        // Fetch default address for "Delivering to..." (safe for SSR)
-        if (typeof window !== 'undefined') {
-            const saved = localStorage.getItem('userAddresses');
-            if (saved) {
-                const addresses = JSON.parse(saved);
-                const defaultAddr = addresses.find((a: any) => a.isDefault) || addresses[0];
-                if (defaultAddr) {
-                    setDeliveryLocation({ city: defaultAddr.city, zip: defaultAddr.zip });
-                }
+        const fetchAddress = () => {
+            if (session?.user?.email) {
+                fetch('/api/user/addresses')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.addresses && data.addresses.length > 0) {
+                            const defaultAddr = data.addresses.find((a: any) => a.isDefault) || data.addresses[0];
+                            if (defaultAddr) {
+                                setDeliveryLocation({ city: defaultAddr.city, zip: defaultAddr.zip });
+                            }
+                        } else {
+                            setDeliveryLocation(null);
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                setDeliveryLocation(null);
             }
-        }
-    }, []);
+        };
+
+        fetchAddress();
+
+        // Listen for the custom event to refetch when updated on the addresses page
+        window.addEventListener('addressesUpdated', fetchAddress);
+        return () => window.removeEventListener('addressesUpdated', fetchAddress);
+    }, [session]);
 
     const handleSearch = () => {
         const params = new URLSearchParams();

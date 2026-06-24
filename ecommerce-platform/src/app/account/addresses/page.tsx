@@ -1,13 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function AddressesPage() {
+    const { data: session, status } = useSession();
+    const router = useRouter();
+    
     const [addresses, setAddresses] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [editingId, setEditingId] = useState<number | null>(null);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         name: '',
         address: '',
@@ -19,28 +25,42 @@ export default function AddressesPage() {
     });
 
     useEffect(() => {
-        const saved = localStorage.getItem('userAddresses');
-        if (saved) {
-            setAddresses(JSON.parse(saved));
-        } else {
-            // Initial mock data
-            setAddresses([{
-                id: 1,
-                name: 'Avinash',
-                address: '123 Main Street',
-                city: 'Bangalore',
-                state: 'Karnataka',
-                zip: '560001',
-                country: 'India',
-                phone: '9999999999',
-                isDefault: true
-            }]);
+        if (status === 'unauthenticated') {
+            router.push('/auth/signin');
+            return;
         }
-    }, []);
 
-    const saveToLocal = (newAddresses: any[]) => {
+        if (status === 'authenticated') {
+            fetch('/api/user/addresses')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.addresses) {
+                        setAddresses(data.addresses);
+                    }
+                    setIsLoading(false);
+                })
+                .catch(err => {
+                    console.error("Failed to fetch addresses", err);
+                    setIsLoading(false);
+                });
+        }
+    }, [status, router]);
+
+    const saveToDb = async (newAddresses: any[]) => {
+        // Optimistic update
         setAddresses(newAddresses);
-        localStorage.setItem('userAddresses', JSON.stringify(newAddresses));
+        try {
+            await fetch('/api/user/addresses', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ addresses: newAddresses })
+            });
+            
+            // Dispatch a custom event so Navbar can instantly re-fetch or sync
+            window.dispatchEvent(new Event('addressesUpdated'));
+        } catch (error) {
+            console.error("Failed to save addresses", error);
+        }
     };
 
     const handleEdit = (addr: any) => {
@@ -49,19 +69,19 @@ export default function AddressesPage() {
         setIsFormOpen(true);
     };
 
-    const handleRemove = (id: number) => {
+    const handleRemove = (id: string) => {
         if (confirm('Are you sure you want to delete this address?')) {
             const newAddresses = addresses.filter(a => a.id !== id);
-            saveToLocal(newAddresses);
+            saveToDb(newAddresses);
         }
     };
 
-    const handleSetDefault = (id: number) => {
+    const handleSetDefault = (id: string) => {
         const newAddresses = addresses.map(a => ({
             ...a,
             isDefault: a.id === id
         }));
-        saveToLocal(newAddresses);
+        saveToDb(newAddresses);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -76,7 +96,7 @@ export default function AddressesPage() {
             );
         } else {
             // Add new
-            const newId = Date.now();
+            const newId = Date.now().toString();
             newAddresses.push({
                 ...formData,
                 id: newId,
@@ -84,11 +104,19 @@ export default function AddressesPage() {
             });
         }
 
-        saveToLocal(newAddresses);
+        saveToDb(newAddresses);
         setIsFormOpen(false);
         setEditingId(null);
         setFormData({ name: '', address: '', city: '', state: '', zip: '', country: 'India', phone: '' });
     };
+
+    if (isLoading) {
+        return (
+            <div className="bg-white min-h-screen text-[#0F1111] font-sans flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-[#f08804]" />
+            </div>
+        )
+    }
 
     if (isFormOpen) {
         return (
