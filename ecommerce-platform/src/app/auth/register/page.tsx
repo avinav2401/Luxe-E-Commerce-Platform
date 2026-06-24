@@ -28,7 +28,13 @@ export default function RegisterPage() {
                 router.push('/auth/signin');
             } else {
                 const data = await res.json();
-                setError(data.error || data.message || 'Registration failed');
+                if (data.errors && Array.isArray(data.errors)) {
+                    // Combine all specific validation errors into one readable message
+                    const errorMessages = data.errors.map((e: any) => e.message).join(' • ');
+                    setError(errorMessages);
+                } else {
+                    setError(data.error || data.message || 'Registration failed');
+                }
             }
         } catch (err: any) {
             console.error('Registration error:', err);
