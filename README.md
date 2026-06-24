@@ -23,7 +23,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 - **NextAuth.js Integration**: Secure authentication system
 - **User Profiles**: Manage account details and preferences
 - **Role-Based Access**: User, Seller, and Admin roles
-- **Multiple Addresses**: Save and manage shipping addresses
+- **Cloud-Synced Addresses**: Securely save and manage multiple shipping addresses tied to your account across all devices
 - **Order History**: View all past orders with detailed information
 
 ### 💳 Payment System
@@ -386,6 +386,10 @@ To create sample admin user, update User model:
 ### Authentication
 - `POST /api/auth/register` - Create new user
 - `POST /api/auth/callback/credentials` - Login user
+
+### User Management & Addresses (NEW)
+- `GET /api/user/addresses` - Get user's saved addresses
+- `PUT /api/user/addresses` - Update user's address book
 
 ### Orders
 - `GET /api/orders` - Get user's orders
