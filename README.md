@@ -88,6 +88,9 @@ A modern, full-featured e-commerce platform built with Next.js 15, featuring rea
 ### Developer Experience
 - **Language**: TypeScript 5
 - **Linting**: ESLint
+- **Testing**: Jest & React Testing Library
+- **CI/CD**: GitHub Actions
+- **Containerization**: Docker & Docker Compose
 - **Package Manager**: npm
 
 ---
@@ -212,6 +215,7 @@ git add .
 git commit -m "Initial commit"
 git push origin main
 ```
+*Note: This will automatically trigger the GitHub Actions CI/CD pipeline to lint, test, and build your project.*
 
 2. **Deploy**:
    - Go to [Vercel](https://vercel.com)
@@ -228,6 +232,14 @@ git push origin main
 ```bash
 npm run build
 npm start
+```
+
+### Docker Deployment
+
+To spin up the entire stack (Next.js + MongoDB) locally:
+
+```bash
+docker-compose up -d --build
 ```
 
 ---
@@ -424,11 +436,15 @@ Edit `src/lib/orderUtils.ts` and `src/models/Order.ts` to:
 
 ## 🔒 Security
 
+- **Request Validation**: Strict Zod schema validation on API routes
+- **Rate Limiting**: In-memory rate limiting to prevent brute-force attacks on authentication
+- **Security Headers**: X-Frame-Options, X-XSS-Protection, and Referrer-Policy configured
 - **Password Hashing**: bcryptjs with salt rounds
 - **Session Management**: Secure JWT tokens
 - **Admin Protection**: Role-based access control
 - **Environment Variables**: Sensitive data in `.env.local`
 - **CORS**: Configured for API routes
+- **Error Handling**: Centralized wrapper prevents sensitive stack trace leaks
 
 ---
 
