@@ -248,6 +248,8 @@ docker-compose up -d --build
 
 ```
 ecommerce-platform/
+├── .github/
+│   └── workflows/             # CI/CD pipelines
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── api/                # API routes
@@ -265,9 +267,12 @@ ecommerce-platform/
 │   │   ├── Footer.tsx         # Footer component
 │   │   └── OrderTrackingTimeline.tsx  # Order tracking UI
 │   ├── lib/                   # Utility functions
+│   │   ├── apiHandler.ts      # API error wrapper
 │   │   ├── auth.ts            # NextAuth configuration
 │   │   ├── mongoose.ts        # MongoDB connection
-│   │   └── orderUtils.ts      # Order helper functions
+│   │   ├── orderUtils.ts      # Order helper functions
+│   │   ├── rateLimit.ts       # Rate limiting utility
+│   │   └── validations.ts     # Zod schema definitions
 │   ├── models/                # MongoDB models
 │   │   ├── User.ts            # User model
 │   │   └── Order.ts           # Order model with tracking
@@ -279,6 +284,10 @@ ecommerce-platform/
 │       └── products.ts        # Product catalog
 ├── public/                    # Static assets
 ├── .env.local                # Environment variables (create this)
+├── docker-compose.yml        # Docker composition file
+├── Dockerfile                # Docker image definition
+├── jest.config.ts            # Jest testing configuration
+├── jest.setup.ts             # Jest setup and mocks
 ├── package.json              # Dependencies
 └── README.md                 # This file
 ```
