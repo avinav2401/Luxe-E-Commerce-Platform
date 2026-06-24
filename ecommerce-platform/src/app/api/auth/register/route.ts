@@ -9,7 +9,7 @@ import { withApiHandler } from "@/lib/apiHandler";
 export const POST = withApiHandler(async (req: Request) => {
     // 1. Rate Limiting based on IP (or a generic string if IP is unavailable)
     const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
-    const isAllowed = rateLimit(`register_${ip}`, { windowMs: 15 * 60 * 1000, max: 5 }); // max 5 registrations per 15 minutes
+    const isAllowed = rateLimit(`register_${ip}`, { windowMs: 15 * 60 * 1000, max: 50 }); // max 50 registrations per 15 minutes for testing
     
     if (!isAllowed) {
         return NextResponse.json({ message: "Too many requests. Please try again later." }, { status: 429 });
