@@ -208,6 +208,7 @@ export default function SellerDashboard() {
                                                 <p className="font-bold text-blue-600">₹{(order.total * 80).toLocaleString('en-IN')}</p>
                                                 <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'delivered' ? 'bg-green-100 text-green-700' :
                                                         order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                                                        order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                                                             'bg-yellow-100 text-yellow-700'
                                                     }`}>
                                                     {order.status}

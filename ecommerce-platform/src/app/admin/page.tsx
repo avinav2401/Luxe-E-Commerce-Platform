@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Package, ShoppingBag, Users, TrendingUp, Clock, CheckCircle, Truck, Home } from 'lucide-react';
+import { Package, ShoppingBag, Users, TrendingUp, Clock, CheckCircle, Truck, Home, XCircle } from 'lucide-react';
 
 export default function AdminDashboard() {
     const { data: session, status } = useSession();
@@ -15,6 +15,7 @@ export default function AdminDashboard() {
         packed: 0,
         shipped: 0,
         delivered: 0,
+        cancelled: 0,
         totalRevenue: 0
     });
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
@@ -63,6 +64,7 @@ export default function AdminDashboard() {
         { label: 'Packed', value: stats.packed, icon: Package, color: 'bg-purple-500', link: '/admin/orders?status=packed' },
         { label: 'Shipped', value: stats.shipped, icon: Truck, color: 'bg-orange-500', link: '/admin/orders?status=shipped' },
         { label: 'Delivered', value: stats.delivered, icon: CheckCircle, color: 'bg-green-500', link: '/admin/orders?status=delivered' },
+        { label: 'Cancelled', value: stats.cancelled, icon: XCircle, color: 'bg-red-500', link: '/admin/orders?status=cancelled' },
         { label: 'Revenue', value: `₹${(stats.totalRevenue * 80).toLocaleString('en-IN')}`, icon: TrendingUp, color: 'bg-indigo-500', link: '/admin/orders' },
     ];
 
@@ -168,6 +170,7 @@ export default function AdminDashboard() {
                                                     ${order.status === 'packed' ? 'bg-purple-100 text-purple-800' : ''}
                                                     ${order.status === 'shipped' ? 'bg-orange-100 text-orange-800' : ''}
                                                     ${order.status === 'delivered' ? 'bg-green-100 text-green-800' : ''}
+                                                    ${order.status === 'cancelled' ? 'bg-red-100 text-red-800' : ''}
                                                 `}>
                                                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                                                 </span>

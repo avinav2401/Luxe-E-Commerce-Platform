@@ -30,13 +30,17 @@ export async function GET() {
         let revenue = 0;
 
         allOrders.forEach(order => {
-            order.items.forEach((item: any) => {
-                const productId = item.product.toString();
-                if (products.some(p => p._id.toString() === productId)) {
-                    totalSales += item.quantity;
-                    revenue += item.price * item.quantity;
-                }
-            });
+            if (order.status !== 'cancelled') {
+                order.items.forEach((item: any) => {
+                    const productId = item.product.toString();
+                    if (products.some(p => p._id.toString() === productId)) {
+                        totalSales += item.quantity;
+                        if (order.status === 'delivered') {
+                            revenue += item.price * item.quantity;
+                        }
+                    }
+                });
+            }
         });
 
         return NextResponse.json({

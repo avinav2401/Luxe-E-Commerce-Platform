@@ -29,7 +29,8 @@ export async function GET() {
             packed: allOrders.filter(o => o.status === 'packed').length,
             shipped: allOrders.filter(o => o.status === 'shipped').length,
             delivered: allOrders.filter(o => o.status === 'delivered').length,
-            totalRevenue: allOrders.reduce((sum, order) => sum + order.total, 0)
+            cancelled: allOrders.filter(o => o.status === 'cancelled').length,
+            totalRevenue: allOrders.filter(o => o.status === 'delivered').reduce((sum, order) => sum + order.total, 0)
         };
 
         // Get recent 5 orders
