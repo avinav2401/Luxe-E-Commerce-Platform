@@ -30,7 +30,7 @@ export default async function Home() {
         <div className="relative -mt-64 z-10 container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Card 1 */}
-            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-[420px]">
+            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-full">
               <h2 className="text-xl font-bold text-black">Revamp your home in style</h2>
               <div className="grid grid-cols-2 gap-4 flex-1">
                 <div className="space-y-1">
@@ -58,11 +58,11 @@ export default async function Home() {
                   <p className="text-xs text-black">Lighting solutions</p>
                 </div>
               </div>
-              <Link href="/products?cat=Home" className="text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
+              <Link href="/products?cat=Home & Kitchen" className="mt-auto text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-[420px]">
+            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-full">
               <h2 className="text-xl font-bold text-black">Appliances for your home | Up to 55% off</h2>
               <div className="grid grid-cols-2 gap-4 flex-1">
                 <div className="space-y-1">
@@ -90,25 +90,25 @@ export default async function Home() {
                   <p className="text-xs text-black">Washing machines</p>
                 </div>
               </div>
-              <Link href="/products?cat=Electronics" className="text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
+              <Link href="/products?cat=Electronics" className="mt-auto text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
             </div>
 
             {/* Card 3 - Single Big Image */}
-            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-[420px]">
+            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-full">
               <h2 className="text-xl font-bold text-black">Up to 60% off | Styles for Men</h2>
               <div className="flex-1 relative bg-gray-100 overflow-hidden">
                 <Image src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=600" alt="Men Fashion" fill className="object-cover" />
               </div>
-              <Link href="/products?cat=Fashion" className="text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
+              <Link href="/products?cat=Fashion" className="mt-auto text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
             </div>
 
             {/* Card 4 - Single Big Image */}
-            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-[420px]">
+            <div className="bg-white p-6 flex flex-col gap-4 shadow-sm z-20 h-full">
               <h2 className="text-xl font-bold text-black">Automotive essentials | Up to 60% off</h2>
               <div className="flex-1 relative bg-gray-100 overflow-hidden">
                 <Image src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600" alt="Automotive" fill className="object-cover" />
               </div>
-              <Link href="/products" className="text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
+              <Link href="/products" className="mt-auto text-[#007185] text-sm hover:text-[#C7511F] hover:underline">See all offers</Link>
             </div>
           </div>
         </div>
