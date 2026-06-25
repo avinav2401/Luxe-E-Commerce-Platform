@@ -76,11 +76,11 @@ export default function ProfilePage() {
                 throw new Error(data.message || 'Failed to update name');
             }
 
-            alert('Name updated successfully! Please refresh to see changes.');
+            alert('Name updated successfully! Please login again to see changes.');
             setIsEditingName(false);
 
-            // Refresh the page to update the session
-            router.refresh();
+            // Redirect to login to update session
+            router.push('/auth/signin');
         } catch (error: any) {
             console.error('Update error:', error);
             alert(`Failed to update name: ${error.message}`);
