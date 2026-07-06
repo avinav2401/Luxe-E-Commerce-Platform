@@ -16,12 +16,14 @@ const UserSchema = new Schema(
     {
         name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
+        password: { type: String, required: false },
         role: { type: String, enum: ["user", "seller", "admin"], default: "user" },
         image: { type: String },
         phone: { type: String },
         addresses: [AddressSchema],
         orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
+        provider: { type: String, default: "credentials" },
+        googleId: { type: String },
     },
     { timestamps: true }
 );

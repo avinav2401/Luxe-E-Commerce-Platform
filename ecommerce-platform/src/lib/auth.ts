@@ -1,11 +1,16 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import connectToDatabase from "@/lib/mongoose";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID || "",
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -20,6 +25,8 @@ export const authOptions: NextAuthOptions = {
 
                 if (!user) return null;
 
+                if (!user.password) return null; // No password, must have signed up with OAuth
+
                 const isMatch = await bcrypt.compare(credentials.password as string, user.password);
                 if (!isMatch) return null;
 
@@ -31,6 +38,27 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "google") {
+                await connectToDatabase();
+                let existingUser = await User.findOne({ email: user.email });
+                if (!existingUser) {
+                    existingUser = await User.create({
+                        name: user.name,
+                        email: user.email,
+                        image: user.image,
+                        provider: "google",
+                        googleId: account.providerAccountId,
+                        role: "user",
+                    });
+                }
+                // @ts-ignore
+                user.id = existingUser._id.toString();
+                // @ts-ignore
+                user.role = existingUser.role;
+            }
+            return true;
+        },
         async session({ session, token }) {
             if (session.user && token.sub) {
                 // @ts-ignore
