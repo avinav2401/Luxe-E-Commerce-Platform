@@ -127,11 +127,11 @@ export default function AdminDashboard() {
                             <span className="font-medium text-gray-700">In Transit</span>
                         </Link>
                         <Link
-                            href="/account"
+                            href="/admin/sellers"
                             className="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-gray-500 hover:bg-gray-50 transition-all"
                         >
                             <Users className="w-5 h-5 text-gray-600" />
-                            <span className="font-medium text-gray-700">Settings</span>
+                            <span className="font-medium text-gray-700">Seller Requests</span>
                         </Link>
                     </div>
                 </div>
