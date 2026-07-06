@@ -184,25 +184,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### For Sellers (NEW)
 
 1. **Create Account**: Register on the platform
-2. **Change Role**: Go to Account → Profile → Change role to "Seller"
-3. **Access Dashboard**: Click "🏪 Seller Dashboard" in navbar
-4. **Add Products**:
-   - Click "Add New Product"
-   - Fill product details (name, description, price in ₹, category, stock)
-   - Upload product image via Cloudinary widget
-   - Submit to list product
-5. **Manage Products**: View, edit, or delete products in "My Products"
-6. **Track Sales**: Monitor statistics and recent orders on dashboard
-7. **Stock Management**: Receive low stock alerts when inventory runs low
+2. **Apply for Seller Role**: Go to Account → Login & Security → Click "Apply to become a Seller"
+3. **Wait for Approval**: Admins will review your application
+4. **Activate Role**: Once approved, click "Activate Seller Dashboard" in your profile to refresh your session
+5. **Access Dashboard**: You can now access the 🏪 Seller Dashboard
+6. **Add Products**: Add products, upload Cloudinary images, and manage inventory
 
 ### For Shop Owners (Admin)
 
-1. **Admin Access**: Ensure user has `role: 'admin'` in database
+1. **Admin Access**: Generate admin via `/create-admin` or `npm run seed-admin`
 2. **Login**: Sign in with admin account
-3. **Access Panel**: Navigate to `/admin/orders`
-4. **View Orders**: See all orders and statistics
-5. **Update Status**: Click status update buttons as orders progress
-6. **Filter Orders**: Use status filters to find specific orders
+3. **Manage Sellers**: Navigate to `Quick Actions -> Seller Requests` to approve/reject seller applications
+4. **Order Management**: Navigate to `/admin/orders` to view and update order statuses
+5. **Filter Orders**: Use status filters to find specific orders
 
 ---
 
@@ -345,16 +339,17 @@ npm run lint     # Run ESLint
 npm test         # Run Jest automated tests
 ```
 
-### Database Seeding
+### Database Seeding & Admin Creation
 
-To automatically create an admin user for testing, run the seed script from the `ecommerce-platform` directory:
+To automatically create an admin user for local testing, run the seed script from the `ecommerce-platform` directory:
 
 ```bash
 cd ecommerce-platform
 npm run seed-admin
-# or
-npm run create-admin
 ```
+
+**For Live Vercel Deployments:**
+Since you do not have terminal access to run the seed script on Vercel, a special endpoint is available. Simply navigate to `https://your-vercel-domain.com/create-admin` in your browser and click the button to generate the admin account. *(Note: Delete the `src/app/create-admin` folder after use for security!)*
 
 *(This creates an account with email `admin@luxe.com` and password `admin123`)*
 
