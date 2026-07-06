@@ -70,7 +70,18 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-        async jwt({ token, user, account }: { token: any, user: any, account: any }) {
+        async jwt({ token, user, account, trigger, session }: { token: any, user: any, account: any, trigger?: string, session?: any }) {
+            if (trigger === "update" && session) {
+                if (session.role) {
+                    token.role = session.role;
+                }
+                if (session.name) {
+                    token.name = session.name;
+                }
+                if (session.image) {
+                    token.image = session.image;
+                }
+            }
             if (account && user) {
                 if (account.provider === "google") {
                     await connectToDatabase();

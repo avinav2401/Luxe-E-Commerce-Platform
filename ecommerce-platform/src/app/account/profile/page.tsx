@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 export default function ProfilePage() {
-    const { data: session, status } = useSession();
+    const { data: session, status, update } = useSession();
     const router = useRouter();
     const [isEditingName, setIsEditingName] = useState(false);
     const [newName, setNewName] = useState('');
@@ -216,10 +216,17 @@ export default function ProfilePage() {
                     return (
                         <div>
                             <div className="text-sm font-medium text-green-600 mb-2">✓ Approved Seller</div>
-                            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md text-sm text-yellow-800">
-                                <strong>Action Required:</strong> Your seller account has been approved! 
-                                However, you must <strong className="underline cursor-pointer" onClick={() => signOut()}>Sign Out</strong> and sign back in to activate your seller permissions before you can access the dashboard.
-                            </div>
+                            <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={async () => {
+                                    await update({ role: 'seller' });
+                                    router.push('/seller');
+                                }}
+                                className="text-[#007185] border-[#007185] hover:bg-blue-50"
+                            >
+                                Activate Seller Dashboard
+                            </Button>
                         </div>
                     );
                 }
