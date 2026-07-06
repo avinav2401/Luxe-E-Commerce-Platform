@@ -20,15 +20,19 @@ export async function POST(req: Request) {
         // Check if admin already exists
         const existingAdmin = await User.findOne({ email: adminEmail });
 
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+
         if (existingAdmin) {
-            // Update existing user to admin
+            // Update existing user to admin and reset their password
             existingAdmin.role = 'admin';
+            existingAdmin.password = hashedPassword;
             await existingAdmin.save();
 
             return NextResponse.json({
-                message: 'Existing user updated to admin',
+                message: 'Existing user updated to admin and password reset',
                 email: adminEmail,
-                password: 'Use your existing password'
+                password: 'admin123',
+                note: 'Please change this password after first login!'
             }, { status: 200 });
         }
 

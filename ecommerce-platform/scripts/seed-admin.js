@@ -54,11 +54,14 @@ async function seedAdmin() {
     const existingAdmin = await User.findOne({ email: adminEmail });
 
     if (existingAdmin) {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
         existingAdmin.role = 'admin';
+        existingAdmin.password = hashedPassword;
         await existingAdmin.save();
-        console.log('✅ Existing user updated to admin.');
+        console.log('✅ Existing user updated to admin and password reset.');
         console.log(`📧 Email: ${adminEmail}`);
-        console.log(`🔑 Password: <Your existing password>`);
+        console.log(`🔑 Password: admin123`);
+        console.log('⚠️ Please change this password after your first login!');
     } else {
         const hashedPassword = await bcrypt.hash('admin123', 10);
         await User.create({
