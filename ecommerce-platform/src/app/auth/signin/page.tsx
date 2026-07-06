@@ -141,6 +141,16 @@ export default function SignInPage() {
                         Sign up
                     </Link>
                 </div>
+
+                {/* Admin Help Box */}
+                <div className="mt-6 bg-blue-50/50 border border-blue-100 rounded-lg p-3 text-center">
+                    <p className="text-xs text-blue-800 mb-1">
+                        <strong>Developer Note:</strong> To access the Admin Dashboard, run <code className="bg-blue-100 px-1 rounded">npm run seed-admin</code> in your terminal and log in with:
+                    </p>
+                    <p className="text-xs text-blue-900 font-medium">
+                        admin@luxe.com / admin123
+                    </p>
+                </div>
             </div>
         </div>
     );
