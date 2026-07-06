@@ -32,7 +32,7 @@ export const POST = withApiHandler(async (req: Request) => {
         name: validatedData.name,
         email: validatedData.email,
         password: hashedPassword,
-        role: validatedData.role,
+        role: 'user', // Hardcoded for security. Admins and sellers are created via designated workflows.
     });
 
     return NextResponse.json({ message: "User created successfully", userId: user._id }, { status: 201 });
