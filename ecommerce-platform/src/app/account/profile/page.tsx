@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -211,6 +211,18 @@ export default function ProfilePage() {
         
         switch (status) {
             case 'approved': 
+                // @ts-ignore
+                if (session?.user?.role !== 'seller') {
+                    return (
+                        <div>
+                            <div className="text-sm font-medium text-green-600 mb-2">✓ Approved Seller</div>
+                            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md text-sm text-yellow-800">
+                                <strong>Action Required:</strong> Your seller account has been approved! 
+                                However, you must <strong className="underline cursor-pointer" onClick={() => signOut()}>Sign Out</strong> and sign back in to activate your seller permissions before you can access the dashboard.
+                            </div>
+                        </div>
+                    );
+                }
                 return (
                     <div>
                         <div className="text-sm font-medium text-green-600 mb-2">✓ Approved Seller</div>
