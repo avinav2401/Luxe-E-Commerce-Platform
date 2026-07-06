@@ -65,12 +65,13 @@ export default function AccountPage() {
                     <h3 className="font-bold text-blue-800 mb-2">Admin Access Help</h3>
                     <p className="text-sm text-blue-700 mb-2">
                         To test admin features (like approving sellers), you need an admin account. 
-                        You can generate one automatically by running the following command in your terminal:
+                        You can generate one automatically by visiting the{' '}
+                        <Link href="/create-admin" className="font-bold underline hover:text-blue-900">
+                            /create-admin
+                        </Link>{' '}
+                        page.
                     </p>
-                    <code className="block bg-blue-100/50 text-blue-900 border border-blue-200 p-2 rounded text-sm font-mono my-2 select-all">
-                        npm run seed-admin
-                    </code>
-                    <p className="text-sm text-blue-700">
+                    <p className="text-sm text-blue-700 mt-3">
                         Once generated, log out and log in with email: <strong>admin@luxe.com</strong> and password: <strong>admin123</strong>.
                     </p>
                 </div>
