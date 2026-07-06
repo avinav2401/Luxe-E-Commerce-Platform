@@ -70,11 +70,21 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-        async jwt({ token, user }: { token: any, user: any }) {
-            if (user) {
-                token.sub = user.id;
-                token.role = user.role;
-                token.image = user.image;
+        async jwt({ token, user, account }: { token: any, user: any, account: any }) {
+            if (account && user) {
+                if (account.provider === "google") {
+                    await connectToDatabase();
+                    const dbUser = await User.findOne({ email: user.email });
+                    if (dbUser) {
+                        token.sub = dbUser._id.toString();
+                        token.role = dbUser.role;
+                        token.image = dbUser.image;
+                    }
+                } else {
+                    token.sub = user.id;
+                    token.role = user.role;
+                    token.image = user.image;
+                }
             }
             return token;
         },
