@@ -24,6 +24,9 @@ const UserSchema = new Schema(
         orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
         provider: { type: String, default: "credentials" },
         googleId: { type: String },
+        sellerStatus: { type: String, enum: ["none", "pending", "approved", "rejected"], default: "none" },
+        storeName: { type: String },
+        storeDescription: { type: String },
     },
     { timestamps: true }
 );

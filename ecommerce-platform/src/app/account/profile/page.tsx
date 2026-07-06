@@ -17,8 +17,6 @@ export default function ProfilePage() {
     const [newEmail, setNewEmail] = useState('');
     const [isEditingPassword, setIsEditingPassword] = useState(false);
     const [newPassword, setNewPassword] = useState('');
-    const [isEditingRole, setIsEditingRole] = useState(false);
-    const [newRole, setNewRole] = useState('');
     const [userData, setUserData] = useState<any>(null);
 
     useEffect(() => {
@@ -35,7 +33,7 @@ export default function ProfilePage() {
             const response = await fetch('/api/user/profile');
             if (response.ok) {
                 const data = await response.json();
-                setUserData(data.user);
+                setUserData(data.user || data);
             }
         } catch (error) {
             console.error('Failed to fetch user data:', error);
@@ -208,49 +206,41 @@ export default function ProfilePage() {
         setNewPassword('');
     };
 
-    const handleEditRole = () => {
-        // @ts-ignore
-        setNewRole(session?.user?.role || userData?.role || 'user');
-        setIsEditingRole(true);
-    };
-
-    const handleSaveRole = async () => {
-        try {
-            const response = await fetch('/api/user/profile/update', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ role: newRole }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to update role');
-            }
-
-            setUserData({ ...userData, role: newRole });
-            alert('Account type updated successfully! Changes will take effect on next login.');
-            setIsEditingRole(false);
-            router.refresh();
-        } catch (error: any) {
-            console.error('Update error:', error);
-            alert(`Failed to update role: ${error.message}`);
-        }
-    };
-
-    const handleCancelRoleEdit = () => {
-        setIsEditingRole(false);
-        setNewRole('');
-    };
-
-    const getRoleDisplay = (role: string) => {
-        switch (role) {
-            case 'admin': return 'Admin';
-            case 'seller': return 'Seller';
-            case 'user': return 'Customer';
-            default: return 'Customer';
+    const getSellerDisplay = () => {
+        const status = userData?.sellerStatus || 'none';
+        
+        switch (status) {
+            case 'approved': 
+                return (
+                    <div>
+                        <div className="text-sm font-medium text-green-600 mb-2">✓ Approved Seller</div>
+                        <Link href="/seller" className="text-sm text-[#007185] hover:text-[#C7511F] hover:underline">
+                            Go to Seller Dashboard
+                        </Link>
+                    </div>
+                );
+            case 'pending':
+                return (
+                    <div className="text-sm text-[#e77600]">
+                        Your application is under review.
+                    </div>
+                );
+            case 'rejected':
+                return (
+                    <div className="text-sm text-red-600">
+                        Your seller application was rejected.
+                    </div>
+                );
+            default:
+                return (
+                    <Button 
+                        variant="outline"
+                        onClick={() => router.push('/account/become-seller')}
+                        className="text-sm"
+                    >
+                        Apply to become a Seller
+                    </Button>
+                );
         }
     };
 
@@ -462,64 +452,12 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* Account Type/Role - Editable */}
+                    {/* Seller Account Status */}
                     <div className="p-4 bg-white hover:bg-gray-50 transition-colors rounded-b-lg border-t border-[#D5D9D9]">
                         <div className="flex justify-between items-start">
                             <div className="flex-1">
-                                <div className="font-bold text-sm mb-2">Account Type</div>
-                                {isEditingRole ? (
-                                    <div className="flex gap-2 items-center">
-                                        <select
-                                            value={newRole}
-                                            onChange={(e) => setNewRole(e.target.value)}
-                                            className="border border-gray-400 rounded px-3 py-1.5 text-sm w-full max-w-sm focus:ring-2 focus:ring-[#e77600] outline-none"
-                                            autoFocus
-                                        >
-                                            <option value="user">Customer</option>
-                                            <option value="seller">Seller</option>
-                                            <option value="admin">Admin</option>
-                                        </select>
-                                    </div>
-                                ) : (
-                                    <div className="text-sm">
-                                        {/* @ts-ignore */}
-                                        {getRoleDisplay(session?.user?.role || userData?.role || 'user')}
-                                        <span className="text-xs text-muted-foreground ml-2">
-                                            {/* @ts-ignore */}
-                                            {(session?.user?.role === 'seller' || userData?.role === 'seller') && '(Can manage products)'}
-                                            {/* @ts-ignore */}
-                                            {(session?.user?.role === 'admin' || userData?.role === 'admin') && '(Full platform access)'}
-                                            {/* @ts-ignore */}
-                                            {(session?.user?.role === 'user' || userData?.role === 'user' || (!session?.user?.role && !userData?.role)) && '(Shopping account)'}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="flex gap-2 ml-4">
-                                {isEditingRole ? (
-                                    <>
-                                        <button
-                                            onClick={handleSaveRole}
-                                            className="bg-[#FFD814] border border-[#FCD200] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-[#F7CA00]"
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            onClick={handleCancelRoleEdit}
-                                            className="border border-[#D5D9D9] bg-white px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50"
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : (
-                                    <button
-                                        onClick={handleEditRole}
-                                        className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
-                                    >
-                                        Edit
-                                    </button>
-                                )}
+                                <div className="font-bold text-sm mb-2">Seller Account</div>
+                                {getSellerDisplay()}
                             </div>
                         </div>
                     </div>

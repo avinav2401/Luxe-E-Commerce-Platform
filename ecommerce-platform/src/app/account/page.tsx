@@ -51,11 +51,28 @@ export default function AccountPage() {
                     ))}
                 </div>
 
-                <div className="mt-8 border-t pt-4">
-                    <p className="mb-2 font-bold">Settings</p>
-                    <button onClick={() => signOut({ callbackUrl: '/' })} className="text-[#007185] hover:underline hover:text-[#C7511F] text-sm">
-                        Sign Out
-                    </button>
+                <div className="mt-8 border-t pt-4 flex justify-between items-start">
+                    <div>
+                        <p className="mb-2 font-bold">Settings</p>
+                        <button onClick={() => signOut({ callbackUrl: '/' })} className="text-[#007185] hover:underline hover:text-[#C7511F] text-sm">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+
+                {/* Admin Help Box */}
+                <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 className="font-bold text-blue-800 mb-2">Admin Access Help</h3>
+                    <p className="text-sm text-blue-700 mb-2">
+                        To test admin features (like approving sellers), you need an admin account. 
+                        You can generate one automatically by running the following command in your terminal:
+                    </p>
+                    <code className="block bg-blue-100/50 text-blue-900 border border-blue-200 p-2 rounded text-sm font-mono my-2 select-all">
+                        npm run seed-admin
+                    </code>
+                    <p className="text-sm text-blue-700">
+                        Once generated, log out and log in with email: <strong>admin@luxe.com</strong> and password: <strong>admin123</strong>.
+                    </p>
                 </div>
             </div>
         </div>

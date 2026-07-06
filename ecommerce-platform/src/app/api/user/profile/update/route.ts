@@ -50,14 +50,8 @@ export async function PATCH(req: Request) {
             updateData.password = hashedPassword;
         }
 
-        if (role !== undefined) {
-            // Validate role
-            const validRoles = ['user', 'seller', 'admin'];
-            if (!validRoles.includes(role)) {
-                return NextResponse.json({ message: 'Invalid role. Must be user, seller, or admin' }, { status: 400 });
-            }
-            updateData.role = role;
-        }
+        // Role updates are intentionally not allowed here to prevent privilege escalation.
+        // Users must apply to become a seller via the /api/user/become-seller route.
 
         if (Object.keys(updateData).length === 0) {
             return NextResponse.json({ message: 'No fields to update' }, { status: 400 });
