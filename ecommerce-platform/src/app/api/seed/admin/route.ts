@@ -37,7 +37,6 @@ export async function POST(req: Request) {
         }
 
         // Create new admin user
-        const hashedPassword = await bcrypt.hash('admin123', 10);
 
         const adminUser = await User.create({
             name: 'Admin User',
