@@ -22,7 +22,8 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 ### 🔐 Authentication & User Management
 - **NextAuth.js Integration**: Secure authentication system
 - **User Profiles**: Manage account details and preferences
-- **Role-Based Access**: User, Seller, and Admin roles
+- **Role-Based Access**: User, Seller, and Admin roles.
+- **Seller Onboarding Flow**: Secure application process for users to become sellers (requires Admin approval).
 - **Cloud-Synced Addresses**: Securely save and manage multiple shipping addresses tied to your account across all devices
 - **Order History**: View all past orders with detailed information
 
@@ -346,15 +347,16 @@ npm test         # Run Jest automated tests
 
 ### Database Seeding
 
-To create sample admin user, update User model:
+To automatically create an admin user for testing, run the seed script from the `ecommerce-platform` directory:
 
-```javascript
-{
-  name: "Admin User",
-  email: "admin@example.com",
-  role: "admin"  // Set role to admin
-}
+```bash
+cd ecommerce-platform
+npm run seed-admin
+# or
+npm run create-admin
 ```
+
+*(This creates an account with email `admin@luxe.com` and password `admin123`)*
 
 ---
 
