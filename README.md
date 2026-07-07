@@ -242,7 +242,7 @@ docker-compose up -d --build
 ## 🗂️ Project Structure
 
 ```
-ecommerce-platform/
+amazon/
 ├── .github/
 │   └── workflows/             # CI/CD pipelines
 ├── src/
