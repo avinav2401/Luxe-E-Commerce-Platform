@@ -256,12 +256,16 @@ export default function CheckoutPage() {
             <div className="grid lg:grid-cols-2 gap-12">
                 {/* Checkout Form */}
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
                     className="space-y-8"
                 >
-                    <div>
-                        <h2 className="text-2xl font-bold mb-4">Shipping Details</h2>
+                    <div className="bg-card p-6 md:p-8 rounded-3xl shadow-sm border border-border">
+                        <h2 className="text-2xl font-serif font-bold mb-6 flex items-center gap-2">
+                            <MapPin className="w-6 h-6 text-primary" />
+                            Shipping Details
+                        </h2>
                         <form id="checkout-form" onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
@@ -288,17 +292,22 @@ export default function CheckoutPage() {
                                 </div>
                             </div>
 
-                            <div className="pt-6">
-                                <h3 className="text-xl font-bold mb-4">Payment Method</h3>
+                            <div className="pt-8 mt-8 border-t border-border">
+                                <h3 className="text-xl font-serif font-bold mb-6 flex items-center gap-2">
+                                    <CreditCard className="w-6 h-6 text-primary" />
+                                    Payment Method
+                                </h3>
                                 <div className="space-y-3">
                                     {paymentMethods.map((method) => (
-                                        <button
+                                        <motion.button
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
                                             key={method.id}
                                             type="button"
                                             onClick={() => setSelectedPaymentMethod(method.id)}
-                                            className={`w-full p-4 border-2 rounded-lg text-left transition-all hover:border-primary ${selectedPaymentMethod === method.id
-                                                ? 'border-primary bg-primary/5'
-                                                : 'border-border'
+                                            className={`w-full p-5 border-2 rounded-2xl text-left transition-all ${selectedPaymentMethod === method.id
+                                                ? 'border-primary bg-primary/5 shadow-md'
+                                                : 'border-border hover:border-primary/40 bg-card hover:shadow-sm'
                                                 }`}
                                         >
                                             <div className="flex items-start gap-3">
@@ -330,7 +339,7 @@ export default function CheckoutPage() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </button>
+                                        </motion.button>
                                     ))}
                                 </div>
                             </div>
@@ -340,16 +349,17 @@ export default function CheckoutPage() {
 
                 {/* Order Summary */}
                 <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-secondary/20 p-6 rounded-xl h-fit border"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="bg-secondary/10 p-6 md:p-8 rounded-3xl h-fit border border-border sticky top-24"
                 >
-                    <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+                    <h2 className="text-xl font-serif font-bold mb-6">Order Summary</h2>
                     <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
                         {cart.map((item) => (
-                            <div key={item.id} className="flex gap-4 bg-background p-3 rounded-lg border">
-                                <div className="relative w-16 h-16 rounded-md overflow-hidden bg-muted">
-                                    <Image src={item.image} alt={item.name} fill className="object-cover" />
+                            <div key={item.id} className="flex gap-4 bg-card p-4 rounded-2xl border border-border shadow-sm hover:shadow-md transition-shadow">
+                                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-secondary/30 p-2">
+                                    <Image src={item.image} alt={item.name} fill sizes="80px" className="object-contain mix-blend-multiply" />
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-medium text-sm line-clamp-1">{item.name}</h4>
@@ -387,13 +397,14 @@ export default function CheckoutPage() {
                         </div>
                     </div>
 
-                    <Button
-                        type="submit"
-                        form="checkout-form"
-                        className="w-full mt-6"
-                        size="lg"
-                        disabled={isProcessing}
-                    >
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-8">
+                        <Button
+                            type="submit"
+                            form="checkout-form"
+                            className={`w-full rounded-full py-6 text-lg shadow-md transition-all ${isProcessing ? 'opacity-80' : 'hover:shadow-lg hover:bg-primary/90'}`}
+                            size="lg"
+                            disabled={isProcessing}
+                        >
                         {isProcessing ? (
                             'Processing...'
                         ) : selectedPaymentMethod === 'mock' ? (
@@ -407,7 +418,8 @@ export default function CheckoutPage() {
                                 Proceed to Payment
                             </span>
                         )}
-                    </Button>
+                        </Button>
+                    </motion.div>
                 </motion.div>
             </div>
         </div>

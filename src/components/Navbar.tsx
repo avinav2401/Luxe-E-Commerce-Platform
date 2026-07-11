@@ -187,18 +187,21 @@ export function Navbar() {
                                     <User className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
                                 </Link>
 
-                                <Link href="/cart" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors group">
-                                    <ShoppingCart className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
-                                    {totalItems > 0 && (
-                                        <motion.span 
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            className="absolute top-1 right-0 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm"
-                                        >
-                                            {totalItems}
-                                        </motion.span>
-                                    )}
-                                </Link>
+                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.9 }} className="relative flex items-center justify-center">
+                                    <Link href="/cart" className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors group">
+                                        <ShoppingCart className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
+                                        {totalItems > 0 && (
+                                            <motion.span 
+                                                key={totalItems} // Re-animates when totalItems changes
+                                                initial={{ scale: 0, y: 10 }}
+                                                animate={{ scale: 1, y: 0 }}
+                                                className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full shadow-md border-2 border-background"
+                                            >
+                                                {totalItems}
+                                            </motion.span>
+                                        )}
+                                    </Link>
+                                </motion.div>
                                 
                                 {/* Mobile Menu Trigger (if no bottom bar for some elements) */}
                                 <button
