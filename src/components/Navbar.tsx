@@ -235,6 +235,11 @@ export function Navbar() {
                                 </button>
                             </div>
                         </div>
+                        {/* Mobile Deliver To Bar */}
+                        <Link href="/account" className="md:hidden flex items-center gap-2 px-4 pb-3 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                            <MapPin className="w-3.5 h-3.5" />
+                            <span className="truncate">Deliver to <span className="font-medium text-foreground">{deliveryLocation ? `${deliveryLocation.city}` : 'Select location'}</span></span>
+                        </Link>
                     </header>
                     
                     {/* Categories Bar (Desktop) */}
