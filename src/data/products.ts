@@ -267,7 +267,7 @@ export const products = [
         name: 'Luxe Audiobooks All-Access Pass',
         price: 14.99,
         description: 'Listen to thousands of premium audiobooks narrated by top voice actors and celebrities.',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80',
         category: 'Digital Content',
         rating: 4.9,
         reviews: 8400

@@ -59,7 +59,7 @@ export function NavigationSidebar({ isOpen, onClose }: NavigationSidebarProps) {
                                 <h3 className="px-9 pb-4 text-lg font-serif font-bold text-foreground">Trending</h3>
                                 <SidebarLink href="/products?sort=best-sellers" label="Best Sellers" />
                                 <SidebarLink href="/products?sort=newest" label="New Releases" />
-                                <SidebarLink href="/products?sort=best-sellers" label="Movers and Shakers" />
+                                <SidebarLink href="/products?sort=deals" label="Today's Deals" />
                             </div>
 
                             {/* Section 2 */}
