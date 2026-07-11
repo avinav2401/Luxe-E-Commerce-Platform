@@ -2,6 +2,8 @@ import { ProductShowcase } from "@/components/ProductShowcase";
 import { getProducts } from "@/lib/data-service";
 import { FilterSidebar } from "@/components/FilterSidebar";
 
+export const dynamic = 'force-dynamic';
+
 interface SearchParams {
     cat?: string;
     sort?: string;

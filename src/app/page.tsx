@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const products = await getProducts(); // Fetch data dynamically
   return (
