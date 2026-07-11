@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Search, Menu, MapPin, ChevronDown } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { ShoppingCart, Search, Menu, MapPin, ChevronDown, User, Home, LayoutDashboard, Heart } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/store/useCartStore';
 import { NavigationSidebar } from './NavigationSidebar';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function Navbar() {
     const { data: session } = useSession();
@@ -19,6 +20,20 @@ export function Navbar() {
     const [mounted, setMounted] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState("All");
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+    const categoryRef = useRef<HTMLDivElement>(null);
+
+    const categories = ["All", "Digital Content", "Electronics", "Fashion", "Home & Kitchen", "Beauty"];
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (categoryRef.current && !categoryRef.current.contains(event.target as Node)) {
+                setIsCategoryOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const [deliveryLocation, setDeliveryLocation] = useState<{ city: string, zip: string } | null>(null);
 
@@ -46,7 +61,6 @@ export function Navbar() {
 
         fetchAddress();
 
-        // Listen for the custom event to refetch when updated on the addresses page
         window.addEventListener('addressesUpdated', fetchAddress);
         return () => window.removeEventListener('addressesUpdated', fetchAddress);
     }, [session]);
@@ -59,154 +73,204 @@ export function Navbar() {
         router.push(`/products?${params.toString()}`);
     };
 
-
     return (
         <>
             {!mounted ? null : (
                 <>
-                    <header className="flex flex-col relative z-40">
-                        {/* Primary Navbar (Dark Blue) */}
-                        <div className="bg-[#131921] text-white py-2 px-4 flex items-center gap-2 h-[60px]">
-                            {/* Logo */}
-                            <Link href="/" className="mr-2 flex items-center pt-2 border border-transparent hover:border-white rounded-sm p-1">
-                                <span className="text-2xl font-bold tracking-tight">amazon<span className="text-[#febd69]">.in</span></span>
-                            </Link>
-
-                            {/* Location */}
-                            <Link href="/account/addresses" className="hidden md:flex flex-col leading-none text-xs border border-transparent hover:border-white rounded-sm p-2">
-                                <span className="text-gray-300 ml-5">Delivering to {deliveryLocation ? `${deliveryLocation.city} ${deliveryLocation.zip}` : 'Select your address'}</span>
-                                <span className="font-bold flex items-center gap-1">
-                                    <MapPin className="w-4 h-4" />
-                                    Update location
-                                </span>
-                            </Link>
-
-                            {/* Search Bar (Dominant) */}
-                            <div className="flex-1 mx-4 hidden sm:flex h-10 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-[#f90]">
-                                <div className="bg-[#f3f3f3] text-gray-600 flex items-center text-xs border-r hover:bg-[#dadada] cursor-pointer relative group">
-                                    <select
-                                        value={searchCategory}
-                                        onChange={(e) => setSearchCategory(e.target.value)}
-                                        className="appearance-none bg-transparent h-full px-3 pr-6 outline-none cursor-pointer text-gray-700 bg-[#f3f3f3] hover:bg-[#dadada]"
-                                    >
-                                        <option value="All">All</option>
-                                        <option value="Electronics">Electronics</option>
-                                        <option value="Fashion">Fashion</option>
-                                        <option value="Home & Kitchen">Home</option>
-                                        <option value="Beauty">Beauty</option>
-                                        <option value="Computers">Computers</option>
-                                        <option value="Mobiles">Mobiles</option>
-                                    </select>
-                                    <ChevronDown className="w-3 h-3 absolute right-2 pointer-events-none" />
-                                </div>
-                                <input
-                                    className="flex-1 px-3 text-black outline-none h-full bg-white"
-                                    type="text"
-                                    placeholder="Search Amazon.in"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                />
+                    {/* Desktop & Top Mobile Navbar */}
+                    <header className="sticky top-0 z-40 w-full backdrop-blur-lg bg-background/80 border-b border-border shadow-sm transition-all duration-300">
+                        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+                            {/* Left: Logo & Menu */}
+                            <div className="flex items-center gap-4">
                                 <button
-                                    onClick={handleSearch}
-                                    className="bg-[#febd69] hover:bg-[#f3a847] px-4 flex items-center justify-center"
+                                    onClick={() => setIsNavOpen(true)}
+                                    className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
                                 >
-                                    <Search className="w-6 h-6 text-[#131921]" />
+                                    <Menu className="w-5 h-5 text-foreground" />
                                 </button>
-                            </div>
-
-                            {/* Right Side Actions */}
-                            <div className="flex items-center gap-1">
-                                {/* Language */}
-                                <button className="hidden lg:flex items-center gap-1 p-2 border border-transparent hover:border-white rounded-sm font-bold text-sm">
-                                    EN <ChevronDown className="w-3 h-3 text-gray-400" />
-                                </button>
-
-                                {/* Account */}
-                                <Link href={session ? "/account" : "/auth/signin"} className="flex flex-col leading-none text-xs border border-transparent hover:border-white rounded-sm p-2">
-                                    <span className="text-sm">Hello, {session?.user?.name ? session.user.name.split(' ')[0] : 'sign in'}</span>
-                                    <span className="font-bold text-sm flex items-center">Account & Lists <ChevronDown className="w-3 h-3 ml-1 text-gray-400" /></span>
+                                <Link href="/" className="flex items-center gap-2 group">
+                                    <span className="text-3xl font-serif font-bold tracking-tight text-primary group-hover:opacity-80 transition-opacity">
+                                        Luxe.
+                                    </span>
                                 </Link>
-
-                                {/* Orders */}
-                                <Link href="/orders" className="hidden md:flex flex-col leading-none text-xs border border-transparent hover:border-white rounded-sm p-2 text-white">
-                                    <span className="">Returns</span>
-                                    <span className="font-bold text-sm">& Orders</span>
-                                </Link>
-
-                                {/* Cart */}
-                                <Link href="/cart" className="flex items-end gap-1 border border-transparent hover:border-white rounded-sm p-2 text-white">
-                                    <div className="relative">
-                                        <ShoppingCart className="w-8 h-8" />
-                                        <span className="absolute -top-1 left-1/2 -translate-x-1/2 text-[#f08804] font-bold text-sm">
-                                            {totalItems}
+                                
+                                {/* Location (Desktop Only) */}
+                                <Link href="/account/addresses" className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-muted transition-colors text-sm text-muted-foreground border border-transparent hover:border-border">
+                                    <MapPin className="w-4 h-4 text-primary" />
+                                    <div className="flex flex-col leading-none">
+                                        <span className="text-[10px] uppercase font-semibold tracking-wider">Deliver to</span>
+                                        <span className="font-medium text-foreground truncate max-w-[120px]">
+                                            {deliveryLocation ? `${deliveryLocation.city}` : 'Select location'}
                                         </span>
                                     </div>
-                                    <span className="font-bold text-sm hidden md:inline mb-1">Cart</span>
                                 </Link>
                             </div>
-                        </div>
 
-                        {/* Secondary Navbar (lighter blue) */}
-                        <div className="bg-[#232F3E] text-white text-sm flex items-center gap-6 px-4 py-1.5 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                            <button
-                                onClick={() => setIsNavOpen(true)}
-                                className="flex items-center gap-1 font-bold border border-transparent hover:border-white px-2 rounded-sm"
-                            >
-                                <Menu className="w-5 h-5" />
-                            </button>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">All</Link>
-
-                            <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Appliances</Link>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Products</Link>
-                            <Link href="/products?sort=best-sellers" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Best Sellers</Link>
-                            <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Mobiles</Link>
-                            <Link href="/products?sort=deals" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Today&apos;s Deals</Link>
-                            <Link href="/products" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Items</Link>
-                            <Link href="/products?cat=Electronics" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Electronics</Link>
-                            <Link href="/products?cat=Home & Kitchen" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Home & Kitchen</Link>
-                            <Link href="/products?prime=true" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">Prime</Link>
-                            <Link href="/products?sort=newest" className="hover:border hover:border-white px-2 py-1 border border-transparent rounded-sm">New Releases</Link>
-
-                            {/* Dynamic Dashboard/Track Order Button */}
-                            <Link
-                                href={
-                                    // @ts-ignore
-                                    session?.user?.role === 'admin' ? '/admin' :
-                                        // @ts-ignore
-                                        session?.user?.role === 'seller' ? '/seller' :
-                                            '/orders'
-                                }
-                                className="bg-[#febd69] text-[#131921] hover:bg-[#f3a847] px-3 py-1 border border-transparent rounded-sm font-bold flex items-center gap-1 ml-auto"
-                            >
-                                {/* @ts-ignore */}
-                                {session?.user?.role === 'admin' ? '📊 Admin Dashboard' :
-                                    // @ts-ignore
-                                    session?.user?.role === 'seller' ? '🏪 Seller Dashboard' :
-                                        '📦 Track Order'}
-                            </Link>
-                        </div>
-
-                        {/* Mobile Search - Visible only on small screens */}
-                        <div className="sm:hidden bg-[#131921] pb-3 px-3">
-                            <div className="flex h-10 rounded-md overflow-hidden">
+                            {/* Center: Search Bar */}
+                            <div className="flex-1 max-w-2xl hidden md:flex items-center h-10 rounded-full border border-border bg-muted/50 focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all shadow-inner relative">
+                                <div ref={categoryRef} className="h-full border-r border-border hover:bg-muted/80 transition-colors relative flex items-center rounded-l-full">
+                                    <button
+                                        onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                                        className="h-full px-4 pr-8 flex items-center justify-between text-sm font-medium text-foreground outline-none cursor-pointer w-full min-w-[140px] rounded-l-full"
+                                    >
+                                        <span className="truncate">{searchCategory === "All" ? "All Categories" : searchCategory}</span>
+                                        <ChevronDown className={cn("w-3 h-3 absolute right-3 text-muted-foreground transition-transform duration-200", isCategoryOpen ? "rotate-180" : "")} />
+                                    </button>
+                                    
+                                    <AnimatePresence>
+                                        {isCategoryOpen && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                transition={{ duration: 0.15, ease: "easeOut" }}
+                                                className="absolute top-full left-0 mt-2 w-56 bg-background/95 backdrop-blur-xl border border-border rounded-lg shadow-xl overflow-hidden z-50 py-1"
+                                            >
+                                                {categories.map((cat) => (
+                                                    <button
+                                                        key={cat}
+                                                        onClick={() => {
+                                                            setSearchCategory(cat);
+                                                            setIsCategoryOpen(false);
+                                                        }}
+                                                        className={cn(
+                                                            "w-full text-left px-4 py-2.5 text-sm transition-colors",
+                                                            searchCategory === cat 
+                                                                ? "bg-primary/10 text-primary font-medium" 
+                                                                : "text-foreground hover:bg-muted/50"
+                                                        )}
+                                                    >
+                                                        {cat === "All" ? "All Categories" : cat}
+                                                    </button>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
                                 <input
-                                    className="flex-1 px-3 text-black outline-none h-full rounded-l-md bg-white"
+                                    className="flex-1 h-full px-4 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground"
                                     type="text"
-                                    placeholder="Search Amazon.in"
+                                    placeholder="Search for premium products..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                 />
                                 <button
                                     onClick={handleSearch}
-                                    className="bg-[#febd69] px-4 flex items-center justify-center rounded-r-md"
+                                    className="h-full px-5 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center justify-center rounded-r-full"
                                 >
-                                    <Search className="w-6 h-6 text-[#131921]" />
+                                    <Search className="w-4 h-4" />
+                                </button>
+                            </div>
+
+                            {/* Right: Actions */}
+                            <div className="flex items-center gap-1 sm:gap-2">
+                                {/* Admin/Seller Button */}
+                                <Link
+                                    href={
+                                        // @ts-ignore
+                                        session?.user?.role === 'admin' ? '/admin' :
+                                        // @ts-ignore
+                                        session?.user?.role === 'seller' ? '/seller' :
+                                        '/orders'
+                                    }
+                                    className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                                >
+                                    {/* @ts-ignore */}
+                                    {session?.user?.role === 'admin' ? 'Dashboard' :
+                                        // @ts-ignore
+                                        session?.user?.role === 'seller' ? 'Dashboard' :
+                                            'Track Order'}
+                                </Link>
+
+                                <Link href={session ? "/account" : "/auth/signin"} className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors group">
+                                    <User className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
+                                </Link>
+
+                                <Link href="/cart" className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors group">
+                                    <ShoppingCart className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
+                                    {totalItems > 0 && (
+                                        <motion.span 
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            className="absolute top-1 right-0 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm"
+                                        >
+                                            {totalItems}
+                                        </motion.span>
+                                    )}
+                                </Link>
+                                
+                                {/* Mobile Menu Trigger (if no bottom bar for some elements) */}
+                                <button
+                                    onClick={() => setIsNavOpen(true)}
+                                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
+                                >
+                                    <Menu className="w-5 h-5 text-foreground" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile Search Bar (Below Header) */}
+                        <div className="md:hidden px-4 pb-3">
+                            <div className="flex items-center h-10 rounded-full border border-border bg-muted/50 overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all">
+                                <input
+                                    className="flex-1 h-full px-4 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground"
+                                    type="text"
+                                    placeholder="Search Luxe..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                />
+                                <button
+                                    onClick={handleSearch}
+                                    className="h-full px-5 text-muted-foreground hover:text-primary transition-colors flex items-center justify-center"
+                                >
+                                    <Search className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
                     </header>
+                    
+                    {/* Categories Bar (Desktop) */}
+                    <div className="hidden md:block w-full border-b border-border bg-background">
+                        <div className="container mx-auto px-4 py-2.5 flex items-center justify-center gap-8 overflow-x-auto whitespace-nowrap scrollbar-hide text-sm font-medium text-muted-foreground">
+                            <Link href="/products" className="hover:text-primary transition-colors">All Products</Link>
+                            <Link href="/products?sort=best-sellers" className="hover:text-primary transition-colors">Best Sellers</Link>
+                            <Link href="/products?cat=Fashion" className="hover:text-primary transition-colors">Fashion</Link>
+                            <Link href="/products?cat=Electronics" className="hover:text-primary transition-colors">Electronics</Link>
+                            <Link href="/products?cat=Beauty" className="hover:text-primary transition-colors">Beauty & Grooming</Link>
+                            <Link href="/products?cat=Home & Kitchen" className="hover:text-primary transition-colors">Home & Living</Link>
+                            <Link href="/products?cat=Digital Content" className="hover:text-primary transition-colors">Digital Content</Link>
+                        </div>
+                    </div>
+
+                    {/* Mobile Bottom Navigation Bar (Android focus) */}
+                    <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-xl border-t border-border z-50 flex items-center justify-around px-2 pb-safe">
+                        <Link href="/" className="flex flex-col items-center justify-center w-full h-full text-muted-foreground hover:text-primary transition-colors">
+                            <Home className="w-5 h-5 mb-1" />
+                            <span className="text-[10px] font-medium">Home</span>
+                        </Link>
+                        <Link href="/products" className="flex flex-col items-center justify-center w-full h-full text-muted-foreground hover:text-primary transition-colors">
+                            <Search className="w-5 h-5 mb-1" />
+                            <span className="text-[10px] font-medium">Explore</span>
+                        </Link>
+                        <Link href="/cart" className="relative flex flex-col items-center justify-center w-full h-full text-muted-foreground hover:text-primary transition-colors">
+                            <div className="relative">
+                                <ShoppingCart className="w-5 h-5 mb-1" />
+                                {totalItems > 0 && (
+                                    <span className="absolute -top-1 -right-2 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm">
+                                        {totalItems}
+                                    </span>
+                                )}
+                            </div>
+                            <span className="text-[10px] font-medium">Cart</span>
+                        </Link>
+                        <Link href={session ? "/account" : "/auth/signin"} className="flex flex-col items-center justify-center w-full h-full text-muted-foreground hover:text-primary transition-colors">
+                            <User className="w-5 h-5 mb-1" />
+                            <span className="text-[10px] font-medium">Profile</span>
+                        </Link>
+                    </div>
+
                     <NavigationSidebar isOpen={isNavOpen} onClose={() => setIsNavOpen(false)} />
                 </>
             )}

@@ -1,6 +1,6 @@
 # 🛍️ Luxe E-Commerce Platform
 
-A modern, full-featured e-commerce platform built with Next.js 16, featuring real-time order tracking, test payment integration, and a comprehensive admin panel. Inspired by Amazon's user experience with enhanced features.
+A modern, full-featured e-commerce platform built with Next.js 16, featuring real-time order tracking, test payment integration, and a comprehensive admin panel. Inspired by premium luxury user experiences with enhanced features.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
@@ -16,7 +16,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 - **Smart Search**: Category-based search with real-time results
 - **Shopping Cart**: Add, remove, and update quantities with toast notifications
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Amazon-Inspired UI**: Familiar, user-friendly interface
+- **Luxe UI**: Familiar, user-friendly, and modern interface
 - **INR Pricing**: All prices displayed in Indian Rupees (₹)
 
 ### 🔐 Authentication & User Management
@@ -482,7 +482,7 @@ Contributions, issues, and feature requests are welcome!
 
 ## 🙏 Acknowledgments
 
-- UI/UX inspired by Amazon India
+- UI/UX inspired by modern luxury e-commerce platforms
 - Built with Next.js and modern web technologies
 - MongoDB Atlas for cloud database hosting
 - Vercel for seamless deployment

@@ -1,23 +1,48 @@
 'use client';
 
 import { Product } from '@/store/useCartStore';
+import { Button } from "@/components/ui/button";
+import { ProductCard } from "./ProductCard";
+import { motion, Variants } from 'framer-motion';
 
 interface ProductShowcaseProps {
     initialProducts: Product[];
 }
 
-import { Button } from "@/components/ui/button";
-import { ProductCard } from "./ProductCard";
-
 export function ProductShowcase({ initialProducts, title = "Recommended for you" }: ProductShowcaseProps & { title?: string }) {
+    
+    const container: Variants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const item: Variants = {
+        hidden: { opacity: 0, y: 30 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    };
+    
     return (
         <section className="space-y-4">
-            <h2 className="text-2xl font-bold">{title}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {title && <h2 className="text-2xl font-bold">{title}</h2>}
+            <motion.div 
+                key={initialProducts.map(p => p.id).join('-')}
+                variants={container}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+            >
                 {initialProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <motion.div key={product.id} variants={item}>
+                        <ProductCard product={product} />
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </section>
     );
 }

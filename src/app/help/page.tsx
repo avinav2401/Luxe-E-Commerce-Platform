@@ -48,7 +48,7 @@ export default function CustomerServicePage() {
                         <HelpTopic title="Security & Privacy" />
                         <HelpTopic title="Payment, Pricing & Promotions" />
                         <HelpTopic title="Devices & Digital Services" />
-                        <HelpTopic title="Amazon Business" />
+                        <HelpTopic title="Luxe Business" />
                         <HelpTopic title="Other Topics" />
                     </div>
                 </div>

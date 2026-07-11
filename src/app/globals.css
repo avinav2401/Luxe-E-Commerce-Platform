@@ -3,6 +3,7 @@
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -32,78 +33,71 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
-  --animate-fade-in: fade-in 0.3s ease-in-out;
+  --animate-fade-in: fade-in 0.5s ease-out;
 }
 
 :root {
-  /* Amazon-like Palette */
-  --background: 210 20% 96%;
-  /* #EAEDED - Light Gray Background */
-  --foreground: 210 20% 10%;
-  /* Dark Text */
+  /* Classic Luxury Palette (Light Mode) */
+  --background: 40 20% 98%; /* Warm, creamy off-white */
+  --foreground: 0 0% 10%; /* Very dark, almost black for contrast */
 
   --card: 0 0% 100%;
-  /* White Cards */
-  --card-foreground: 210 20% 10%;
+  --card-foreground: 0 0% 10%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 210 20% 10%;
+  --popover-foreground: 0 0% 10%;
 
-  --primary: 213 28% 13%;
-  /* #131921 - Dark Blue/Black Nav */
+  --primary: 43 74% 49%; /* Classic Gold #D4AF37 */
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 44 98% 50%;
-  /* #FFD814 - Amazon Yellow Button */
-  --secondary-foreground: 210 20% 10%;
+  --secondary: 40 10% 90%; /* Soft warm gray */
+  --secondary-foreground: 0 0% 15%;
 
-  --muted: 220 10% 94%;
-  --muted-foreground: 220 10% 40%;
+  --muted: 40 10% 93%;
+  --muted-foreground: 40 5% 45%;
 
-  --accent: 195 100% 36%;
-  /* #232F3E - Lighter Nav Blue */
-  --accent-foreground: 0 0% 100%;
+  --accent: 43 30% 90%; /* Light gold accent */
+  --accent-foreground: 43 74% 35%; /* Deep gold text */
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 220 13% 85%;
-  --input: 220 13% 90%;
-  --ring: 36 100% 50%;
-  /* Focus Ring Orange */
+  --border: 40 15% 85%;
+  --input: 40 15% 85%;
+  --ring: 43 74% 49%; /* Gold focus ring */
 
-  --radius: 0.25rem;
-  /* Small radius */
+  --radius: 0rem; /* Classic luxury often uses sharp edges or very subtle rounding, going for 0rem for elegance */
 }
 
 .dark {
-  --background: 213 28% 13%;
-  --foreground: 0 0% 98%;
+  /* Classic Luxury Palette (Dark Mode) */
+  --background: 0 0% 6%; /* Deep rich black */
+  --foreground: 40 20% 95%; /* Creamy white text */
 
-  --card: 213 25% 18%;
-  --card-foreground: 0 0% 98%;
+  --card: 0 0% 9%; /* Slightly lighter than background */
+  --card-foreground: 40 20% 95%;
 
-  --popover: 213 25% 18%;
-  --popover-foreground: 0 0% 98%;
+  --popover: 0 0% 9%;
+  --popover-foreground: 40 20% 95%;
 
-  --primary: 0 0% 100%;
-  --primary-foreground: 213 28% 13%;
+  --primary: 43 60% 60%; /* Soft elegant gold for dark mode */
+  --primary-foreground: 0 0% 10%;
 
-  --secondary: 44 98% 50%;
-  --secondary-foreground: 210 20% 10%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 40 20% 90%;
 
-  --muted: 213 25% 25%;
-  --muted-foreground: 213 10% 60%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 40 10% 60%;
 
-  --accent: 213 25% 25%;
-  --accent-foreground: 0 0% 98%;
+  --accent: 43 30% 15%;
+  --accent-foreground: 43 60% 70%;
 
   --destructive: 0 63% 31%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 213 25% 25%;
-  --input: 213 25% 25%;
-  --ring: 36 100% 50%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 43 60% 60%;
 }
 
 @layer base {
@@ -112,14 +106,14 @@
   }
 
   body {
-    @apply bg-[#E3E6E6] text-[#0F1111] antialiased;
-    font-family: "Amazon Ember", Arial, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar for Luxury Vibe */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -127,20 +121,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 4px;
+  background: hsl(var(--primary) / 0.5);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(var(--primary) / 0.8);
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
+    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }

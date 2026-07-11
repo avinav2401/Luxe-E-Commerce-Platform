@@ -242,4 +242,44 @@ export const products = [
         rating: 4.7,
         reviews: 2100
     },
+    {
+        id: '25',
+        name: 'Luxe Video Subscription (1 Year)',
+        price: 119.99,
+        description: 'Unlimited ad-free streaming of exclusive movies, TV shows, and original luxury content.',
+        image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80',
+        category: 'Digital Content',
+        rating: 4.8,
+        reviews: 14500
+    },
+    {
+        id: '26',
+        name: 'Luxe Music Premium Individual',
+        price: 9.99,
+        description: 'Stream millions of songs in lossless high-definition audio, completely ad-free.',
+        image: 'https://images.unsplash.com/photo-1614145121029-83a9f7b68bf4?auto=format&fit=crop&w=800&q=80',
+        category: 'Digital Content',
+        rating: 4.6,
+        reviews: 22000
+    },
+    {
+        id: '27',
+        name: 'Luxe Audiobooks All-Access Pass',
+        price: 14.99,
+        description: 'Listen to thousands of premium audiobooks narrated by top voice actors and celebrities.',
+        image: 'https://images.unsplash.com/photo-1589998059171-989d887dda6e?auto=format&fit=crop&w=800&q=80',
+        category: 'Digital Content',
+        rating: 4.9,
+        reviews: 8400
+    },
+    {
+        id: '28',
+        name: 'Luxe Echo Studio - High-Fidelity Smart Speaker',
+        price: 199.99,
+        description: 'Immersive sound with spatial audio technology and built-in smart home hub.',
+        image: 'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=800&q=80',
+        category: 'Electronics',
+        rating: 4.7,
+        reviews: 6200
+    }
 ];

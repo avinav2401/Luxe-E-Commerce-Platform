@@ -62,9 +62,9 @@ export default async function ShopPage(props: { searchParams: Promise<SearchPara
         title = "Today's Deals";
     }
 
-    // Filter by Prime (Mock)
+    // Filter by Luxe Delivery (Mock)
     if (prime === 'true') {
-        title = "Prime-Eligible Items";
+        title = "Luxe Delivery Eligible Items";
         // Mock prime: Filter by random subset (e.g. every other item)
         // Using index logic requires index, so create new array
         products = products.filter((_: any, i: number) => i % 2 === 0);
