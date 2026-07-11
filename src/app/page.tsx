@@ -66,7 +66,7 @@ export default async function Home() {
               </div>
           </FadeIn>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {/* Category 1 */}
             <FadeIn delay={0.1}>
                 <Link href="/products?cat=Fashion" className="group flex flex-col gap-4">
