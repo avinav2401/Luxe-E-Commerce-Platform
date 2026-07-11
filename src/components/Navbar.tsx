@@ -228,10 +228,12 @@ export function Navbar() {
                             </div>
                         </div>
                         {/* Mobile Deliver To Bar */}
-                        <Link href="/account" className="md:hidden flex items-center gap-2 px-4 pb-3 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                            <MapPin className="w-3.5 h-3.5" />
-                            <span className="truncate">Deliver to <span className="font-medium text-foreground">{deliveryLocation ? `${deliveryLocation.city}` : 'Select location'}</span></span>
-                        </Link>
+                        <div className="md:hidden w-full bg-secondary/30 border-t border-border mt-1">
+                            <Link href="/account" className="flex items-center gap-2 px-4 py-2.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                                <MapPin className="w-3.5 h-3.5" />
+                                <span className="truncate">Deliver to <span className="font-medium text-foreground">{deliveryLocation ? `${deliveryLocation.city}` : 'Select location'}</span></span>
+                            </Link>
+                        </div>
                     </header>
                     
                     {/* Categories Bar (Desktop) */}

@@ -30,10 +30,10 @@ export function Footer() {
 
                     <div className="flex flex-col gap-3">
                         <h3 className="font-bold text-base mb-2">Company</h3>
-                        <Link href="#" className="hover:text-primary transition-colors text-muted-foreground">About Us</Link>
-                        <Link href="#" className="hover:text-primary transition-colors text-muted-foreground">Careers</Link>
-                        <Link href="#" className="hover:text-primary transition-colors text-muted-foreground">Sustainability</Link>
-                        <Link href="#" className="hover:text-primary transition-colors text-muted-foreground">Press</Link>
+                        <Link href="/about" className="hover:text-primary transition-colors text-muted-foreground">About Us</Link>
+                        <Link href="/careers" className="hover:text-primary transition-colors text-muted-foreground">Careers</Link>
+                        <Link href="/sustainability" className="hover:text-primary transition-colors text-muted-foreground">Sustainability</Link>
+                        <Link href="/press" className="hover:text-primary transition-colors text-muted-foreground">Press</Link>
                     </div>
 
                     <div className="flex flex-col gap-3">
@@ -47,13 +47,13 @@ export function Footer() {
                     <div className="flex flex-col gap-3">
                         <h3 className="font-bold text-base mb-2">Connect</h3>
                         <div className="flex items-center gap-4 text-muted-foreground">
-                            <Link href="#" className="hover:text-primary transition-colors">
+                            <Link href="https://instagram.com" className="hover:text-primary transition-colors">
                                 <Instagram className="w-5 h-5" />
                             </Link>
-                            <Link href="#" className="hover:text-primary transition-colors">
+                            <Link href="https://twitter.com" className="hover:text-primary transition-colors">
                                 <Twitter className="w-5 h-5" />
                             </Link>
-                            <Link href="#" className="hover:text-primary transition-colors">
+                            <Link href="https://facebook.com" className="hover:text-primary transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </Link>
                             <Link href="https://github.com/avinav2401" className="hover:text-primary transition-colors">
@@ -74,9 +74,9 @@ export function Footer() {
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-6 text-xs text-muted-foreground">
-                        <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
-                        <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-primary transition-colors">Cookie Policy</Link>
+                        <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+                        <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+                        <Link href="/cookies" className="hover:text-primary transition-colors">Cookie Policy</Link>
                     </div>
                     
                     <p className="text-xs text-muted-foreground">
