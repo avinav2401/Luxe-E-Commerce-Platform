@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Package, Smartphone, Lock, MapPin, CreditCard, LogOut, ShieldAlert } from 'lucide-react';
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
 export default function AccountPage() {
@@ -34,7 +34,7 @@ export default function AccountPage() {
         { icon: Smartphone, title: 'Contact Us', desc: 'Contact our customer service via phone or chat', href: '/account/contact' },
     ];
 
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -42,7 +42,7 @@ export default function AccountPage() {
         }
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
     };

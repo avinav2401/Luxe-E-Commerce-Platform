@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, ChevronLeft, CreditCard, Sparkles } from 'lucide-react';
+import { Trash2, ChevronLeft, CreditCard, Sparkles, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
