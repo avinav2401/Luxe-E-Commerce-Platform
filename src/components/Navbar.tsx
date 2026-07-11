@@ -84,7 +84,7 @@ export function Navbar() {
                             <div className="flex items-center gap-4">
                                 <button
                                     onClick={() => setIsNavOpen(true)}
-                                    className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
+                                    className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
                                 >
                                     <Menu className="w-5 h-5 text-foreground" />
                                 </button>
@@ -205,14 +205,6 @@ export function Navbar() {
                                         )}
                                     </Link>
                                 </motion.div>
-                                
-                                {/* Mobile Menu Trigger (if no bottom bar for some elements) */}
-                                <button
-                                    onClick={() => setIsNavOpen(true)}
-                                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors"
-                                >
-                                    <Menu className="w-5 h-5 text-foreground" />
-                                </button>
                             </div>
                         </div>
 
