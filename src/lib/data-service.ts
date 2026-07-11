@@ -20,14 +20,20 @@ export async function getProducts() {
             _id: undefined,
         }));
 
-        // Always combine database products with static products
-        // This ensures default products always show even after sellers add their own
+        // Ensure static products act as the source of truth for base items.
+        // Filter out any DB products that have the same name as a static product
+        // to prevent duplicates and serve the freshest static data (e.g., fixed image URLs).
+        const staticProductsData = JSON.parse(JSON.stringify(staticProducts));
+        const staticProductNames = new Set(staticProductsData.map((p: any) => p.name));
+        
+        const filteredDbProducts = formattedDbProducts.filter((p: any) => !staticProductNames.has(p.name));
+
         const allProducts = [
-            ...formattedDbProducts,
-            ...JSON.parse(JSON.stringify(staticProducts))
+            ...filteredDbProducts,
+            ...staticProductsData
         ];
 
-        console.log(`✅ Serving ${formattedDbProducts.length} DB products + ${staticProducts.length} static products`);
+        console.log(`✅ Serving ${filteredDbProducts.length} custom DB products + ${staticProductsData.length} base static products`);
         return allProducts;
 
     } catch (error) {
