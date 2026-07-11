@@ -174,13 +174,16 @@ export function Navbar() {
                                         session?.user?.role === 'seller' ? '/seller' :
                                         '/orders'
                                     }
-                                    className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                                    className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
                                 >
-                                    {/* @ts-ignore */}
-                                    {session?.user?.role === 'admin' ? 'Dashboard' :
-                                        // @ts-ignore
-                                        session?.user?.role === 'seller' ? 'Dashboard' :
-                                            'Track Order'}
+                                    <LayoutDashboard className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                    <span>
+                                        {/* @ts-ignore */}
+                                        {session?.user?.role === 'admin' ? 'Admin' :
+                                            // @ts-ignore
+                                            session?.user?.role === 'seller' ? 'Dashboard' :
+                                                'Orders'}
+                                    </span>
                                 </Link>
 
                                 <Link href={session ? "/account" : "/auth/signin"} className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-muted transition-colors group">
