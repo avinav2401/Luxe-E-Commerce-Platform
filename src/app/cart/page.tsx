@@ -43,9 +43,9 @@ export default function CartPage() {
 
                     <div className="space-y-6">
                         {cart.map((item) => (
-                            <div key={item.id} className="flex flex-col sm:flex-row gap-6 border-b border-border pb-6 last:border-0 relative">
+                            <div key={item.id} className="flex flex-row gap-4 sm:gap-6 border-b border-border pb-6 last:border-0 relative">
                                 {/* Image */}
-                                <div className="relative w-32 h-32 flex-shrink-0 bg-secondary/30 rounded-xl overflow-hidden p-2">
+                                <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 bg-secondary/30 rounded-xl overflow-hidden p-2">
                                     <Image
                                         src={item.image}
                                         alt={item.name}

@@ -30,8 +30,8 @@ export function ProductCard({ product }: ProductCardProps) {
                 />
             </div>
 
-            <div className="flex-1 flex flex-col gap-1.5">
-                <h3 className="text-base font-serif font-semibold leading-snug text-foreground hover:text-primary cursor-pointer line-clamp-2 transition-colors">
+            <div className="flex-1 flex flex-col gap-1 sm:gap-1.5">
+                <h3 className="text-sm sm:text-base font-serif font-semibold leading-snug text-foreground hover:text-primary cursor-pointer line-clamp-2 transition-colors">
                     {product.name}
                 </h3>
 
@@ -42,11 +42,11 @@ export function ProductCard({ product }: ProductCardProps) {
                     <span className="text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer">4,289 reviews</span>
                 </div>
 
-                <div className="flex items-baseline gap-1 my-1">
+                <div className="flex flex-wrap items-baseline gap-1 my-1">
                     <span className="text-[10px] text-muted-foreground relative top-[-0.3em]">₹</span>
-                    <span className="text-[22px] font-bold text-foreground leading-none tracking-tight">{Math.floor(product.price * 80).toLocaleString('en-IN')}</span>
+                    <span className="text-lg sm:text-[22px] font-bold text-foreground leading-none tracking-tight">{Math.floor(product.price * 80).toLocaleString('en-IN')}</span>
                     <span className="text-[10px] text-muted-foreground relative top-[-0.3em]">00</span>
-                    <span className="text-[11px] text-muted-foreground ml-1.5">
+                    <span className="text-[9px] sm:text-[11px] text-muted-foreground sm:ml-1.5 w-full sm:w-auto">
                         M.R.P: <span className="line-through">₹{Math.floor(product.price * 100).toLocaleString('en-IN')}</span> <span className="text-primary font-medium">({Math.floor(20)}% off)</span>
                     </span>
                 </div>
