@@ -17,10 +17,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Forbidden: Seller access required' }, { status: 403 });
         }
 
-        const { name, description, price, category, image, stock } = await req.json();
+        const { name, description, price, category, image, stock, discount, rating, reviews } = await req.json();
 
         if (!name || !description || !price || !category || !image) {
-            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         await connectToDatabase();
@@ -28,10 +28,13 @@ export async function POST(req: Request) {
         const newProduct = await Product.create({
             name,
             description,
-            price,
+            price: Number(price),
             category,
             image,
-            stock: stock || 0,
+            stock: Number(stock) || 0,
+            discount: discount ? Number(discount) : 20,
+            rating: rating ? Number(rating) : (Math.random() * (5 - 3.5) + 3.5),
+            reviews: reviews ? Number(reviews) : Math.floor(Math.random() * 5000),
             seller: session.user.id
         });
 

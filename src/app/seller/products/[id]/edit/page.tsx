@@ -22,7 +22,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         price: '',
         category: '',
         image: '',
-        stock: ''
+        stock: '',
+        discount: '',
+        rating: '',
+        reviews: ''
     });
 
     useEffect(() => {
@@ -53,7 +56,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                     price: (data.product.price * 80).toString(), // Convert USD back to INR for the form
                     category: data.product.category,
                     image: data.product.image,
-                    stock: data.product.stock.toString()
+                    stock: data.product.stock.toString(),
+                    discount: data.product.discount?.toString() || '20',
+                    rating: data.product.rating?.toString() || '4.5',
+                    reviews: data.product.reviews?.toString() || '0'
                 });
             } else {
                 toast.error('Failed to load product');
@@ -92,7 +98,10 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                 body: JSON.stringify({
                     ...formData,
                     price: parseFloat(formData.price) / 80, // Convert INR to USD
-                    stock: parseInt(formData.stock)
+                    stock: parseInt(formData.stock),
+                    discount: formData.discount ? parseInt(formData.discount) : 20,
+                    rating: formData.rating ? parseFloat(formData.rating) : undefined,
+                    reviews: formData.reviews ? parseInt(formData.reviews) : undefined
                 })
             });
 
@@ -172,6 +181,49 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
                             value={formData.stock}
                             onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                             placeholder="0"
+                        />
+                    </div>
+                </div>
+
+                {/* Discount, Rating, Reviews */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Discount % (Optional)
+                        </label>
+                        <Input
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={formData.discount}
+                            onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
+                            placeholder="e.g. 20"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Rating (Optional)
+                        </label>
+                        <Input
+                            type="number"
+                            step="0.1"
+                            min="1"
+                            max="5"
+                            value={formData.rating}
+                            onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
+                            placeholder="e.g. 4.5"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Reviews (Optional)
+                        </label>
+                        <Input
+                            type="number"
+                            min="0"
+                            value={formData.reviews}
+                            onChange={(e) => setFormData({ ...formData, reviews: e.target.value })}
+                            placeholder="e.g. 120"
                         />
                     </div>
                 </div>

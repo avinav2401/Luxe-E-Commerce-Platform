@@ -7,6 +7,9 @@ export interface IProduct extends Document {
     category: string;
     image: string;
     stock: number;
+    discount?: number;
+    rating?: number;
+    reviews?: number;
     seller?: mongoose.Types.ObjectId;
 }
 
@@ -17,6 +20,9 @@ const ProductSchema = new Schema({
     category: { type: String, required: true },
     image: { type: String, required: true },
     stock: { type: Number, default: 0 },
+    discount: { type: Number, default: 20 },
+    rating: { type: Number, default: 0 },
+    reviews: { type: Number, default: 0 },
     seller: { type: Schema.Types.ObjectId, ref: 'User', required: false },
 }, { timestamps: true });
 
