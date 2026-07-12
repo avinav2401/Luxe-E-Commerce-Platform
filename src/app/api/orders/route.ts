@@ -37,12 +37,17 @@ export async function POST(req: Request) {
         
         for (const item of items) {
             const productMatch = allProducts.find((p: any) => p.id === item.id);
-            const truePrice = productMatch ? productMatch.price : item.price;
+
+            if (!productMatch) {
+                return NextResponse.json({ message: `Product ${item.name || item.id} is no longer available.` }, { status: 400 });
+            }
+
+            const truePrice = productMatch.price;
             
             // Check for overselling (only for database products)
             if (item.id.match(/^[0-9a-fA-F]{24}$/)) {
-                if (!productMatch || productMatch.stock < item.quantity) {
-                    return NextResponse.json({ message: `Insufficient stock for product ${productMatch?.name || item.id}` }, { status: 400 });
+                if (productMatch.stock < item.quantity) {
+                    return NextResponse.json({ message: `Insufficient stock for product ${productMatch.name}` }, { status: 400 });
                 }
             }
 

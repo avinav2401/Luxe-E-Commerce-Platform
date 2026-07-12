@@ -142,19 +142,25 @@ export default function SignInPage() {
                     </Link>
                 </div>
 
-                {/* Admin Help Box */}
-                <div className="mt-6 bg-blue-50/50 border border-blue-100 rounded-lg p-3 text-center">
-                    <p className="text-xs text-blue-800 mb-2">
-                        <strong>Admin Access:</strong> If you need to test admin features, please generate an admin account first by visiting the{' '}
-                        <Link href="/create-admin" className="font-bold underline hover:text-blue-600">
-                            /create-admin
-                        </Link>{' '}
-                        page.
-                    </p>
-                    <p className="text-xs text-blue-900 font-medium">
-                        Then log in with: admin@luxe.com / admin123
-                    </p>
+                {/* Demo Credentials Box */}
+                <div className="mt-4 space-y-2">
+                    <div className="bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                        <p className="text-xs font-bold text-blue-800 dark:text-blue-300 mb-1">🛡️ Admin Login</p>
+                        <p className="text-xs text-blue-700 dark:text-blue-400">Email: <span className="font-mono font-semibold">admin@luxe.com</span></p>
+                        <p className="text-xs text-blue-700 dark:text-blue-400">Password: <span className="font-mono font-semibold">admin123</span></p>
+                    </div>
+                    <div className="bg-green-50/60 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                        <p className="text-xs font-bold text-green-800 dark:text-green-300 mb-1">🏪 Seller Login</p>
+                        <p className="text-xs text-green-700 dark:text-green-400">Email: <span className="font-mono font-semibold">seller@luxe.com</span></p>
+                        <p className="text-xs text-green-700 dark:text-green-400">Password: <span className="font-mono font-semibold">seller123</span></p>
+                    </div>
+                    <div className="bg-muted/50 border border-border rounded-lg p-3">
+                        <p className="text-xs font-bold text-foreground mb-1">👤 User Login</p>
+                        <p className="text-xs text-muted-foreground">Email: <span className="font-mono font-semibold">user@luxe.com</span></p>
+                        <p className="text-xs text-muted-foreground">Password: <span className="font-mono font-semibold">user123</span></p>
+                    </div>
                 </div>
+
             </div>
         </div>
     );

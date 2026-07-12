@@ -3,7 +3,6 @@
 import { X, User, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { useSession, signOut } from 'next-auth/react';
 
 interface NavigationSidebarProps {

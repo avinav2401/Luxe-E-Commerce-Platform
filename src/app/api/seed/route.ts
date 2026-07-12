@@ -4,6 +4,11 @@ import Product from '@/models/Product';
 import { products as staticProducts } from '@/data/products';
 
 export async function GET() {
+    // Disallow seeding in production
+    if (process.env.NODE_ENV === 'production') {
+        return NextResponse.json({ message: 'Forbidden: Seeding is not allowed in production.' }, { status: 403 });
+    }
+
     try {
         await connectToDatabase();
 

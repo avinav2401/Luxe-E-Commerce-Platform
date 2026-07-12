@@ -1,7 +1,6 @@
 'use client';
 
 import { Product } from '@/store/useCartStore';
-import { Button } from "@/components/ui/button";
 import { ProductCard } from "./ProductCard";
 import { motion, Variants } from 'framer-motion';
 

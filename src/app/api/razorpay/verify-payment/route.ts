@@ -61,7 +61,12 @@ export async function POST(req: Request) {
             }
 
             const productMatch = allProducts.find((p: any) => p.id === item.id);
-            const truePrice = productMatch ? productMatch.price : item.price;
+            
+            if (!productMatch) {
+                return NextResponse.json({ message: `Product ${item.name || item.id} is no longer available.` }, { status: 400 });
+            }
+            
+            const truePrice = productMatch.price;
             
             // Check for overselling (only for database products)
             if (item.id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -89,7 +94,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Razorpay order not found' }, { status: 400 });
         }
 
-        if (Math.round(secureTotal * 100) !== razorpayOrder.amount) {
+        // secureTotal is in USD. Convert to INR (x80) and then to paise (x100) to match Razorpay.
+        const secureTotalPaise = Math.round(secureTotal * 80 * 100);
+
+        if (secureTotalPaise !== razorpayOrder.amount) {
+            console.error(`Amount mismatch. Expected: ${secureTotalPaise}, Received: ${razorpayOrder.amount}`);
             return NextResponse.json({ message: 'Amount mismatch: Possible payment spoofing detected.' }, { status: 400 });
         }
 

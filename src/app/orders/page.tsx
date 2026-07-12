@@ -9,6 +9,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { OrderTrackingTimeline } from '@/components/OrderTrackingTimeline';
 import { getStatusColor, getStatusLabel, formatOrderDate } from '@/lib/orderUtils';
 import { Package } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function OrdersPage() {
     const { data: session, status } = useSession();
@@ -42,9 +43,9 @@ export default function OrdersPage() {
     const handleBuyAgain = (productDetails: any) => {
         if (productDetails) {
             addToCart(productDetails);
-            alert(`${productDetails.name} added to cart!`);
+            toast.success(`${productDetails.name} added to cart!`);
         } else {
-            alert('Product not found');
+            toast.error('Product is no longer available.');
         }
     };
 
@@ -158,7 +159,7 @@ export default function OrdersPage() {
                                                             Buy it again
                                                         </button>
                                                         <Link
-                                                            href={`/?product=${item.product}`}
+                                                            href={`/products/${item.product}`}
                                                             className="border border-[#D5D9D9] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-gray-50 flex items-center"
                                                         >
                                                             View your item

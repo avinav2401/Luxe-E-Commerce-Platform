@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Product, useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -21,19 +22,21 @@ export function ProductCard({ product }: ProductCardProps) {
 
     return (
         <div className="bg-background border border-border rounded-lg p-4 flex flex-col h-full hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            <div className="aspect-square relative mb-4 bg-muted/30 rounded-md p-4 flex items-center justify-center overflow-hidden">
+            <Link href={`/products/${product.id}`} className="aspect-square relative mb-4 bg-muted/30 rounded-md p-4 flex items-center justify-center overflow-hidden block">
                 <Image
                     src={product.image}
                     alt={product.name}
                     fill
                     className="object-contain mix-blend-multiply hover:scale-105 transition-transform duration-500"
                 />
-            </div>
+            </Link>
 
             <div className="flex-1 flex flex-col gap-1 sm:gap-1.5">
-                <h3 className="text-sm sm:text-base font-serif font-semibold leading-snug text-foreground hover:text-primary cursor-pointer line-clamp-2 transition-colors">
-                    {product.name}
-                </h3>
+                <Link href={`/products/${product.id}`}>
+                    <h3 className="text-sm sm:text-base font-serif font-semibold leading-snug text-foreground hover:text-primary cursor-pointer line-clamp-2 transition-colors">
+                        {product.name}
+                    </h3>
+                </Link>
 
                 <div className="flex items-center gap-1.5">
                     <div className="flex text-primary text-sm">
