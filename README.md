@@ -14,6 +14,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 ### 🛒 Shopping Experience
 - **Dynamic Product Catalog**: Browse products with advanced filtering and sorting
 - **Smart Search**: Category-based search with real-time results
+- **Live Cart Synchronization**: Cart items automatically sync with real-time database stock levels
 - **Shopping Cart**: Add, remove, and update quantities with toast notifications
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Luxe UI**: Familiar, user-friendly, and modern interface
@@ -31,6 +32,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 - **Razorpay Integration**: Real payment gateway for India
 - **Mock Payment**: Instant testing without external setup
 - **Secure Checkout**: Multi-step checkout process
+- **Robust Inventory Validation**: Strict server-side stock checks before payment initialization
 - **Payment Success Page**: Order confirmation with confetti animation
 - **INR Transactions**: All payments processed in Indian Rupees
 
