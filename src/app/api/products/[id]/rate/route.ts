@@ -5,7 +5,7 @@ import connectToDatabase from '@/lib/mongoose';
 import Product from '@/models/Product';
 import Order from '@/models/Order';
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const session = await getServerSession(authOptions);
 
@@ -21,7 +21,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
         await connectToDatabase();
 
-        const productId = params.id;
+        const { id: productId } = await params;
         const userId = session.user.id;
 
         // Verify the user has actually purchased this product and the order is delivered
