@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus, Minus } from 'lucide-react';
@@ -9,8 +10,33 @@ import { useRouter } from 'next/navigation';
 import { products } from '@/data/products';
 
 export default function CartPage() {
-    const { cart, totalPrice, updateQuantity, removeFromCart } = useCartStore();
+    const { cart, totalPrice, updateQuantity, removeFromCart, syncCart } = useCartStore();
     const router = useRouter();
+
+    // Sync cart with live DB data on load
+    useEffect(() => {
+        const fetchLiveStock = async () => {
+            if (cart.length === 0) return;
+            try {
+                const ids = cart.map(item => item.id);
+                const res = await fetch('/api/products/batch', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ids })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.products) {
+                        syncCart(data.products);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to sync cart data:', error);
+            }
+        };
+
+        fetchLiveStock();
+    }, []); // Run once on mount
 
     const subtotal = totalPrice();
     const hasOutOfStockItems = cart.some(item => item.stock !== undefined && item.stock <= 0);

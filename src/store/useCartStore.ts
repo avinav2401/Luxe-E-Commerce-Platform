@@ -23,6 +23,7 @@ interface CartState {
     addToCart: (product: Product) => void;
     removeFromCart: (productId: string) => void;
     updateQuantity: (productId: string, quantity: number) => void;
+    syncCart: (liveProducts: Product[]) => void;
     clearCart: () => void;
     totalItems: () => number;
     totalPrice: () => number;
@@ -53,6 +54,16 @@ export const useCartStore = create<CartState>()(
                     item.id === productId ? { ...item, quantity: Math.max(0, quantity) } : item
                 ).filter(item => item.quantity > 0),
             })),
+            syncCart: (liveProducts) => set((state) => {
+                const updatedCart = state.cart.map(item => {
+                    const liveItem = liveProducts.find(p => p.id === item.id);
+                    if (liveItem) {
+                        return { ...item, stock: liveItem.stock, price: liveItem.price };
+                    }
+                    return item;
+                });
+                return { cart: updatedCart };
+            }),
             clearCart: () => set({ cart: [] }),
             totalItems: () => get().cart.reduce((acc, item) => acc + item.quantity, 0),
             totalPrice: () => get().cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
