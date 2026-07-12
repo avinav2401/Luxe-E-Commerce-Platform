@@ -207,6 +207,10 @@ export default function ProfilePage() {
     };
 
     const getSellerDisplay = () => {
+        if (session?.user?.role === 'admin' || userData?.role === 'admin') {
+            return null;
+        }
+
         const status = userData?.sellerStatus || 'none';
         
         switch (status) {
@@ -480,14 +484,16 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Seller Account Status */}
-                    <div className="p-4 bg-white hover:bg-gray-50 transition-colors rounded-b-lg border-t border-[#D5D9D9]">
-                        <div className="flex justify-between items-start">
-                            <div className="flex-1">
-                                <div className="font-bold text-sm mb-2">Seller Account</div>
-                                {getSellerDisplay()}
+                    {session?.user?.role !== 'admin' && userData?.role !== 'admin' && (
+                        <div className="p-4 bg-white hover:bg-gray-50 transition-colors rounded-b-lg border-t border-[#D5D9D9]">
+                            <div className="flex justify-between items-start">
+                                <div className="flex-1">
+                                    <div className="font-bold text-sm mb-2">Seller Account</div>
+                                    {getSellerDisplay()}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 <div className="mt-6">
