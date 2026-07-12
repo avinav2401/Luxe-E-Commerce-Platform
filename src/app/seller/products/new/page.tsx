@@ -20,9 +20,7 @@ export default function AddProductPage() {
         category: '',
         image: '',
         stock: '',
-        discount: '',
-        rating: '',
-        reviews: ''
+        discount: ''
     });
 
     if (status === 'loading') {
@@ -53,9 +51,7 @@ export default function AddProductPage() {
                     ...formData,
                     price: parseFloat(formData.price) / 80, // Convert INR to USD
                     stock: parseInt(formData.stock),
-                    discount: formData.discount ? parseInt(formData.discount) : 20,
-                    rating: formData.rating ? parseFloat(formData.rating) : undefined,
-                    reviews: formData.reviews ? parseInt(formData.reviews) : undefined
+                    discount: formData.discount ? parseInt(formData.discount) : 20
                 })
             });
 
@@ -152,32 +148,6 @@ export default function AddProductPage() {
                             value={formData.discount}
                             onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
                             placeholder="e.g. 20"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Rating (Optional)
-                        </label>
-                        <Input
-                            type="number"
-                            step="0.1"
-                            min="1"
-                            max="5"
-                            value={formData.rating}
-                            onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
-                            placeholder="e.g. 4.5"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Reviews (Optional)
-                        </label>
-                        <Input
-                            type="number"
-                            min="0"
-                            value={formData.reviews}
-                            onChange={(e) => setFormData({ ...formData, reviews: e.target.value })}
-                            placeholder="e.g. 120"
                         />
                     </div>
                 </div>
