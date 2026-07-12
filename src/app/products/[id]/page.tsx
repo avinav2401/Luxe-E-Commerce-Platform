@@ -3,6 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ProductDetailsClient } from "@/app/products/[id]/ProductDetailsClient";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const { id } = await params;
@@ -45,6 +47,11 @@ export default async function ProductDetailPage({
         <div className="min-h-screen bg-background">
             <div className="pt-4 transition-all duration-300">
                 <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+                    <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
+                        <ChevronLeft className="w-4 h-4 mr-1" />
+                        Back to Shopping
+                    </Link>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
                         {/* Left Side: Product Image */}
                         <div className="bg-muted/30 border border-border rounded-2xl p-8 flex items-center justify-center min-h-[400px] relative overflow-hidden">
