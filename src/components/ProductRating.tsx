@@ -29,7 +29,7 @@ export function ProductRating({ productId }: ProductRatingProps) {
                 setSubmitted(true);
                 toast.success('Thanks for your rating!');
             } else {
-                toast.error(data.message || 'Failed to submit rating');
+                toast.error(data.error ? `Error: ${data.error}` : (data.message || 'Failed to submit rating'));
             }
         } catch (error) {
             toast.error('An error occurred while submitting rating');
