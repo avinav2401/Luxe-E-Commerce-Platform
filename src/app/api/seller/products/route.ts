@@ -23,6 +23,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
+        if (Number(price) <= 0 || Number(stock) < 0 || Number(discount) < 0 || Number(discount) > 20) {
+            return NextResponse.json({ error: 'Price, stock must be non-negative. Discount must be between 0 and 20.' }, { status: 400 });
+        }
+
         await connectToDatabase();
 
         const newProduct = await Product.create({
@@ -32,9 +36,9 @@ export async function POST(req: Request) {
             category,
             image,
             stock: Number(stock) || 0,
-            discount: discount ? Number(discount) : 20,
-            rating: rating ? Number(rating) : (Math.random() * (5 - 3.5) + 3.5),
-            reviews: reviews ? Number(reviews) : Math.floor(Math.random() * 5000),
+            discount: discount ? Number(discount) : 0,
+            rating: 0,
+            reviews: 0,
             seller: session.user.id
         });
 
@@ -64,7 +68,7 @@ export async function GET() {
 
         await connectToDatabase();
 
-        const products = await Product.find({ seller: session.user.id }).sort({ createdAt: -1 });
+        const products = await Product.find({ seller: session.user.id, isDeleted: { $ne: true } }).sort({ createdAt: -1 });
 
         return NextResponse.json({ products }, { status: 200 });
 

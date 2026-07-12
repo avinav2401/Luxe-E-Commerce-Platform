@@ -11,7 +11,7 @@ export async function getProducts() {
 
     try {
         await connectToDatabase();
-        const dbProducts = await Product.find({}).lean();
+        const dbProducts = await Product.find({ isDeleted: { $ne: true } }).lean();
 
         // Convert _id to string id for frontend compatibility
         const formattedDbProducts = dbProducts.map((p: any) => ({

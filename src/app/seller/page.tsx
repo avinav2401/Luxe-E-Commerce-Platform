@@ -202,7 +202,16 @@ export default function SellerDashboard() {
                                         <div key={order._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                                             <div className="flex-1">
                                                 <p className="font-medium text-gray-900">Order #{order._id.substring(0, 8)}...</p>
-                                                <p className="text-sm text-gray-600">{order.items.length} item(s)</p>
+                                                <p className="text-sm text-gray-600 line-clamp-1">
+                                                    {order.items.length > 0 && order.items[0].productDetails?.name ? (
+                                                        <>
+                                                            {order.items[0].productDetails.name}
+                                                            {order.items.length > 1 && <span className="text-xs text-gray-500 ml-1">(+{order.items.length - 1} more)</span>}
+                                                        </>
+                                                    ) : (
+                                                        `${order.items.length} item(s)`
+                                                    )}
+                                                </p>
                                             </div>
                                             <div className="text-right">
                                                 <p className="font-bold text-blue-600">₹{(order.total * 80).toLocaleString('en-IN')}</p>

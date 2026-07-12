@@ -192,7 +192,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### For Shop Owners (Admin)
 
-1. **Admin Access**: Generate admin via `/create-admin` or `npm run seed-admin`
+1. **Admin Access**: Generate admin via `npm run seed-admin` in your server/local environment
 2. **Login**: Sign in with admin account
 3. **Manage Sellers**: Navigate to `Quick Actions -> Seller Requests` to approve/reject seller applications
 4. **Order Management**: Navigate to `/admin/orders` to view and update order statuses
@@ -342,17 +342,14 @@ npm test         # Run Jest automated tests
 
 ### Database Seeding & Admin Creation
 
-To automatically create an admin user for local testing, run the seed script from the `ecommerce-platform` directory:
+To automatically create an admin user, you must run the seed script locally or on your server from the `ecommerce-platform` directory:
 
 ```bash
 cd ecommerce-platform
 npm run seed-admin
 ```
 
-**For Live Vercel Deployments:**
-Since you do not have terminal access to run the seed script on Vercel, a special endpoint is available. Simply navigate to `https://your-vercel-domain.com/create-admin` in your browser and click the button to generate the admin account. *(Note: Delete the `src/app/create-admin` folder after use for security!)*
-
-*(This creates an account with email `admin@luxe.com` and password `admin123`)*
+*(This creates an account with email `admin@luxe.com` and password `admin123`. Please change this immediately upon login!)*
 
 ---
 

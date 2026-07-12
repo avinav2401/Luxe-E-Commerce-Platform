@@ -76,7 +76,29 @@ export async function PATCH(
             return NextResponse.json({ message: 'You can only edit your own products' }, { status: 403 });
         }
 
-        const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true });
+        // Prevent Mass Assignment: Only allow specific fields to be updated
+        const allowedUpdates: any = {};
+        const permittedKeys = ['name', 'description', 'price', 'category', 'image', 'stock', 'discount'];
+        
+        for (const key of permittedKeys) {
+            if (updates[key] !== undefined) {
+                // Ensure numbers are cast correctly
+                if (['price', 'stock', 'discount'].includes(key)) {
+                    const numValue = Number(updates[key]);
+                    if (numValue < 0 || (key === 'price' && numValue <= 0)) {
+                        return NextResponse.json({ message: 'Price, stock, and discount must be non-negative values' }, { status: 400 });
+                    }
+                    if (key === 'discount' && numValue > 20) {
+                        return NextResponse.json({ message: 'Discount cannot exceed 20%' }, { status: 400 });
+                    }
+                    allowedUpdates[key] = numValue;
+                } else {
+                    allowedUpdates[key] = updates[key];
+                }
+            }
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(id, allowedUpdates, { new: true });
 
         return NextResponse.json({
             message: 'Product updated successfully',
@@ -120,7 +142,7 @@ export async function DELETE(
             return NextResponse.json({ message: 'You can only delete your own products' }, { status: 403 });
         }
 
-        await Product.findByIdAndDelete(id);
+        await Product.findByIdAndUpdate(id, { isDeleted: true });
 
         return NextResponse.json({ message: 'Product deleted successfully' }, { status: 200 });
 

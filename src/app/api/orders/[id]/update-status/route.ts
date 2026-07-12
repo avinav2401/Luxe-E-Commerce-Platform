@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectToDatabase from '@/lib/mongoose';
+import Product from '@/models/Product';
 import Order from '@/models/Order';
 
 export async function PATCH(
@@ -43,7 +44,28 @@ export async function PATCH(
         }
 
         // Update order status
+        const oldStatus = order.status;
         order.status = status;
+
+        if (status === 'cancelled' && oldStatus !== 'cancelled') {
+            // Replenish stock when an order is cancelled
+            for (const item of order.items) {
+                if (item.product.match(/^[0-9a-fA-F]{24}$/)) {
+                    await Product.findByIdAndUpdate(item.product, {
+                        $inc: { stock: item.quantity }
+                    });
+                }
+            }
+        } else if (oldStatus === 'cancelled' && status !== 'cancelled') {
+            // Deduct stock if an order is un-cancelled
+            for (const item of order.items) {
+                if (item.product.match(/^[0-9a-fA-F]{24}$/)) {
+                    await Product.findByIdAndUpdate(item.product, {
+                        $inc: { stock: -item.quantity }
+                    });
+                }
+            }
+        }
 
         // Add tracking history entry
         order.trackingHistory.push({

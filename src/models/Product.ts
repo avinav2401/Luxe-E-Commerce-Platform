@@ -11,6 +11,7 @@ export interface IProduct extends Document {
     rating?: number;
     reviews?: number;
     seller?: mongoose.Types.ObjectId;
+    isDeleted?: boolean;
 }
 
 const ProductSchema = new Schema({
@@ -24,6 +25,7 @@ const ProductSchema = new Schema({
     rating: { type: Number, default: 0 },
     reviews: { type: Number, default: 0 },
     seller: { type: Schema.Types.ObjectId, ref: 'User', required: false },
+    isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
 export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);

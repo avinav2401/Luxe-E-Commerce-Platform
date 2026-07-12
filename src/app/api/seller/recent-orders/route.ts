@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import connectToDatabase from '@/lib/mongoose';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
+import { getProducts } from '@/lib/data-service';
 
 export async function GET() {
     try {
@@ -27,10 +28,32 @@ export async function GET() {
         // Get all orders
         const allOrders = await Order.find({}).sort({ createdAt: -1 });
 
-        // Filter orders that contain seller's products
-        const sellerOrders = allOrders.filter(order =>
+        // Filter orders that contain seller's products and recalculate totals
+        let sellerOrders = allOrders.filter(order =>
             order.items.some((item: any) => productIds.includes(item.product.toString()))
         );
+
+        const allProducts = await getProducts();
+
+        // Map over orders to only include seller's items and enrich with product details
+        sellerOrders = sellerOrders.map(order => {
+            const orderObj = order.toObject();
+            const sellerItems = orderObj.items.filter((item: any) => productIds.includes(item.product.toString()));
+            
+            // Enrich items with product details
+            orderObj.items = sellerItems.map((item: any) => {
+                const productDetails = allProducts.find((p: any) => p.id === item.product.toString());
+                return {
+                    ...item,
+                    productDetails: productDetails || null
+                };
+            });
+            
+            // Recalculate total for just this seller's items
+            orderObj.total = orderObj.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+            
+            return orderObj;
+        });
 
         // Get most recent 10 orders
         const recentOrders = sellerOrders.slice(0, 10);

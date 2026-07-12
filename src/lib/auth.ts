@@ -72,9 +72,7 @@ export const authOptions: NextAuthOptions = {
         },
         async jwt({ token, user, account, trigger, session }: { token: any, user: any, account: any, trigger?: string, session?: any }) {
             if (trigger === "update" && session) {
-                if (session.role) {
-                    token.role = session.role;
-                }
+                // DO NOT update token.role from session! This is a severe privilege escalation vulnerability.
                 if (session.name) {
                     token.name = session.name;
                 }

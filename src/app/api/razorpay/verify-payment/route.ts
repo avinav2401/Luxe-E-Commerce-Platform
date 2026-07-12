@@ -4,7 +4,10 @@ import { authOptions } from '@/lib/auth';
 import connectToDatabase from '@/lib/mongoose';
 import Order from '@/models/Order';
 import User from '@/models/User';
+import { getProducts } from '@/lib/data-service';
+import Product from '@/models/Product';
 import crypto from 'crypto';
+import Razorpay from 'razorpay';
 
 export async function POST(req: Request) {
     try {
@@ -42,15 +45,58 @@ export async function POST(req: Request) {
 
         // Payment verified, create order in database
         await connectToDatabase();
+        
+        const allProducts = await getProducts();
+        
+        let secureTotal = 0;
+        const validItems = [];
+
+        if (!orderData.items || orderData.items.length === 0) {
+            return NextResponse.json({ message: 'No items in order' }, { status: 400 });
+        }
+
+        for (const item of orderData.items) {
+            if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+                return NextResponse.json({ message: 'Invalid item quantity' }, { status: 400 });
+            }
+
+            const productMatch = allProducts.find((p: any) => p.id === item.id);
+            const truePrice = productMatch ? productMatch.price : item.price;
+            
+            // Check for overselling (only for database products)
+            if (item.id.match(/^[0-9a-fA-F]{24}$/)) {
+                if (!productMatch || productMatch.stock < item.quantity) {
+                    return NextResponse.json({ message: `Insufficient stock for product ${productMatch?.name || item.id}` }, { status: 400 });
+                }
+            }
+
+            secureTotal += truePrice * item.quantity;
+            validItems.push({
+                product: item.id,
+                quantity: item.quantity,
+                price: truePrice
+            });
+        }
+
+        // Initialize Razorpay
+        const razorpay = new Razorpay({
+            key_id: process.env.RAZORPAY_KEY_ID!,
+            key_secret: process.env.RAZORPAY_KEY_SECRET!,
+        });
+
+        const razorpayOrder = await razorpay.orders.fetch(razorpay_order_id);
+        if (!razorpayOrder) {
+            return NextResponse.json({ message: 'Razorpay order not found' }, { status: 400 });
+        }
+
+        if (Math.round(secureTotal * 100) !== razorpayOrder.amount) {
+            return NextResponse.json({ message: 'Amount mismatch: Possible payment spoofing detected.' }, { status: 400 });
+        }
 
         const newOrder = new Order({
             user: session.user.id,
-            items: orderData.items.map((item: any) => ({
-                product: item.id,
-                quantity: item.quantity,
-                price: item.price
-            })),
-            total: orderData.total,
+            items: validItems,
+            total: secureTotal,
             shippingAddress: orderData.shippingAddress,
             paymentMethod: 'Razorpay',
             paymentId: razorpay_payment_id,
@@ -60,6 +106,15 @@ export async function POST(req: Request) {
         });
 
         const savedOrder = await newOrder.save();
+
+        // Deduct Stock for database products
+        for (const item of validItems) {
+            if (item.product.match(/^[0-9a-fA-F]{24}$/)) {
+                await Product.findByIdAndUpdate(item.product, {
+                    $inc: { stock: -item.quantity }
+                });
+            }
+        }
 
         await User.findByIdAndUpdate(session.user.id, {
             $push: { orders: savedOrder._id }
