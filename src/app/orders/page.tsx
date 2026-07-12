@@ -168,7 +168,7 @@ export default function OrdersPage() {
                                                     </div>
                                                     
                                                     {/* Rating Component for Delivered Orders */}
-                                                    {order.status === 'delivered' && productDetails && (
+                                                    {order.status === 'delivered' && productDetails && !productDetails.isStatic && (
                                                         <ProductRating productId={item.product} />
                                                     )}
                                                 </div>

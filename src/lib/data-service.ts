@@ -25,7 +25,9 @@ export async function getProducts() {
         const staticProductsData = JSON.parse(JSON.stringify(staticProducts));
         const dbProductNames = new Set(formattedDbProducts.map((p: any) => p.name));
         
-        const filteredStaticProducts = staticProductsData.filter((p: any) => !dbProductNames.has(p.name));
+        const filteredStaticProducts = staticProductsData
+            .filter((p: any) => !dbProductNames.has(p.name))
+            .map((p: any) => ({ ...p, isStatic: true }));
 
         const allProducts = [
             ...formattedDbProducts,
