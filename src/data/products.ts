@@ -7,7 +7,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1558403194-611308249627?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.7,
-        reviews: 45200
+        reviews: 45200,
+        discount: 30
     },
     {
         id: '2',
@@ -17,7 +18,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=800&q=80',
         category: 'Fashion',
         rating: 4.3,
-        reviews: 1205
+        reviews: 1205,
+        discount: 15
     },
     {
         id: '3',
@@ -27,7 +29,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1614735241165-6756e1df61ab?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.8,
-        reviews: 890
+        reviews: 890,
+        discount: 10
     },
 
 
@@ -40,7 +43,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.6,
-        reviews: 3400
+        reviews: 3400,
+        discount: 25
     },
     {
         id: '5',
@@ -50,7 +54,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.5,
-        reviews: 2100
+        reviews: 2100,
+        discount: 50
     },
     {
         id: '6',
@@ -60,7 +65,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.4,
-        reviews: 1560
+        reviews: 1560,
+        discount: 18
     },
     {
         id: '7',
@@ -70,7 +76,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
         category: 'Fashion',
         rating: 4.2,
-        reviews: 850
+        reviews: 850,
+        discount: 5
     },
     {
         id: '8',
@@ -80,7 +87,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.7,
-        reviews: 430
+        reviews: 430,
+        discount: 12
     },
     {
         id: '9',
@@ -90,7 +98,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1618335829737-2228915674e0?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.6,
-        reviews: 2200
+        reviews: 2200,
+        discount: 20
     },
     {
         id: '10',
@@ -100,7 +109,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80',
         category: 'Fashion',
         rating: 4.8,
-        reviews: 310
+        reviews: 310,
+        discount: 8
     },
     {
         id: '11',
@@ -110,7 +120,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=800&q=80&v=9999',
         category: 'Home & Kitchen',
         rating: 4.5,
-        reviews: 5600
+        reviews: 5600,
+        discount: 35
     },
     {
         id: '12',
@@ -120,7 +131,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.9,
-        reviews: 8100
+        reviews: 8100,
+        discount: 0
     },
     {
         id: '13',
@@ -130,7 +142,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=800&q=80',
         category: 'Fashion',
         rating: 4.4,
-        reviews: 920
+        reviews: 920,
+        discount: 10
     },
     {
         id: '14',
@@ -140,7 +153,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.3,
-        reviews: 1890
+        reviews: 1890,
+        discount: 22
     },
     {
         id: '15',
@@ -150,7 +164,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.7,
-        reviews: 1340
+        reviews: 1340,
+        discount: 15
     },
     {
         id: '16',
@@ -160,7 +175,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen', // Or Sports
         rating: 4.5,
-        reviews: 4100
+        reviews: 4100,
+        discount: 40
     },
     {
         id: '17',
@@ -170,7 +186,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.6,
-        reviews: 32000
+        reviews: 32000,
+        discount: 10
     },
     {
         id: '18',
@@ -180,7 +197,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.8,
-        reviews: 15400
+        reviews: 15400,
+        discount: 25
     },
     {
         id: '19',
@@ -190,7 +208,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80',
         category: 'Mobiles',
         rating: 4.7,
-        reviews: 5890
+        reviews: 5890,
+        discount: 5
     },
     {
         id: '20',
@@ -200,7 +219,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?auto=format&fit=crop&w=800&q=80',
         category: 'Computers',
         rating: 4.9,
-        reviews: 4200
+        reviews: 4200,
+        discount: 10
     },
     {
         id: '21',
@@ -210,7 +230,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80',
         category: 'Fashion',
         rating: 4.3,
-        reviews: 1200
+        reviews: 1200,
+        discount: 30
     },
     {
         id: '22',
@@ -220,7 +241,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.6,
-        reviews: 3100
+        reviews: 3100,
+        discount: 20
     },
     {
         id: '23',
@@ -230,7 +252,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.4,
-        reviews: 8900
+        reviews: 8900,
+        discount: 15
     },
     {
         id: '24',
@@ -240,7 +263,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=800&q=80',
         category: 'Home & Kitchen',
         rating: 4.7,
-        reviews: 2100
+        reviews: 2100,
+        discount: 5
     },
     {
         id: '25',
@@ -250,7 +274,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=800&q=80',
         category: 'Digital Content',
         rating: 4.8,
-        reviews: 14500
+        reviews: 14500,
+        discount: 0
     },
     {
         id: '26',
@@ -260,7 +285,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1614145121029-83a9f7b68bf4?auto=format&fit=crop&w=800&q=80',
         category: 'Digital Content',
         rating: 4.6,
-        reviews: 22000
+        reviews: 22000,
+        discount: 0
     },
     {
         id: '27',
@@ -270,7 +296,8 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=80',
         category: 'Digital Content',
         rating: 4.9,
-        reviews: 8400
+        reviews: 8400,
+        discount: 0
     },
     {
         id: '28',
@@ -280,6 +307,7 @@ export const products = [
         image: 'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=800&q=80',
         category: 'Electronics',
         rating: 4.7,
-        reviews: 6200
+        reviews: 6200,
+        discount: 12
     }
 ];
