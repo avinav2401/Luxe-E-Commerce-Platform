@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import connectToDatabase from '@/lib/mongoose';
 import Product from '@/models/Product';
 import Order from '@/models/Order';
+import mongoose from 'mongoose';
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
@@ -54,7 +55,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
             product.ratingsList[existingRatingIndex].rating = rating;
         } else {
             // Add new rating
-            product.ratingsList.push({ user: userId, rating: rating });
+            product.ratingsList.push({ user: new mongoose.Types.ObjectId(userId), rating: rating });
         }
 
         product.markModified('ratingsList'); // Ensure Mongoose detects the array change
