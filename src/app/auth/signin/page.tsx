@@ -149,16 +149,6 @@ export default function SignInPage() {
                         <p className="text-xs text-blue-700 dark:text-blue-400">Email: <span className="font-mono font-semibold">admin@luxe.com</span></p>
                         <p className="text-xs text-blue-700 dark:text-blue-400">Password: <span className="font-mono font-semibold">admin123</span></p>
                     </div>
-                    <div className="bg-green-50/60 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
-                        <p className="text-xs font-bold text-green-800 dark:text-green-300 mb-1">🏪 Seller Login</p>
-                        <p className="text-xs text-green-700 dark:text-green-400">Email: <span className="font-mono font-semibold">seller@luxe.com</span></p>
-                        <p className="text-xs text-green-700 dark:text-green-400">Password: <span className="font-mono font-semibold">seller123</span></p>
-                    </div>
-                    <div className="bg-muted/50 border border-border rounded-lg p-3">
-                        <p className="text-xs font-bold text-foreground mb-1">👤 User Login</p>
-                        <p className="text-xs text-muted-foreground">Email: <span className="font-mono font-semibold">user@luxe.com</span></p>
-                        <p className="text-xs text-muted-foreground">Password: <span className="font-mono font-semibold">user123</span></p>
-                    </div>
                 </div>
 
             </div>
