@@ -35,4 +35,5 @@ const ProductSchema = new Schema({
     isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });
 
-export default mongoose.models.Product || mongoose.model<IProduct>('Product', ProductSchema);
+delete mongoose.models.Product;
+export default mongoose.model<IProduct>('Product', ProductSchema);
