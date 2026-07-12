@@ -248,14 +248,17 @@ E-Commerce-Platform/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── api/                # API routes
+│   │   │   ├── admin/         # Admin endpoints (dashboard, orders, sellers)
 │   │   │   ├── auth/          # Authentication endpoints
-│   │   │   └── orders/        # Order management API
-│   │   ├── admin/             # Admin panel pages
+│   │   │   ├── orders/        # Order management API
+│   │   │   └── seller/        # Seller endpoints (products, stats, recent-orders)
+│   │   ├── admin/             # Admin panel pages (dashboard, orders, sellers)
 │   │   ├── auth/              # Auth pages (signin, register)
 │   │   ├── cart/              # Shopping cart page
 │   │   ├── checkout/          # Checkout & success pages
-│   │   ├── orders/            # Order history page
-│   │   └── products/          # Product listing page
+│   │   ├── orders/            # Customer order history page
+│   │   ├── products/          # Dynamic product listing page
+│   │   └── seller/            # Seller dashboard (products management, edit, analytics)
 │   ├── components/            # Reusable components
 │   │   ├── ui/                # UI components (buttons, inputs)
 │   │   ├── Navbar.tsx         # Navigation bar
@@ -395,6 +398,7 @@ Since you do not have terminal access to run the seed script on Vercel, a specia
 - `GET /api/seller/stats` - Get seller statistics
 - `GET /api/seller/recent-orders` - Get orders with seller's products
 - `GET /api/seller/products` - Get seller's products
+- `GET /api/seller/products/[id]` - Get single product details
 - `POST /api/seller/products` - Create new product
 - `PATCH /api/seller/products/[id]` - Update product
 - `DELETE /api/seller/products/[id]` - Delete product
@@ -402,6 +406,8 @@ Since you do not have terminal access to run the seed script on Vercel, a specia
 ### Admin
 - `GET /api/admin/orders` - Get all orders (admin only)
 - `GET /api/admin/dashboard` - Get admin dashboard stats
+- `GET /api/admin/sellers` - Get all seller applications
+- `PATCH /api/admin/sellers/[id]/status` - Approve or reject a seller's application
 
 ---
 
