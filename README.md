@@ -15,6 +15,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 - **Dynamic Product Catalog**: Browse products with advanced filtering and sorting
 - **Smart Search**: Category-based search with real-time results
 - **Live Cart Synchronization**: Cart items automatically sync with real-time database stock levels
+- **Verified Product Ratings**: Only customers with delivered orders can rate products (1–5 stars), with persistent ratings across sessions
 - **Shopping Cart**: Add, remove, and update quantities with toast notifications
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 - **Luxe UI**: Familiar, user-friendly, and modern interface
@@ -46,6 +47,7 @@ A modern, full-featured e-commerce platform built with Next.js 16, featuring rea
 ### 🏪 Seller Dashboard (NEW)
 - **Product Management**: Sellers can list and manage their own products
 - **Cloudinary Integration**: Professional image uploads via Cloudinary
+- **Organic Ratings & Reviews**: Ratings and review counts are driven entirely by verified customer purchases — sellers cannot manually set them
 - **Modern Gradient UI**: Beautiful dashboard with statistics
 - **Low Stock Alerts**: Automatic warnings when inventory runs low
 - **Recent Orders**: Track orders containing seller's products
@@ -407,6 +409,10 @@ npm run seed-admin
 - `GET /api/admin/dashboard` - Get admin dashboard stats
 - `GET /api/admin/sellers` - Get all seller applications
 - `PATCH /api/admin/sellers/[id]/status` - Approve or reject a seller's application
+
+### Product Ratings
+- `POST /api/products/[id]/rate` - Submit or update a product rating (verified purchase required)
+- `GET /api/products/[id]/rate` - Get the current user's existing rating for a product
 
 ---
 
