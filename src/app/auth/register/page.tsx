@@ -163,14 +163,11 @@ export default function RegisterPage() {
                 {/* Admin Help Box */}
                 <div className="mt-6 bg-blue-50/50 border border-blue-100 rounded-lg p-3 text-center">
                     <p className="text-xs text-blue-800 mb-2">
-                        <strong>Admin Access:</strong> If you need to test admin features, please generate an admin account first by visiting the{' '}
+                        <strong>Admin Access:</strong> If you need an administrator account, please register via the{' '}
                         <Link href="/create-admin" className="font-bold underline hover:text-blue-600">
                             /create-admin
                         </Link>{' '}
                         page.
-                    </p>
-                    <p className="text-xs text-blue-900 font-medium">
-                        Then log in with: admin@luxe.com / admin123
                     </p>
                 </div>
             </div>

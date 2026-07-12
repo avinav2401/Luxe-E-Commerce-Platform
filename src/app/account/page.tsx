@@ -111,20 +111,10 @@ export default function AccountPage() {
                                 <ShieldAlert className="w-5 h-5 text-primary" />
                                 Admin Access Help
                             </h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed mb-4 max-w-lg">
-                                To test admin features (like approving sellers or viewing reports), you need an admin account. 
-                                You can generate one automatically by visiting the{' '}
-                                <Link href="/create-admin" className="font-bold text-primary hover:underline">
-                                    /create-admin
-                                </Link>{' '}
-                                page.
+                            <p className="text-sm mt-4 text-muted-foreground">
+                                To test admin features, you need an admin account. 
+                                You can create one by visiting the <Link href="/create-admin" className="font-bold text-primary hover:underline">/create-admin</Link> registration page.
                             </p>
-                            <div className="bg-background rounded-lg p-3 inline-block border border-border">
-                                <p className="text-sm text-foreground">
-                                    Email: <strong className="select-all text-primary">admin@luxe.com</strong> <br/>
-                                    Password: <strong className="select-all text-primary">admin123</strong>
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </motion.div>
