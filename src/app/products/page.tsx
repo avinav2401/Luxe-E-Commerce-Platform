@@ -25,15 +25,15 @@ export default async function ShopPage(props: { searchParams: Promise<SearchPara
     if (search) {
         const q = search.toLowerCase();
         products = products.filter((p: any) =>
-            p.name.toLowerCase().includes(q) ||
-            p.description.toLowerCase().includes(q)
+            p.name?.toLowerCase().includes(q) ||
+            p.description?.toLowerCase().includes(q)
         );
         title = `Results for "${search}"`;
     }
 
     // Filter by Category
     if (cat) {
-        products = products.filter((p: any) => p.category.toLowerCase().includes(cat.toLowerCase()));
+        products = products.filter((p: any) => p.category?.toLowerCase().includes(cat.toLowerCase()));
         title = `${cat} Products`;
     }
 

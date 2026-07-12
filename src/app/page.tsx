@@ -84,7 +84,7 @@ export default async function Home() {
 
             {/* Category 2 */}
             <FadeIn delay={0.2}>
-                <Link href="/products?cat=Home & Kitchen" className="group flex flex-col gap-4">
+                <Link href={`/products?cat=${encodeURIComponent('Home & Kitchen')}`} className="group flex flex-col gap-4">
                     <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                         <Image src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600" alt="Home" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                     </div>
