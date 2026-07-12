@@ -57,6 +57,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             product.ratingsList.push({ user: userId, rating: rating });
         }
 
+        product.markModified('ratingsList'); // Ensure Mongoose detects the array change
+
         // Recalculate overall rating and reviews count
         const totalRatings = product.ratingsList.length;
         const sumRatings = product.ratingsList.reduce((acc: number, curr: any) => acc + curr.rating, 0);
