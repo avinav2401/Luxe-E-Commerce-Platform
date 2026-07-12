@@ -25,6 +25,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         const { id: productId } = await params;
         const userId = session.user.id;
 
+        if (!mongoose.isValidObjectId(productId)) {
+            return NextResponse.json({ message: 'Invalid product ID format. This may be a legacy test order.' }, { status: 400 });
+        }
+
         // Verify the user has actually purchased this product and the order is delivered
         const hasDeliveredOrder = await Order.findOne({
             user: userId,
