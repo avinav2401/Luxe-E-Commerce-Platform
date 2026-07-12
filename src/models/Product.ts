@@ -10,6 +10,7 @@ export interface IProduct extends Document {
     discount?: number;
     rating?: number;
     reviews?: number;
+    ratingsList?: { user: mongoose.Types.ObjectId; rating: number }[];
     seller?: mongoose.Types.ObjectId;
     isDeleted?: boolean;
 }
@@ -24,6 +25,12 @@ const ProductSchema = new Schema({
     discount: { type: Number, default: 20 },
     rating: { type: Number, default: 0 },
     reviews: { type: Number, default: 0 },
+    ratingsList: [
+        {
+            user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+            rating: { type: Number, required: true, min: 1, max: 5 }
+        }
+    ],
     seller: { type: Schema.Types.ObjectId, ref: 'User', required: false },
     isDeleted: { type: Boolean, default: false },
 }, { timestamps: true });

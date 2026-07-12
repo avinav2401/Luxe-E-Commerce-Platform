@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useCartStore } from '@/store/useCartStore';
 import { OrderTrackingTimeline } from '@/components/OrderTrackingTimeline';
+import { ProductRating } from '@/components/ProductRating';
 import { getStatusColor, getStatusLabel, formatOrderDate } from '@/lib/orderUtils';
 import { Package } from 'lucide-react';
 import { toast } from 'sonner';
@@ -165,6 +166,11 @@ export default function OrdersPage() {
                                                             View your item
                                                         </Link>
                                                     </div>
+                                                    
+                                                    {/* Rating Component for Delivered Orders */}
+                                                    {order.status === 'delivered' && productDetails && (
+                                                        <ProductRating productId={item.product} />
+                                                    )}
                                                 </div>
                                             </div>
                                         );
