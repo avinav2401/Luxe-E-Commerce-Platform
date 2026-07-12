@@ -20,20 +20,19 @@ export async function getProducts() {
             _id: undefined,
         }));
 
-        // Ensure static products act as the source of truth for base items.
-        // Filter out any DB products that have the same name as a static product
-        // to prevent duplicates and serve the freshest static data (e.g., fixed image URLs).
+        // Prefer Database products! If a product is in the DB, use it instead of the static fallback.
+        // This ensures products have valid ObjectIds and can accept ratings, reviews, etc.
         const staticProductsData = JSON.parse(JSON.stringify(staticProducts));
-        const staticProductNames = new Set(staticProductsData.map((p: any) => p.name));
+        const dbProductNames = new Set(formattedDbProducts.map((p: any) => p.name));
         
-        const filteredDbProducts = formattedDbProducts.filter((p: any) => !staticProductNames.has(p.name));
+        const filteredStaticProducts = staticProductsData.filter((p: any) => !dbProductNames.has(p.name));
 
         const allProducts = [
-            ...filteredDbProducts,
-            ...staticProductsData
+            ...formattedDbProducts,
+            ...filteredStaticProducts
         ];
 
-        console.log(`✅ Serving ${filteredDbProducts.length} custom DB products + ${staticProductsData.length} base static products`);
+        console.log(`✅ Serving ${formattedDbProducts.length} DB products + ${filteredStaticProducts.length} static fallback products`);
         return allProducts;
 
     } catch (error) {

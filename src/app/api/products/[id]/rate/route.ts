@@ -43,7 +43,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         const product = await Product.findById(productId);
 
         if (!product) {
-            return NextResponse.json({ message: 'Product not found' }, { status: 404 });
+            return NextResponse.json({ message: 'Product not found in database. If this is a preview product, please seed the database first.' }, { status: 404 });
         }
 
         // Initialize ratingsList if it doesn't exist

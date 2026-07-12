@@ -1,6 +1,6 @@
 export const products = [
     {
-        id: '1',
+        id: '507f1f77bcf86cd799439001',
         name: 'Echo Dot (5th Gen) | Smart speaker with Alexa | Charcoal',
         price: 49.99,
         description: 'Our best sounding Echo Dot yet – Enjoy an improved audio experience compared to any previous Echo Dot.',
@@ -11,7 +11,7 @@ export const products = [
         discount: 30
     },
     {
-        id: '2',
+        id: '507f1f77bcf86cd799439002',
         name: 'Men\'s Slim Fit Cotton Chinos - Khaki',
         price: 29.99,
         description: 'Classic chino pants made from breathable cotton twill. Perfect for office or casual wear.',
@@ -22,7 +22,7 @@ export const products = [
         discount: 15
     },
     {
-        id: '3',
+        id: '507f1f77bcf86cd799439003',
         name: 'Stainless Steel Knife Set (Premium)',
         price: 89.95,
         description: 'High-carbon stainless steel blades for precision and accuracy. Ergonomic handles for comfort.',
@@ -36,7 +36,7 @@ export const products = [
 
 
     {
-        id: '4',
+        id: '507f1f77bcf86cd799439004',
         name: 'Wireless Noise Cancelling Headphones 700',
         price: 329.00,
         description: 'Critically acclaimed noise cancellation. Clear calls and voice pickup.',
@@ -47,7 +47,7 @@ export const products = [
         discount: 25
     },
     {
-        id: '5',
+        id: '507f1f77bcf86cd799439005',
         name: 'Organic Cotton King Bed Sheets Set, 400 Thread Count',
         price: 65.50,
         description: 'Luxury organic cotton sheets. Soft, breathable, and durable.',
@@ -58,7 +58,7 @@ export const products = [
         discount: 50
     },
     {
-        id: '6',
+        id: '507f1f77bcf86cd799439006',
         name: '4K Ultra HD Smart LED TV - 55 Inch',
         price: 448.00,
         description: 'Watch 4K movies and TV shows at 4x the resolution of Full HD.',
@@ -69,7 +69,7 @@ export const products = [
         discount: 18
     },
     {
-        id: '7',
+        id: '507f1f77bcf86cd799439007',
         name: 'Running Shoes for Men - Breathable Mesh',
         price: 45.99,
         description: 'Lightweight running shoes providing comfort and grip for daily runs.',
@@ -80,7 +80,7 @@ export const products = [
         discount: 5
     },
     {
-        id: '8',
+        id: '507f1f77bcf86cd799439008',
         name: 'Ceramic Vase Set - White Modern Design',
         price: 34.00,
         description: 'Minimalist ceramic vases perfect for modern home decor.',
@@ -91,7 +91,7 @@ export const products = [
         discount: 12
     },
     {
-        id: '9',
+        id: '507f1f77bcf86cd799439009',
         name: 'Gaming Mechanical Keyboard - RGB Backlit',
         price: 59.99,
         description: 'Tactile mechanical switches with customizable RGB lighting.',
@@ -102,7 +102,7 @@ export const products = [
         discount: 20
     },
     {
-        id: '10',
+        id: '507f1f77bcf86cd79943900a',
         name: 'Leather Messenger Bag - Vintage Brown',
         price: 110.00,
         description: 'Genuine leather laptop bag. Stylish and durable for work or travel.',
@@ -113,7 +113,7 @@ export const products = [
         discount: 8
     },
     {
-        id: '11',
+        id: '507f1f77bcf86cd79943900b',
         name: 'Air Fryer XL (Digital)',
         price: 89.00,
         description: 'Fry with little to no oil. Fast, easy, and healthy cooking.',
@@ -124,7 +124,7 @@ export const products = [
         discount: 35
     },
     {
-        id: '12',
+        id: '507f1f77bcf86cd79943900c',
         name: 'Smart Watch Series 7 - GPS',
         price: 379.00,
         description: 'Advanced health sensors and apps. Durable crystal.',
@@ -135,7 +135,7 @@ export const products = [
         discount: 0
     },
     {
-        id: '13',
+        id: '507f1f77bcf86cd79943900d',
         name: 'Denim Jacket - Classic Blue',
         price: 55.00,
         description: 'Timeless denim jacket. A wardrobe staple.',
@@ -146,7 +146,7 @@ export const products = [
         discount: 10
     },
     {
-        id: '14',
+        id: '507f1f77bcf86cd79943900e',
         name: 'Robot Vacuum Cleaner with Wi-Fi',
         price: 249.99,
         description: 'Clean your floors from anywhere with the app. Good for pet hair.',
@@ -157,7 +157,7 @@ export const products = [
         discount: 22
     },
     {
-        id: '15',
+        id: '507f1f77bcf86cd79943900f',
         name: 'DSLR Camera Kit with 18-55mm Lens',
         price: 499.00,
         description: 'Capture stunning photos and videos. Easy to use for beginners.',
@@ -168,7 +168,7 @@ export const products = [
         discount: 15
     },
     {
-        id: '16',
+        id: '507f1f77bcf86cd799439010',
         name: 'Yoga Mat - Non-Slip Extra Thick',
         price: 22.50,
         description: 'Perfect for yoga, pilates, and floor exercises.',
@@ -179,7 +179,7 @@ export const products = [
         discount: 40
     },
     {
-        id: '17',
+        id: '507f1f77bcf86cd799439011',
         name: 'Fire TV Stick 4K Max streaming device',
         price: 54.99,
         description: 'Wi-Fi 6 compatible, supports Dolby Vision, HDR10+, and Dolby Atmos audio.',
@@ -190,7 +190,7 @@ export const products = [
         discount: 10
     },
     {
-        id: '18',
+        id: '507f1f77bcf86cd799439012',
         name: 'Kindle Paperwhite (16 GB)',
         price: 139.99,
         description: 'Now with a 6.8" display and adjustable warm light.',
@@ -201,7 +201,7 @@ export const products = [
         discount: 25
     },
     {
-        id: '19',
+        id: '507f1f77bcf86cd799439013',
         name: 'Samsung Galaxy S23 Ultra 5G',
         price: 1199.00,
         description: 'Epic Nightography, 200MP camera, built-in S Pen.',
@@ -212,7 +212,7 @@ export const products = [
         discount: 5
     },
     {
-        id: '20',
+        id: '507f1f77bcf86cd799439014',
         name: 'Apple MacBook Air M2 Chip',
         price: 1099.00,
         description: 'Strikingly thin design. All-day battery life.',
@@ -223,7 +223,7 @@ export const products = [
         discount: 10
     },
     {
-        id: '21',
+        id: '507f1f77bcf86cd799439015',
         name: 'Women\'s Floral Summer Dress',
         price: 35.99,
         description: 'Lightweight and comfortable, perfect for summer outings.',
@@ -234,7 +234,7 @@ export const products = [
         discount: 30
     },
     {
-        id: '22',
+        id: '507f1f77bcf86cd799439016',
         name: 'Orthopedic Dog Bed for Large Dogs',
         price: 49.99,
         description: 'High-density egg-crate foam for joint relief.',
@@ -245,7 +245,7 @@ export const products = [
         discount: 20
     },
     {
-        id: '23',
+        id: '507f1f77bcf86cd799439017',
         name: 'Programmable Coffee Maker 12-Cup',
         price: 79.99,
         description: 'Brew strength control and hot plate.',
@@ -256,7 +256,7 @@ export const products = [
         discount: 15
     },
     {
-        id: '24',
+        id: '507f1f77bcf86cd799439018',
         name: 'High-Speed Professional Blender',
         price: 149.95,
         description: 'Perfect for smoothies, shakes, and frozen drinks.',
@@ -267,7 +267,7 @@ export const products = [
         discount: 5
     },
     {
-        id: '25',
+        id: '507f1f77bcf86cd799439019',
         name: 'Luxe Video Subscription (1 Year)',
         price: 119.99,
         description: 'Unlimited ad-free streaming of exclusive movies, TV shows, and original luxury content.',
@@ -278,7 +278,7 @@ export const products = [
         discount: 0
     },
     {
-        id: '26',
+        id: '507f1f77bcf86cd79943901a',
         name: 'Luxe Music Premium Individual',
         price: 9.99,
         description: 'Stream millions of songs in lossless high-definition audio, completely ad-free.',
@@ -289,7 +289,7 @@ export const products = [
         discount: 0
     },
     {
-        id: '27',
+        id: '507f1f77bcf86cd79943901b',
         name: 'Luxe Audiobooks All-Access Pass',
         price: 14.99,
         description: 'Listen to thousands of premium audiobooks narrated by top voice actors and celebrities.',
@@ -300,7 +300,7 @@ export const products = [
         discount: 0
     },
     {
-        id: '28',
+        id: '507f1f77bcf86cd79943901c',
         name: 'Luxe Echo Studio - High-Fidelity Smart Speaker',
         price: 199.99,
         description: 'Immersive sound with spatial audio technology and built-in smart home hub.',
