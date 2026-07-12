@@ -318,11 +318,9 @@ E-Commerce-Platform/
 **Available Methods:**
 1. **Mock Payment**: Instant testing (no setup required)
 2. **Razorpay Test**: India-focused test mode
-3. **Stripe Test**: Global test mode
 
 **Test Cards:**
 - Razorpay: `4111 1111 1111 1111`
-- Stripe: `4242 4242 4242 4242`
 - Any future expiry, any CVV
 
 ---
@@ -370,7 +368,7 @@ Since you do not have terminal access to run the seed script on Vercel, a specia
 
 **3. Payment Not Working**
 - Use "Mock Payment" for instant testing
-- For Razorpay/Stripe, update test links in `PaymentConfig.ts`
+- For Razorpay, update test links in `PaymentConfig.ts`
 
 **4. Admin Panel Not Accessible**
 - Ensure user has `role: 'admin'` in database
