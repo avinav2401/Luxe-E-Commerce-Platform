@@ -15,6 +15,15 @@ export async function PATCH(req: Request) {
         const body = await req.json();
         const { name, phone, email, password, role } = body;
 
+        await connectToDatabase();
+        const currentUser = await User.findById(session.user.id);
+        
+        if (!currentUser) {
+            return NextResponse.json({ message: 'User not found' }, { status: 404 });
+        }
+        
+        const isOAuth = currentUser.provider === 'google';
+
         const updateData: any = {};
 
         if (name !== undefined) {
@@ -29,6 +38,9 @@ export async function PATCH(req: Request) {
         }
 
         if (email !== undefined) {
+            if (isOAuth) {
+                return NextResponse.json({ message: 'Email cannot be changed for Google accounts' }, { status: 400 });
+            }
             if (!email || email.trim().length === 0) {
                 return NextResponse.json({ message: 'Email cannot be empty' }, { status: 400 });
             }
@@ -41,6 +53,9 @@ export async function PATCH(req: Request) {
         }
 
         if (password !== undefined) {
+            if (isOAuth) {
+                return NextResponse.json({ message: 'Password cannot be set for Google accounts' }, { status: 400 });
+            }
             if (!password || password.length < 6) {
                 return NextResponse.json({ message: 'Password must be at least 6 characters' }, { status: 400 });
             }
@@ -56,8 +71,6 @@ export async function PATCH(req: Request) {
         if (Object.keys(updateData).length === 0) {
             return NextResponse.json({ message: 'No fields to update' }, { status: 400 });
         }
-
-        await connectToDatabase();
 
         const updatedUser = await User.findByIdAndUpdate(
             session.user.id,

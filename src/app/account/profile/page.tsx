@@ -362,12 +362,16 @@ export default function ProfilePage() {
                                         </button>
                                     </>
                                 ) : (
-                                    <button
-                                        onClick={handleEditEmail}
-                                        className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
-                                    >
-                                        Edit
-                                    </button>
+                                    userData?.provider === 'google' ? (
+                                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded border border-gray-200">Managed by Google</span>
+                                    ) : (
+                                        <button
+                                            onClick={handleEditEmail}
+                                            className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
+                                        >
+                                            Edit
+                                        </button>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -460,12 +464,16 @@ export default function ProfilePage() {
                                         </button>
                                     </>
                                 ) : (
-                                    <button
-                                        onClick={handleEditPassword}
-                                        className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
-                                    >
-                                        Edit
-                                    </button>
+                                    userData?.provider === 'google' ? (
+                                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded border border-gray-200">Managed by Google</span>
+                                    ) : (
+                                        <button
+                                            onClick={handleEditPassword}
+                                            className="border border-[#D5D9D9] bg-[#fff] hover:bg-[#F7FAFA] px-4 py-1.5 rounded-lg shadow-sm text-sm font-medium"
+                                        >
+                                            Edit
+                                        </button>
+                                    )
                                 )}
                             </div>
                         </div>
