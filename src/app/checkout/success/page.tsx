@@ -38,10 +38,10 @@ export default function PaymentSuccessPage() {
             // Submit order to backend
             submitOrder(order);
         } else {
-            // No pending order, redirect to home
+            // No pending order, redirect to orders
             setTimeout(() => {
-                router.push('/');
-            }, 3000);
+                router.push('/orders');
+            }, 2000);
         }
     }, []);
 
@@ -67,6 +67,11 @@ export default function PaymentSuccessPage() {
                 localStorage.removeItem('pendingOrder');
                 localStorage.removeItem('cart-storage'); // Clear Zustand cart
                 setOrderSubmitted(true);
+                
+                // Automatically redirect to Your Orders after a short delay
+                setTimeout(() => {
+                    router.push('/orders');
+                }, 4000);
             } else {
                 console.error('Failed to submit order');
             }
