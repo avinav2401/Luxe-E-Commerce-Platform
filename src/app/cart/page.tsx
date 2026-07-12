@@ -13,6 +13,7 @@ export default function CartPage() {
     const router = useRouter();
 
     const subtotal = totalPrice();
+    const hasOutOfStockItems = cart.some(item => item.stock !== undefined && item.stock <= 0);
     
     // Grab 4 items for recommendations
     const recommendations = products.slice(5, 9);
@@ -62,7 +63,11 @@ export default function CartPage() {
                                         </Link>
                                         <span className="font-bold text-lg sm:hidden">₹{(item.price * 80).toLocaleString('en-IN')}</span>
                                     </div>
-                                    <div className="text-xs font-medium text-green-600 my-1.5">In stock</div>
+                                    {(item.stock !== undefined && item.stock <= 0) ? (
+                                        <div className="text-xs font-medium text-red-600 my-1.5">Out of Stock</div>
+                                    ) : (
+                                        <div className="text-xs font-medium text-green-600 my-1.5">In stock</div>
+                                    )}
                                     <div className="text-xs text-muted-foreground mb-1">Eligible for FREE Shipping</div>
                                     <div className="flex items-center text-xs gap-1 mb-2">
                                         <span className="text-primary font-bold italic tracking-wide text-xs">Luxe Delivery</span>
@@ -82,7 +87,8 @@ export default function CartPage() {
                                             </span>
                                             <button
                                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                className="px-3 py-1.5 text-sm hover:bg-muted transition-colors"
+                                                className="px-3 py-1.5 text-sm hover:bg-muted transition-colors disabled:opacity-30"
+                                                disabled={item.stock !== undefined && item.quantity >= item.stock}
                                             >
                                                 <Plus className="w-3.5 h-3.5" />
                                             </button>
@@ -119,9 +125,10 @@ export default function CartPage() {
                         </div>
                         <Button
                             onClick={() => router.push('/checkout')}
-                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full shadow-sm py-6 text-md font-medium transition-all hover:shadow-md"
+                            disabled={hasOutOfStockItems}
+                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full shadow-sm py-6 text-md font-medium transition-all hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Proceed to Checkout
+                            {hasOutOfStockItems ? 'Remove Out of Stock Items to Proceed' : 'Proceed to Checkout'}
                         </Button>
                     </div>
 
