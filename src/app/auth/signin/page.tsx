@@ -142,14 +142,6 @@ export default function SignInPage() {
                     </Link>
                 </div>
 
-                {/* Demo Credentials Box */}
-                <div className="mt-4 space-y-2">
-                    <div className="bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-                        <p className="text-xs font-bold text-blue-800 dark:text-blue-300 mb-1">🛡️ Admin Login</p>
-                        <p className="text-xs text-blue-700 dark:text-blue-400">Email: <span className="font-mono font-semibold">admin@luxe.com</span></p>
-                        <p className="text-xs text-blue-700 dark:text-blue-400">Password: <span className="font-mono font-semibold">admin123</span></p>
-                    </div>
-                </div>
 
             </div>
         </div>
