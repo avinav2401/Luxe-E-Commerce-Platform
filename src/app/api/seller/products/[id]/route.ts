@@ -88,8 +88,8 @@ export async function PATCH(
                     if (numValue < 0 || (key === 'price' && numValue <= 0)) {
                         return NextResponse.json({ message: 'Price, stock, and discount must be non-negative values' }, { status: 400 });
                     }
-                    if (key === 'discount' && numValue > 20) {
-                        return NextResponse.json({ message: 'Discount cannot exceed 20%' }, { status: 400 });
+                    if (key === 'discount' && numValue > 30) {
+                        return NextResponse.json({ message: 'Discount cannot exceed 30%' }, { status: 400 });
                     }
                     allowedUpdates[key] = numValue;
                 } else {

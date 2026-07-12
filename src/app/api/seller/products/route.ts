@@ -23,8 +23,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        if (Number(price) <= 0 || Number(stock) < 0 || Number(discount) < 0 || Number(discount) > 100) {
-            return NextResponse.json({ error: 'Price, stock must be non-negative. Discount must be between 0 and 100.' }, { status: 400 });
+        if (Number(price) <= 0 || Number(stock) < 0 || Number(discount) < 0 || Number(discount) > 30) {
+            return NextResponse.json({ error: 'Price, stock must be non-negative. Discount must be between 0 and 30.' }, { status: 400 });
         }
 
         await connectToDatabase();

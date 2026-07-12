@@ -144,7 +144,7 @@ export default function AddProductPage() {
                         <Input
                             type="number"
                             min="0"
-                            max="100"
+                            max="30"
                             value={formData.discount}
                             onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
                             placeholder="e.g. 20"
