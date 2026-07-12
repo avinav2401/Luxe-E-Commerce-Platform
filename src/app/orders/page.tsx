@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { products } from '@/data/products';
 import { useCartStore } from '@/store/useCartStore';
 import { OrderTrackingTimeline } from '@/components/OrderTrackingTimeline';
 import { getStatusColor, getStatusLabel, formatOrderDate } from '@/lib/orderUtils';
@@ -40,8 +39,7 @@ export default function OrdersPage() {
         }
     };
 
-    const handleBuyAgain = (productId: string) => {
-        const productDetails = products.find(p => p.id === productId);
+    const handleBuyAgain = (productDetails: any) => {
         if (productDetails) {
             addToCart(productDetails);
             alert(`${productDetails.name} added to cart!`);
@@ -136,7 +134,7 @@ export default function OrdersPage() {
 
                                 <div className="p-4">
                                     {order.items.map((item: any, idx: number) => {
-                                        const productDetails = products.find(p => p.id === item.product); // Lookup static details
+                                        const productDetails = item.productDetails;
                                         return (
                                             <div key={idx} className="flex gap-4 mb-6 last:mb-0">
                                                 <div className="w-20 h-20 bg-gray-100 flex-shrink-0 relative">
@@ -154,7 +152,7 @@ export default function OrdersPage() {
 
                                                     <div className="flex gap-2 mt-2">
                                                         <button
-                                                            onClick={() => handleBuyAgain(item.product)}
+                                                            onClick={() => handleBuyAgain(productDetails)}
                                                             className="bg-[#FFD814] border border-[#FCD200] rounded-full px-4 py-1 text-xs w-fit shadow-sm hover:bg-[#F3A847]"
                                                         >
                                                             Buy it again

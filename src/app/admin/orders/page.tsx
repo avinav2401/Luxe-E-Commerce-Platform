@@ -201,7 +201,7 @@ export default function AdminOrdersPage() {
                                 <ul className="space-y-1">
                                     {order.items.map((item: any, idx: number) => (
                                         <li key={idx}>
-                                            • {item.product} (Qty: {item.quantity}) - ₹{(item.price * 80).toLocaleString('en-IN')}
+                                            • {item.productDetails?.name || 'Unknown Product'} (Qty: {item.quantity}) - ₹{(item.price * 80).toLocaleString('en-IN')}
                                         </li>
                                     ))}
                                 </ul>

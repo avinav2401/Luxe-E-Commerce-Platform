@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectToDatabase from '@/lib/mongoose';
 import Order from '@/models/Order';
+import { getProducts } from '@/lib/data-service';
 
 export async function GET() {
     try {
@@ -22,7 +23,21 @@ export async function GET() {
         // Get ALL orders for admin
         const orders = await Order.find({}).sort({ createdAt: -1 });
 
-        return NextResponse.json({ orders }, { status: 200 });
+        const allProducts = await getProducts();
+
+        const enrichedOrders = orders.map((order: any) => {
+            const orderObj = order.toObject();
+            orderObj.items = orderObj.items.map((item: any) => {
+                const productDetails = allProducts.find((p: any) => p.id === item.product);
+                return {
+                    ...item,
+                    productDetails: productDetails || null
+                };
+            });
+            return orderObj;
+        });
+
+        return NextResponse.json({ orders: enrichedOrders }, { status: 200 });
 
     } catch (error: any) {
         console.error('Fetch all orders error:', error);
