@@ -60,7 +60,7 @@ export default function AddProductPage() {
                 router.push('/seller/products');
             } else {
                 const data = await res.json();
-                toast.error(data.message || 'Failed to add product');
+                toast.error(data.error || data.message || 'Failed to add product');
             }
         } catch (error) {
             toast.error('Failed to add product');
