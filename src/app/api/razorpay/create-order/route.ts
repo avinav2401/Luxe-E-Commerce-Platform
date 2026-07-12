@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import connectToDatabase from '@/lib/mongoose';
 import Razorpay from 'razorpay';
 
 export async function POST(req: Request) {
@@ -11,10 +12,28 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const { amount, currency = 'INR' } = await req.json();
+        const { amount, currency = 'INR', items } = await req.json();
 
         if (!amount || amount <= 0) {
             return NextResponse.json({ message: 'Invalid amount' }, { status: 400 });
+        }
+
+        if (items && items.length > 0) {
+            await connectToDatabase();
+            const { getProducts } = await import('@/lib/data-service');
+            const allProducts = await getProducts();
+            
+            for (const item of items) {
+                const productMatch = allProducts.find((p: any) => p.id === item.id);
+                if (!productMatch) {
+                    return NextResponse.json({ message: `Product ${item.name || item.id} is no longer available.` }, { status: 400 });
+                }
+                if (item.id.match(/^[0-9a-fA-F]{24}$/)) {
+                    if (productMatch.stock < item.quantity) {
+                        return NextResponse.json({ message: `Insufficient stock for product: ${productMatch.name}` }, { status: 400 });
+                    }
+                }
+            }
         }
 
         // Initialize Razorpay

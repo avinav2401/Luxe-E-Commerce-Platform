@@ -26,23 +26,27 @@ export function ProductDetailsClient({ product }: ProductDetailsClientProps) {
         router.push("/checkout");
     };
 
+    const isOutOfStock = product.stock !== undefined && product.stock <= 0;
+
     return (
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Button
                 onClick={handleAddToCart}
+                disabled={isOutOfStock}
                 variant="outline"
-                className="flex-1 h-12 rounded-full border-primary text-primary hover:bg-primary/10 font-semibold tracking-wide"
+                className="flex-1 h-12 rounded-full border-primary text-primary hover:bg-primary/10 font-semibold tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                Add to Cart
+                {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
             </Button>
             
             <Button
                 onClick={handleBuyNow}
-                className="flex-1 h-12 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold tracking-wide shadow-md"
+                disabled={isOutOfStock}
+                className="flex-1 h-12 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold tracking-wide shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 <Zap className="w-4 h-4 mr-2" />
-                Buy Now
+                {isOutOfStock ? 'Out of Stock' : 'Buy Now'}
             </Button>
         </div>
     );

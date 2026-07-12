@@ -87,12 +87,14 @@ export default function CheckoutPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     amount: totalPrice() * 80, // Convert to INR
-                    currency: 'INR'
+                    currency: 'INR',
+                    items: orderData.items,
                 }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to create Razorpay order');
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Failed to create Razorpay order');
             }
 
             const { orderId, amount, currency, keyId } = await response.json();
@@ -151,7 +153,7 @@ export default function CheckoutPage() {
             razorpay.open();
         } catch (error: any) {
             console.error('Razorpay error:', error);
-            toast.error('Failed to initialize payment');
+            toast.error(error.message || 'Failed to initialize payment');
             setIsProcessing(false);
         }
     };

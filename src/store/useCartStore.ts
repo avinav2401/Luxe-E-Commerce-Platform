@@ -11,6 +11,7 @@ export interface Product {
     discount?: number;
     rating?: number;
     reviews?: number;
+    stock?: number;
 }
 
 export interface CartItem extends Product {
