@@ -142,7 +142,7 @@ export default function AddressesPage() {
                             <label className="font-bold text-sm">Flat, House no., Building, Company, Apartment</label>
                             <input required className="w-full border border-gray-400 rounded p-2 focus:ring-2 focus:ring-[#e77600] focus:border-[#e77600] outline-none" value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="font-bold text-sm">City</label>
                                 <input required className="w-full border border-gray-400 rounded p-2 focus:ring-2 focus:ring-[#e77600] focus:border-[#e77600] outline-none" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} />
@@ -152,7 +152,7 @@ export default function AddressesPage() {
                                 <input required className="w-full border border-gray-400 rounded p-2 focus:ring-2 focus:ring-[#e77600] focus:border-[#e77600] outline-none" value={formData.state} onChange={e => setFormData({ ...formData, state: e.target.value })} />
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="font-bold text-sm">Zip Code</label>
                                 <input required className="w-full border border-gray-400 rounded p-2 focus:ring-2 focus:ring-[#e77600] focus:border-[#e77600] outline-none" value={formData.zip} onChange={e => setFormData({ ...formData, zip: e.target.value })} />
@@ -163,11 +163,11 @@ export default function AddressesPage() {
                             </div>
                         </div>
 
-                        <div className="pt-4 flex gap-4">
-                            <button type="submit" className="bg-[#FFD814] border border-[#FCD200] px-6 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-[#F7CA00]">
+                        <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                            <button type="submit" className="w-full sm:w-auto bg-[#FFD814] border border-[#FCD200] px-6 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-[#F7CA00]">
                                 {editingId ? 'Update address' : 'Add address'}
                             </button>
-                            <button type="button" onClick={() => setIsFormOpen(false)} className="border border-[#D5D9D9] bg-white px-6 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50">
+                            <button type="button" onClick={() => setIsFormOpen(false)} className="w-full sm:w-auto border border-[#D5D9D9] bg-white px-6 py-2 rounded-lg shadow-sm text-sm font-medium hover:bg-gray-50">
                                 Cancel
                             </button>
                         </div>
@@ -216,7 +216,7 @@ export default function AddressesPage() {
                                 <span className="block mt-2">Phone number: {addr.phone}</span>
                             </div>
 
-                            <div className="text-sm text-[#007185] flex gap-4 mt-6 font-medium bottom-0">
+                            <div className="text-sm text-[#007185] flex flex-wrap gap-x-4 gap-y-2 mt-6 font-medium bottom-0">
                                 <button onClick={() => handleEdit(addr)} className="hover:underline hover:text-[#C7511F]">Edit</button>
                                 <button onClick={() => handleRemove(addr.id)} className="hover:underline hover:text-[#C7511F]">Remove</button>
                                 {!addr.isDefault && (
