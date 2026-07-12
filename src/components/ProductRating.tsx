@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 interface ProductRatingProps {
@@ -12,6 +12,28 @@ export function ProductRating({ productId }: ProductRatingProps) {
     const [hover, setHover] = useState<number>(0);
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [checking, setChecking] = useState(true);
+
+    // Fetch existing rating on mount
+    useEffect(() => {
+        const fetchExistingRating = async () => {
+            try {
+                const res = await fetch(`/api/products/${productId}/rate`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.rating !== null) {
+                        setRating(data.rating);
+                        setSubmitted(true);
+                    }
+                }
+            } catch {
+                // Silently fail — just show the rating UI
+            } finally {
+                setChecking(false);
+            }
+        };
+        fetchExistingRating();
+    }, [productId]);
 
     const submitRating = async (selectedRating: number) => {
         setLoading(true);
@@ -37,6 +59,10 @@ export function ProductRating({ productId }: ProductRatingProps) {
             setLoading(false);
         }
     };
+
+    if (checking) {
+        return null; // Don't flash anything while checking
+    }
 
     if (submitted) {
         return (

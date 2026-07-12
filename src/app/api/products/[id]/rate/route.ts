@@ -84,3 +84,36 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
     }
 }
+
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session || !session.user) {
+            return NextResponse.json({ rating: null }, { status: 200 });
+        }
+
+        await connectToDatabase();
+
+        const { id: productId } = await params;
+        const userId = session.user.id;
+
+        if (!mongoose.isValidObjectId(productId)) {
+            return NextResponse.json({ rating: null }, { status: 200 });
+        }
+
+        const product = await Product.findById(productId);
+
+        if (!product || !product.ratingsList) {
+            return NextResponse.json({ rating: null }, { status: 200 });
+        }
+
+        const existing = product.ratingsList.find((r: any) => r.user.toString() === userId);
+
+        return NextResponse.json({ rating: existing ? existing.rating : null }, { status: 200 });
+
+    } catch (error: any) {
+        console.error('Get rating error:', error);
+        return NextResponse.json({ rating: null }, { status: 200 });
+    }
+}
