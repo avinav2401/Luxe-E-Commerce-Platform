@@ -71,13 +71,24 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
         async jwt({ token, user, account, trigger, session }: { token: any, user: any, account: any, trigger?: string, session?: any }) {
-            if (trigger === "update" && session) {
-                // DO NOT update token.role from session! This is a severe privilege escalation vulnerability.
-                if (session.name) {
+            if (trigger === "update") {
+                // DO NOT update token.role directly from session! This is a severe privilege escalation vulnerability.
+                // Instead, if an update is triggered, securely refresh the role from the database.
+                if (session && session.name) {
                     token.name = session.name;
                 }
-                if (session.image) {
+                if (session && session.image) {
                     token.image = session.image;
+                }
+                
+                try {
+                    await connectToDatabase();
+                    const dbUser = await User.findById(token.sub);
+                    if (dbUser) {
+                        token.role = dbUser.role;
+                    }
+                } catch (error) {
+                    console.error("Error refreshing token from DB:", error);
                 }
             }
             if (account && user) {
